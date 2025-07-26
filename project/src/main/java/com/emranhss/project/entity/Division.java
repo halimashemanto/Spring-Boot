@@ -1,4 +1,4 @@
-package com.emranhss.project.entity;
+package com.emranhss.Project.Entity;
 
 
 import jakarta.persistence.*;
@@ -11,20 +11,18 @@ public class Division {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private int id;
-    @Column(length = 50, nullable = false)
-    private String name;
-
-    @JoinColumn(name = "country_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Country country;
-
-    @OneToMany(mappedBy = "division", cascade = CascadeType.ALL)
-    private List<District> districts;
+private int id;
 
 
+@Column(length = 60, nullable = false)
+private String name;
 
+@ManyToOne
+@JoinColumn(name = "country_id")
+private Country country;
+
+@OneToMany(mappedBy = "division", cascade = CascadeType.ALL)
+private List<District> districts;
 
     public int getId() {
         return id;
@@ -34,12 +32,12 @@ public class Division {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public List<District> getDistricts() {
+        return districts;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
     }
 
     public Country getCountry() {
@@ -50,11 +48,15 @@ public class Division {
         this.country = country;
     }
 
-    public List<District> getDistricts() {
-        return districts;
+    public String getName() {
+        return name;
     }
 
-    public void setDistricts(List<District> districts) {
-        this.districts = districts;
+    public void setName(String name) {
+        this.name = name;
     }
 }
+
+
+
+

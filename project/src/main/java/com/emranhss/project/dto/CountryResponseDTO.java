@@ -1,23 +1,13 @@
-package com.emranhss.Project.Entity;
+package com.emranhss.Project.dto;
 
-import jakarta.persistence.*;
+import com.emranhss.Project.Entity.Division;
 
 import java.util.List;
 
-@Entity
-@Table(name = "countries")
-public class Country {
+public class CountryResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-
-    @Column(length = 60,nullable = false)
     private String name;
-
-
-    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL)
     private List<Division> divisions;
 
     public int getId() {
