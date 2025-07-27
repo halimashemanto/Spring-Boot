@@ -1,5 +1,6 @@
 package com.emranhss.hospital.service;
 
+import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.Role;
 import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.repository.IUserRepo;
@@ -25,35 +26,40 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
-
-
+    @Autowired
+    private DoctorService doctorService;
 
     @Value("src/main/resources/static/images")
     private String uploadDir;
 
 
+
     public void saveOrUpdate(User user, MultipartFile imageFile) {
-        if(imageFile != null && !imageFile.isEmpty()){
+        if (imageFile != null && !imageFile.isEmpty()) {
             String filename = saveImage(imageFile, user);
             user.setPhoto(filename);
         }
 
-        user.setRole( Role.Doctor);
+        user.setRole(Role.Admin);
         userRepo.save(user);
         sendActivationEmail(user);
     }
 
 
 
+
     public List<User> findAll() {
+
         return userRepo.findAll();
     }
 
     public User findById(int id) {
+
         return userRepo.findById(id).get();
     }
 
     public void delete(User user) {
+
         userRepo.delete(user);
     }
 
@@ -101,7 +107,7 @@ public class UserService {
         }
     }
 
-
+//user images
 
     public String saveImage(MultipartFile file, User user) {
 
@@ -127,5 +133,58 @@ public class UserService {
         return fileName;
 
     }
+
+
+
+
+
+    //  Doctor Images folder
+    public String saveImageForDoctor(MultipartFile file, Doctor doctor) {
+
+        Path uploadPath = Paths.get(uploadDir + "/doctor");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String doctorName = doctor.getName() ;
+        String fileName = doctorName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+
+
+    public void registerDoctor(User user, MultipartFile imageFile, Doctor doctorData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            String doctorPhoto = saveImageForDoctor(imageFile, doctorData);
+            doctorData.setPhoto(doctorPhoto);
+            user.setPhoto(filename);
+        }
+
+        user.setRole(Role.Doctor);
+        User savedUser = userRepo.save(user); // Save User first
+
+        // Set user to doctor and save it
+        doctorData.setUser(savedUser);
+
+        doctorService.save(doctorData);
+
+        sendActivationEmail(savedUser);
+    }
+
 
 }
