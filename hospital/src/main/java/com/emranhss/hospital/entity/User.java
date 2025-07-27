@@ -20,16 +20,20 @@ public class User {
     private String password;
     private String photo;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
     public User() {
     }
 
-    public User(int id, String name, String email, String phone, String password, String photo) {
+    public User(int id, Role role, String photo, String password, String phone, String email, String name) {
         this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
+        this.role = role;
         this.photo = photo;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+        this.name = name;
     }
 
     public int getId() {
@@ -40,28 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getName() {
+        return name;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -72,11 +60,35 @@ public class User {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

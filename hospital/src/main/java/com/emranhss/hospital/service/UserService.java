@@ -1,5 +1,6 @@
 package com.emranhss.hospital.service;
 
+import com.emranhss.hospital.entity.Role;
 import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.repository.IUserRepo;
 import jakarta.mail.MessagingException;
@@ -37,10 +38,12 @@ public class UserService {
             user.setPhoto(filename);
         }
 
-
+        user.setRole( Role.Doctor);
         userRepo.save(user);
         sendActivationEmail(user);
     }
+
+
 
     public List<User> findAll() {
         return userRepo.findAll();
