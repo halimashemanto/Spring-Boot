@@ -1,8 +1,6 @@
 package com.emranhss.hospital.service;
 
-import com.emranhss.hospital.entity.Doctor;
-import com.emranhss.hospital.entity.Role;
-import com.emranhss.hospital.entity.User;
+import com.emranhss.hospital.entity.*;
 import com.emranhss.hospital.repository.IUserRepo;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,12 @@ public class UserService {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private NurseService nurseService;
+
+    @Autowired
+   private ReceptionistService receptionistService;
 
     @Value("src/main/resources/static/images")
     private String uploadDir;
@@ -182,6 +186,105 @@ public class UserService {
         doctorData.setUser(savedUser);
 
         doctorService.save(doctorData);
+
+        sendActivationEmail(savedUser);
+    }
+
+
+    //  nurse Images folder
+    public String saveImageForNurse(MultipartFile file, Nurse nurse) {
+
+        Path uploadPath = Paths.get(uploadDir + "/nurse");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String nurseName = nurse.getNurseName() ;
+        String fileName = nurseName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+//Nurse Configuration
+
+    public void registerNurse(User user, MultipartFile imageFile, Nurse nurseData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            String nursePhoto = saveImageForNurse(imageFile, nurseData);
+            nurseData.setPhoto(nursePhoto);
+            user.setPhoto(filename);
+        }
+
+        user.setRole(Role.Nurse);
+        User savedUser = userRepo.save(user); // Save User first
+
+        // Set user to nurse and save it
+        nurseData.setUser(savedUser);
+
+        nurseService.save(nurseData);
+
+        sendActivationEmail(savedUser);
+    }
+
+
+
+    //  Receptionist Images folder
+    public String saveImageForReceptionist(MultipartFile file, Receptionist receptionist) {
+
+        Path uploadPath = Paths.get(uploadDir + "/receptionist");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String receptionistName = receptionist.getName() ;
+        String fileName = receptionistName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+
+
+    public void registerReceptionist(User user, MultipartFile imageFile, Receptionist receptionistData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            String receptionistPhoto = saveImageForReceptionist(imageFile, receptionistData);
+            receptionistData.setPhoto(receptionistPhoto);
+            user.setPhoto(filename);
+        }
+
+        user.setRole(Role.Receptionist);
+        User savedUser = userRepo.save(user); // Save User first
+
+        // Set user to receptionist and save it
+        receptionistData.setUser(savedUser);
+
+      receptionistService.save(receptionistData);
 
         sendActivationEmail(savedUser);
     }

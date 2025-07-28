@@ -1,7 +1,7 @@
 package com.emranhss.hospital.restController;
 
-
 import com.emranhss.hospital.entity.Doctor;
+import com.emranhss.hospital.entity.Nurse;
 import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,26 +15,26 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/api/doctor/")
-public class DoctorRestController {
 
+@RestController
+@RequestMapping("/api/nurse/")
+public class NurseRestController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("")
-    public ResponseEntity<Map<String, String>> registerDoctor(
+    public ResponseEntity<Map<String, String>> registerNurse(
             @RequestPart(value = "user") String userJson,
-            @RequestPart(value = "doctor") String doctorJson,
+            @RequestPart(value = "nurse") String nurseJson,
             @RequestParam(value = "photo") MultipartFile file
     ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(userJson, User.class);
-        Doctor doctor = objectMapper.readValue(doctorJson, Doctor.class);
+        Nurse nurse = objectMapper.readValue(nurseJson, Nurse.class);
 
         try {
-            userService.registerDoctor(user, file, doctor);
+            userService.registerNurse(user, file, nurse);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 
@@ -48,6 +48,4 @@ public class DoctorRestController {
 
 
     }
-
-
 }
