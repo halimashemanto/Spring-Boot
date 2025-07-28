@@ -33,6 +33,9 @@ public class UserService {
     @Autowired
    private ReceptionistService receptionistService;
 
+    @Autowired
+    private PatientService patientService;
+
     @Value("src/main/resources/static/images")
     private String uploadDir;
 
@@ -288,6 +291,55 @@ public class UserService {
 
         sendActivationEmail(savedUser);
     }
+
+    //  patient Images folder
+    public String saveImageForPatient(MultipartFile file, Patient patien) {
+
+        Path uploadPath = Paths.get(uploadDir + "/patient");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String patientName = patien.getName() ;
+        String fileName = patientName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+//    patient configuration
+
+    public void registerPatient(User user, MultipartFile imageFile, Patient patientData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            String patientPhoto = saveImageForPatient(imageFile, patientData);
+            patientData.setPhoto(patientPhoto);
+            user.setPhoto(filename);
+        }
+
+        user.setRole(Role.Patient);
+        User savedUser = userRepo.save(user); // Save User first
+
+        // Set user to doctor and save it
+        patientData.setUser(savedUser);
+
+        patientService.save(patientData);
+
+        sendActivationEmail(savedUser);
+    }
+
 
 
 }
