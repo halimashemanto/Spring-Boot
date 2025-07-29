@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/doctor/")
+@CrossOrigin("*")
 public class DoctorRestController {
 
 

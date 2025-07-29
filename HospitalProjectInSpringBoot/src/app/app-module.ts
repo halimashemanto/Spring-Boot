@@ -6,11 +6,13 @@ import { App } from './app';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddDoctor } from './doctor/add-doctor/add-doctor';
+import { ViewDoctor } from './doctor/view-doctor/view-doctor';
 
 @NgModule({
   declarations: [
     App,
-    AddDoctor
+    AddDoctor,
+    ViewDoctor
   ],
   imports: [
     BrowserModule,
