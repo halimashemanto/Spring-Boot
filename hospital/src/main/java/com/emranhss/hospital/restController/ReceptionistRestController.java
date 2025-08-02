@@ -18,6 +18,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/receptionist/")
+@CrossOrigin("*")
+
 public class ReceptionistRestController {
 
     @Autowired

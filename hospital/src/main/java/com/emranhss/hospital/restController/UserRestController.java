@@ -20,8 +20,6 @@ import java.util.Map;
 @CrossOrigin("*")
 public class UserRestController {
 
-
-
     @Autowired
     private UserService userService;
 
