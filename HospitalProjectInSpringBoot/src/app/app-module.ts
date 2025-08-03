@@ -7,12 +7,14 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddDoctor } from './doctor/add-doctor/add-doctor';
 import { ViewDoctor } from './doctor/view-doctor/view-doctor';
+import { NurseRegistration } from './nurse/nurse-registration/nurse-registration';
 
 @NgModule({
   declarations: [
     App,
     AddDoctor,
-    ViewDoctor
+    ViewDoctor,
+    NurseRegistration
   ],
   imports: [
     BrowserModule,

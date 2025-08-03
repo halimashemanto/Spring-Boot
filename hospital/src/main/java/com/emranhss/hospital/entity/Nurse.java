@@ -22,7 +22,7 @@ public class Nurse {
     private String nurseType;
     private String gender;
     private Date joinDate;
-    private String Shift;
+    private String shift;
     private String workingHours;
     private String photo;
 
@@ -38,7 +38,7 @@ public class Nurse {
         this.user = user;
         this.photo = photo;
         this.workingHours = workingHours;
-        this.Shift = shift;
+        this.shift = shift;
         this.joinDate = joinDate;
         this.gender = gender;
         this.nurseType = nurseType;
@@ -113,11 +113,11 @@ public class Nurse {
     }
 
     public String getShift() {
-        return Shift;
+        return shift;
     }
 
     public void setShift(String shift) {
-       this.Shift = shift;
+       this.shift = shift;
     }
 
     public String getWorkingHours() {
