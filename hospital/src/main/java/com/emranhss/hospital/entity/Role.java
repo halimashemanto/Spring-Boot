@@ -5,7 +5,7 @@ public enum Role {
 
 
     Admin,
-    Patient,
+    OfficeStaff,
     Nurse,
     Doctor,
     Receptionist

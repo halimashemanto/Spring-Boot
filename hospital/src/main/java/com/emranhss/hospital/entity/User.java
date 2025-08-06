@@ -2,19 +2,25 @@ package com.emranhss.hospital.entity;
 
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 
 
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
-    @Column(unique = false)
+    @Column(unique = true)
     private String email;
     private String phone;
     private String password;
@@ -23,17 +29,28 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @OneToMany
+    private List<Token> tokens;
+
+    // for user details +++++++++++++++++++++++++++++++++++++++++
+
+    @Column(nullable = false)
+    private boolean active;
+    private boolean isLock;
+
+
     public User() {
     }
 
-    public User(int id, Role role, String photo, String password, String phone, String email, String name) {
+
+    public User(int id, String name, String email, String phone, String password, String photo, Role role) {
         this.id = id;
-        this.role = role;
-        this.photo = photo;
-        this.password = password;
-        this.phone = phone;
-        this.email = email;
         this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.photo = photo;
+        this.role = role;
     }
 
     public int getId() {
@@ -91,4 +108,60 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isLock() {
+        return isLock;
+    }
+
+    public void setLock(boolean lock) {
+        isLock = lock;
+    }
+
+    // implements Methods ----------------------------------------------------
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isLock;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }

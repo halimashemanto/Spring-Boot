@@ -1,6 +1,7 @@
 package com.emranhss.hospital.restController;
 
 
+import com.emranhss.hospital.dto.AuthenticationResponse;
 import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,27 +25,24 @@ public class UserRestController {
     private UserService userService;
 
 
-
-
     @PostMapping
     public ResponseEntity<Map<String, String>> saveUser(
             @RequestPart(value = "user") String userJson,
             @RequestParam(value = "photo") MultipartFile file
     ) throws JsonProcessingException {
-        ObjectMapper objectMapper=new ObjectMapper();
-        User user=objectMapper.readValue(userJson, User.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user = objectMapper.readValue(userJson, User.class);
 
-        try{
+        try {
             userService.saveOrUpdate(user, file);
-            Map<String, String> response=new HashMap<>();
+            Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
-            Map<String, String> errorResponse=new HashMap<>();
-            errorResponse.put("Message", "User Add Faild "+e);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("Message", "User Add Faild " + e);
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -52,11 +50,26 @@ public class UserRestController {
     }
 
 
-
-    @GetMapping("")
+    @GetMapping("all")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users=userService.findAll();
+        List<User> users = userService.findAll();
         return ResponseEntity.ok(users);
 
     }
+
+
+    @PostMapping("login")
+    public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){
+        return ResponseEntity.ok(userService.authencate(request));
+
+    }
+
+
+    @GetMapping("/active/{id}")
+    public ResponseEntity<String> activeUser(@PathVariable("id") int id){
+
+        String response= userService.activeUser(id);
+        return  ResponseEntity.ok(response);
+    }
+
 }

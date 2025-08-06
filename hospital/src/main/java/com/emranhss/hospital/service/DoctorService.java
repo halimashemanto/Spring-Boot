@@ -29,4 +29,10 @@ public class DoctorService {
     public void delete(Long id) {
         doctorRepository.deleteById(id);
     }
+
+    public Doctor getProfileByUserId(long userId) {
+        return doctorRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+    }
+
 }
