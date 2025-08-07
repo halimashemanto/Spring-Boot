@@ -15,6 +15,8 @@ import { Sidebar } from './templet/sidebar/sidebar';
 import { Navbar } from './templet/navbar/navbar';
 import { Footer } from './templet/footer/footer';
 import { Login } from './auth/login/login';
+import { AllUserProfile } from './profile/all-user-profile/all-user-profile';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -28,13 +30,15 @@ import { Login } from './auth/login/login';
         Sidebar,
         Navbar,
         Footer,
-        Login
+        Login,
+        AllUserProfile
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

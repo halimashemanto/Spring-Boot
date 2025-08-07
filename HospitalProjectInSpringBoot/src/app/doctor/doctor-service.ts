@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Doctor } from './model/doctor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,10 @@ export class DoctorService {
   
      private baseUrl = environment.apiBaseUrl+'/doctor/';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient
+
+
+  ) { }
 
 
 
@@ -22,5 +26,9 @@ export class DoctorService {
 
     return this.http.post(this.baseUrl, formData);
   }
+
+   getAllDoctor(): Observable<Doctor[]> {
+      return this.http.get<Doctor[]>(this.baseUrl);
+    }
 
 }

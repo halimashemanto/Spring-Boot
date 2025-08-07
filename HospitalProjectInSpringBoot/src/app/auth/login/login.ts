@@ -39,7 +39,7 @@ export class Login {
       next: (response) => {
         this.successMessage = 'Login successful!';
         this.errorMessage = null;
-        this.router.navigate(['/doctorprofile']); // Redirect to home or another route after login
+        this.router.navigate(['/allprofile']); // Redirect to home or another route after login
       },
       error: (err) => {
         this.errorMessage = 'Login failed. Please check your credentials.';

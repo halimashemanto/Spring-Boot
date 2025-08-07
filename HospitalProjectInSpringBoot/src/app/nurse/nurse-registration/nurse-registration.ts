@@ -10,13 +10,13 @@ import { NurseService } from '../nurse-service';
 })
 export class NurseRegistration {
 
- userForm: FormGroup;
+  userForm: FormGroup;
   nurseForm: FormGroup;
   photoFile!: File;
   message: string = '';
 
   constructor(private fb: FormBuilder,
-     private nurseService: NurseService) {
+    private nurseService: NurseService) {
 
 
     this.userForm = this.fb.group({
@@ -28,10 +28,10 @@ export class NurseRegistration {
 
     this.nurseForm = this.fb.group({
       gender: ['', Validators.required],
-      address: ['', Validators.required],
-      shift: ['', Validators.required],
-      workingHours: ['', Validators.required],
-      nurseType: ['', Validators.required],
+      status: ['', Validators.required],
+      study: ['', Validators.required],
+      chamber: ['', Validators.required],
+      department: ['', Validators.required],
       joinDate: ['', Validators.required]
     });
   }
@@ -58,22 +58,24 @@ export class NurseRegistration {
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
       password: this.userForm.value.password,
-      role: 'Nurse' // adjust if necessary
+      role: 'Doctor' // adjust if necessary
     };
 
-    const nurse = {
+    const doctor = {
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
       gender: this.nurseForm.value.gender,
+
       address: this.nurseForm.value.address,
-      joinDate: this.nurseForm.value.joinDate,
       shift: this.nurseForm.value.shift,
       workingHours: this.nurseForm.value.workingHours,
       nurseType: this.nurseForm.value.nurseType,
+      
+      joinDate: this.nurseForm.value.joinDate,
     };
 
-    this.nurseService.registerNurse(user, nurse, this.photoFile).subscribe({
+    this.nurseService.registerNurse(user, doctor, this.photoFile).subscribe({
       next: res => {
         this.message = res.Message || 'Registration successful!';
         this.userForm.reset();

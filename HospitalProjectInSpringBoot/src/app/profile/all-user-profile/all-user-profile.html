@@ -1,0 +1,22 @@
+
+<div class="container my-5">  
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let user of users">
+      <div class="card user-card text-center">
+        <div class="image-wrapper mx-auto mt-3">
+          <img
+            class="user-image"
+            [src]="'http://localhost:8080/images/users/' + user.photo"
+            alt="{{ user.name }}"
+          />
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">👨‍💼 {{ user.name }}</h2>
+          <p class="card-text mb-1">📧 <strong>Email:</strong> {{ user.email }}</p>
+          <p class="card-text">📱 <strong>Phone:</strong> {{ user.phone }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -11,7 +11,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AuthService {
   
-  private baseUrl = environment.apiBaseUrl + '/user/';
+  private baseUrl = environment.apiBaseUrl + '/auth/';
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

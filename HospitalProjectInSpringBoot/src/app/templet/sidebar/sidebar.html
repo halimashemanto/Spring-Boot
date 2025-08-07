@@ -1,125 +1,116 @@
+<ul class="navbar-nav sidebar sidebar-dark accordion shadow" id="accordionSidebar"
+    style="background: linear-gradient(to bottom right, #191a19e0, #889c92); color: white;">
 
-   <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" style="padding: 1rem;">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-user-shield fa-lg" style="color: gold;"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3 fw-bold" style="font-weight: bold;">Admin Panel</div>
+    </a>
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-            </a>
+    <hr class="sidebar-divider my-0" style="border-color: rgba(255,255,255,0.3);">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+    <!-- Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="index.html" style="color: #fff;">
+            <i class="fas fa-home" style="color: #fcd34d;"></i>
+            <span style="margin-left: 10px;">Dashboard</span>
+        </a>
+    </li>
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+    <hr class="sidebar-divider" style="border-color: rgba(255,255,255,0.2);">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+    <!-- Heading -->
+    <div class="sidebar-heading" style="color: #f8fafc;">Interface</div>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
+    <!-- Components -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" style="color: #fff;">
+            <i class="fas fa-puzzle-piece" style="color: #f87171;"></i>
+            <span style="margin-left: 10px;">Doctor</span>
+        </a>
+        <div id="collapseTwo" class="collapse">
+            <div class="bg-light py-2 collapse-inner rounded">
+                <h6 class="collapse-header text-dark">Custom Components:</h6>
+                <a class="collapse-item" href="/">Buttons</a>
+                <a class="collapse-item" href="cards.html">Cards</a>
             </div>
+        </div>
+    </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
+    <!-- Utilities -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" style="color: #fff;">
+            <i class="fas fa-tools" style="color: #34d399;"></i>
+            <span style="margin-left: 10px;">Utilities</span>
+        </a>
+        <div id="collapseUtilities" class="collapse">
+            <div class="bg-light py-2 collapse-inner rounded">
+                <h6 class="collapse-header text-dark">Custom Utilities:</h6>
+                <a class="collapse-item" href="utilities-color.html">Colors</a>
+                <a class="collapse-item" href="utilities-border.html">Borders</a>
+                <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                <a class="collapse-item" href="utilities-other.html">Other</a>
             </div>
+        </div>
+    </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>
+    <hr class="sidebar-divider" style="border-color: rgba(255,255,255,0.2);">
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
+    <!-- Addons -->
+    <div class="sidebar-heading" style="color: #f8fafc;">Addons</div>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    <!-- Pages -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" style="color: #fff;">
+            <i class="fas fa-copy" style="color: #facc15;"></i>
+            <span style="margin-left: 10px;">Pages</span>
+        </a>
+        <div id="collapsePages" class="collapse">
+            <div class="bg-light py-2 collapse-inner rounded">
+                <h6 class="collapse-header text-dark">Login Screens:</h6>
+                <a class="collapse-item" href="login.html">Login</a>
+                <a class="collapse-item" href="register.html">Register</a>
+                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                <div class="collapse-divider"></div>
+                <h6 class="collapse-header text-dark">Other Pages:</h6>
+                <a class="collapse-item" href="404.html">404 Page</a>
+                <a class="collapse-item" href="blank.html">Blank Page</a>
             </div>
+        </div>
+    </li>
 
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
+    <!-- Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="charts.html" style="color: #fff;">
+            <i class="fas fa-chart-line" style="color: #415d80;"></i>
+            <span style="margin-left: 10px;">Charts</span>
+        </a>
+    </li>
 
-        </ul>
-        <!-- End of Sidebar -->
+    <!-- Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="tables.html" style="color: #fff;">
+            <i class="fas fa-table" style="color: #a78bfa;"></i>
+            <span style="margin-left: 10px;">Tables</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block" style="border-color: rgba(255,255,255,0.2);">
+
+    <!-- Toggler -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+    <!-- Sidebar Message
+    <div class="sidebar-card d-none d-lg-flex bg-light text-dark shadow-sm p-3 rounded mt-3">
+        <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="..." style="width: 60%;">
+        <p class="text-center small mb-2"><strong>SB Admin Pro</strong> includes more powerful features.</p>
+        <a class="btn btn-sm btn-success" href="https://startbootstrap.com/theme/sb-admin-pro">
+            
+        </a>
+    </div> -->
+
+</ul>

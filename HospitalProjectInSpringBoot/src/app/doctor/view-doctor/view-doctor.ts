@@ -10,28 +10,34 @@ import { DoctorService } from '../doctor-service';
   templateUrl: './view-doctor.html',
   styleUrl: './view-doctor.css'
 })
-export class ViewDoctor implements OnInit {
+export class ViewDoctor  {
 
 
+    doctor: Doctor[] = [];
 
-  doctor?: Doctor;
 
-  constructor(private doctorService: DoctorService,
-    private cdr: ChangeDetectorRef) { }
+  constructor(
+    private doctorService: DoctorService
+  ) { }
 
   ngOnInit(): void {
-    this.doctorService.getProfile().subscribe({
-      next: (data) => {
-        this.doctor = data;
-        console.log(data);
-        this.cdr.markForCheck();
 
+    this.loadUsers();
+  }
+
+
+ 
+ 
+  loadUsers(): void {
+    this.doctorService.getAllDoctor().subscribe({
+      next: (data) => {
+        console.log("User data loaded:", data); 
+        this.doctor = data;
       },
       error: (err) => {
-        console.error('Failed to load profile', err);
+        console.error("Error fetching users", err);
       }
     });
   }
-
 
 }
