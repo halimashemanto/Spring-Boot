@@ -13,7 +13,7 @@ public class Nurse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 80,nullable = false)
+    @Column(length = 80, nullable = false)
     private String name;
 
     private String email;
@@ -56,76 +56,12 @@ public class Nurse {
         this.id = id;
     }
 
-    public String getNurseName() {
-        return name;
+    public User getUser() {
+        return user;
     }
 
-    public void setNurseName(String nurseName) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getNurseType() {
-        return nurseType;
-    }
-
-    public void setNurseType(String nurseType) {
-        this.nurseType = nurseType;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public String getShift() {
-        return shift;
-    }
-
-    public void setShift(String shift) {
-       this.shift = shift;
-    }
-
-    public String getWorkingHours() {
-        return workingHours;
-    }
-
-    public void setWorkingHours(String workingHours) {
-        this.workingHours = workingHours;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getPhoto() {
@@ -136,11 +72,75 @@ public class Nurse {
         this.photo = photo;
     }
 
-    public User getUser() {
-        return user;
+    public String getWorkingHours() {
+        return workingHours;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setWorkingHours(String workingHours) {
+        this.workingHours = workingHours;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getNurseType() {
+        return nurseType;
+    }
+
+    public void setNurseType(String nurseType) {
+        this.nurseType = nurseType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

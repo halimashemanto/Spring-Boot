@@ -2,10 +2,7 @@ package com.emranhss.hospital.service;
 
 
 import com.emranhss.hospital.dto.AuthenticationResponse;
-import com.emranhss.hospital.entity.Doctor;
-import com.emranhss.hospital.entity.Role;
-import com.emranhss.hospital.entity.Token;
-import com.emranhss.hospital.entity.User;
+import com.emranhss.hospital.entity.*;
 import com.emranhss.hospital.jwt.JwtService;
 import com.emranhss.hospital.repository.ITokenRepository;
 import com.emranhss.hospital.repository.IUserRepo;
@@ -42,6 +39,9 @@ public class AuthService {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private NurseService nurseService;
 
     @Autowired
     private JwtService jwtService;
@@ -153,7 +153,7 @@ public class AuthService {
 
     }
 
-    // for User folder
+    // for doctor folder
     public String saveImageForDoctor(MultipartFile file, Doctor doctor) {
 
         Path uploadPath = Paths.get(uploadDir + "/doctor");
@@ -193,7 +193,62 @@ public class AuthService {
             user.setPhoto(filename);
         }
 
-        // Encode password before saving User
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Encode password before saving User
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.Doctor);
         user.setActive(false);

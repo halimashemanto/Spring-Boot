@@ -10,13 +10,13 @@ import { DoctorService } from '../doctor-service';
 })
 export class AddDoctor {
 
- userForm: FormGroup;
+  userForm: FormGroup;
   doctorForm: FormGroup;
   photoFile!: File;
   message: string = '';
 
   constructor(private fb: FormBuilder,
-     private doctorService: DoctorService) {
+    private doctorService: DoctorService) {
 
 
     this.userForm = this.fb.group({

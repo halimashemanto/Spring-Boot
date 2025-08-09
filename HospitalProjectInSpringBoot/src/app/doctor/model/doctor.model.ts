@@ -11,7 +11,6 @@ export interface Doctor{
        chamber:string,
        department:string,
        joinDate:Date,
-
        photo : string;
 
 

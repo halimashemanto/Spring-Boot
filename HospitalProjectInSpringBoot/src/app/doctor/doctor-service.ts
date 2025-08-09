@@ -8,10 +8,10 @@ import { Doctor } from './model/doctor.model';
   providedIn: 'root'
 })
 export class DoctorService {
-  
-     private baseUrl = environment.apiBaseUrl+'/doctor/';
 
-  constructor(private http:HttpClient
+  private baseUrl = environment.apiBaseUrl + '/api/doctor/';
+
+  constructor(private http: HttpClient
 
 
   ) { }
@@ -27,8 +27,9 @@ export class DoctorService {
     return this.http.post(this.baseUrl, formData);
   }
 
-   getAllDoctor(): Observable<Doctor[]> {
-      return this.http.get<Doctor[]>(this.baseUrl);
-    }
+  getAllDoctor(): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(this.baseUrl);
+  }
 
+ 
 }

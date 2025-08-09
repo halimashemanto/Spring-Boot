@@ -12,8 +12,12 @@ import java.util.Optional;
 
 @Service
 public class NurseService {
+
+
     @Autowired
     private INurseRepo nurseRepository;
+
+
 
     public List<Nurse> getAll() {
         return nurseRepository.findAll();
@@ -30,4 +34,10 @@ public class NurseService {
     public void delete(Long id) {
         nurseRepository.deleteById(id);
     }
+
+    public Nurse getProfileByUserId(long userId) {
+        return nurseRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Nurse not found"));
+    }
+
 }

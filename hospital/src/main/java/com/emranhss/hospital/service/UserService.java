@@ -181,7 +181,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    // for User folder
+    // for doctor folder
     public String saveImageForDoctor(MultipartFile file, Doctor doctor) {
 
         Path uploadPath = Paths.get(uploadDir + "/doctor");
@@ -313,10 +313,23 @@ public class UserService implements UserDetailsService {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     //  nurse Images folder
     public String saveImageForNurse(MultipartFile file, Nurse nurse) {
 
-        Path uploadPath = Paths.get(uploadDir + "/nurse");
+        Path uploadPath = Paths.get(uploadDir + "nurse");
         if (!Files.exists(uploadPath)) {
             try {
                 Files.createDirectory(uploadPath);
@@ -326,7 +339,7 @@ public class UserService implements UserDetailsService {
             }
         }
 
-        String nurseName = nurse.getNurseName() ;
+        String nurseName = nurse.getName() ;
         String fileName = nurseName.trim().replaceAll("\\s+", "_") ;
 
         String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
@@ -342,14 +355,14 @@ public class UserService implements UserDetailsService {
     }
 //Nurse Configuration
 
-    public void registerNurse(User user, MultipartFile imageFile, Nurse nurseData) {
+    public void registerNurse(User user, MultipartFile imageFile, Nurse nurseData)  {
         if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and nurse
             String filename = saveImage(imageFile, user);
-            String nursePhoto = saveImageForNurse(imageFile, nurseData);
+            String nursePhoto = saveImageForNurse(imageFile,nurseData);
             nurseData.setPhoto(nursePhoto);
             user.setPhoto(filename);
         }
-
         user.setRole(Role.Nurse);
         User savedUser = userRepo.save(user); // Save User first
 

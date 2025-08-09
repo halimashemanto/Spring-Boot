@@ -9,7 +9,7 @@ import { ViewDoctor } from './doctor/view-doctor/view-doctor';
 const routes: Routes = [
   {path:'',component:AddDoctor},
   {path:'viewdoc',component:ViewDoctor},
-  {path:'nursereg',component:NurseRegistration},
+  {path:'nr',component:NurseRegistration},
   {path:'login',component:Login},
    { path: 'allprofile', component: AllUserProfile },
 ];

@@ -8,7 +8,7 @@
       class="text-center mb-4 fw-bold"
       style="color: #007bff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"
     >
-      🩺 Nurse Registration
+       Nurse Registration
     </h2>
 
     <!-- User Form -->
@@ -53,27 +53,17 @@
       </div>
     </form>
 
-    <!-- nurseForm -->
+    <!-- Doctor Form -->
     <form [formGroup]="nurseForm" class="mb-4">
       <h5 class="text-white bg-success p-2 ps-3 rounded mb-3">🧑‍⚕️ Professional Information</h5>
 
       <div class="row g-3">
-
-             <div class="col-md-6">
-          <label class="form-label">Address</label>
-          <input
-            type="text"
-            class="form-control shadow-sm border-success-subtle"
-            formControlName="address"
-            placeholder=""
-          />
-        </div>
         <div class="col-md-6">
           <label class="form-label">Gender</label>
-          <select class="form-select shadow-sm border-success-subtle" formControlName="gender">
-            <option value="">Select Gender</option>
+          <select placeholder="Select-One" class="form-select shadow-sm border-success-subtle" formControlName="gender" >
             <option value="MALE">Male</option>
             <option value="FEMALE">Female</option>
+          
           </select>
         </div>
         <div class="col-md-6">
@@ -84,35 +74,46 @@
             formControlName="joinDate"
           />
         </div>
-       
         <div class="col-md-6">
           <label class="form-label">Shift</label>
-          <select class="form-select shadow-sm border-success-subtle" formControlName="shift">
-            <option value="">Select Shift</option>
+           <select placeholder="Select-One" class="form-select shadow-sm border-success-subtle" formControlName="shift" >
+           
             <option value="Morning">Morning</option>
             <option value="Evening">Evening</option>
             <option value="Night">Night</option>
+           
+          
           </select>
         </div>
-         <div class="col-md-6">
+        <div class="col-md-6">
+          <label class="form-label">Nurse Type</label>
+         <select placeholder="Select-One" class="form-select shadow-sm border-success-subtle" formControlName="nurseType" >
+           
+            <option value="Senior">Senior</option>
+            <option value="Junior">Junior</option>
+            <option value="InternShip">InternShip</option>
+           
+          
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Address</label>
+          <input
+            type="text"
+            class="form-control shadow-sm border-success-subtle"
+            formControlName="address"
+            placeholder="Address location"
+          />
+        </div>
+        <div class="col-md-6">
           <label class="form-label">Working Hours</label>
-            <input
+          <input
             type="text"
             class="form-control shadow-sm border-success-subtle"
             formControlName="workingHours"
             placeholder=""
           />
         </div>
-        <div class="col-md-6">
-          <label class="form-label">Position </label>
-         <select class="form-select shadow-sm border-success-subtle" formControlName="workingHours">
-            <option value="">Select One</option>
-            <option value="Senior">Senior</option>
-            <option value="Junior">Junior</option>
-            <option value="Internship">Internship</option>
-          </select>
-        </div>
-      
       </div>
     </form>
 
@@ -124,6 +125,7 @@
 
     <!-- Submit Button -->
     <div class="text-center">
+
       <button  type="submit"   (click)="onSubmit()">
         Register
       </button>
@@ -143,4 +145,3 @@
     </div>
   </div>
 </div>
-

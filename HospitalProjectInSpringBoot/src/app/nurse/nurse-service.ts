@@ -2,16 +2,20 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Nurse } from './model/nurse.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NurseService {
-  
 
-     private baseUrl = environment.apiBaseUrl+'/nurse/';
 
-  constructor(private http:HttpClient) { }
+  private baseUrl = environment.apiBaseUrl + '/api/nurse/';
+
+  constructor(private http: HttpClient
+
+
+  ) { }
 
 
 
@@ -22,6 +26,10 @@ export class NurseService {
     formData.append('photo', photo);
 
     return this.http.post(this.baseUrl, formData);
+  }
+
+  getAllNurse(): Observable<Nurse[]> {
+    return this.http.get<Nurse[]>(this.baseUrl);
   }
 
 }

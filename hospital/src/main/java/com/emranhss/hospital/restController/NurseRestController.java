@@ -1,19 +1,30 @@
 package com.emranhss.hospital.restController;
 
-import com.emranhss.hospital.entity.Doctor;
+
+
 import com.emranhss.hospital.entity.Nurse;
 import com.emranhss.hospital.entity.User;
+
+import com.emranhss.hospital.repository.INurseRepo;
+import com.emranhss.hospital.repository.IUserRepo;
+import com.emranhss.hospital.service.AuthService;
+
+import com.emranhss.hospital.service.NurseService;
+
 import com.emranhss.hospital.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -22,7 +33,19 @@ import java.util.Map;
 public class NurseRestController {
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private INurseRepo nurseRepository;
+
+    @Autowired
+    private IUserRepo userRepo;
+
+    @Autowired
+    private NurseService nurseService;
 
     @PostMapping("")
     public ResponseEntity<Map<String, String>> registerNurse(
@@ -49,4 +72,29 @@ public class NurseRestController {
 
 
     }
+
+
+    @GetMapping("all")
+    public ResponseEntity<List<Nurse>> getAllUsers() {
+        List<Nurse> nurseList = nurseService.getAll();
+        return ResponseEntity.ok(nurseList);
+
+    }
+
+
+    @GetMapping("profile")
+    public ResponseEntity<?> getProfile(Authentication authentication) {
+        System.out.println("Authenticated User: " + authentication.getName());
+        System.out.println("Authorities: " + authentication.getAuthorities());
+        String email = authentication.getName();
+        Optional<User> user =userRepo.findByEmail(email);
+        Nurse nurse = nurseService.getProfileByUserId(user.get().getId());
+        return ResponseEntity.ok(nurse);
+
+    }
+
+
+
+
+
 }
