@@ -1,1 +1,93 @@
-<p>receptionist-registration works!</p>
+<div
+    style="max-width: 600px; margin: 40px auto; background: linear-gradient(135deg, #f8cdda, #1d2b64); padding: 25px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); color: white; font-family: Arial, sans-serif;">
+    <h2 style="text-align: center; margin-bottom: 20px;">
+        <i class="fas fa-user-tie"></i> Receptionist Registration
+    </h2>
+    <form [formGroup]="userForm" class="mb-4">
+
+
+        <!-- Name -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-user"></i> Name</label>
+            <input type="text" formControlName="name" placeholder="Enter Full Name"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+        </div>
+
+        <!-- Email -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" formControlName="email" placeholder="Enter Email"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+        </div>
+        <!-- password -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-"></i> Password</label>
+            <input type="password" formControlName="password" placeholder="Enter Email"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+        </div>
+    </form>
+
+    <!-- Phone -->
+    <div style="margin-bottom: 15px;">
+        <label><i class="fas fa-phone"></i> Phone</label>
+        <input type="text" formControlName="phone" placeholder="Enter Phone Number"
+            style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+    </div>
+    <form [formGroup]="receptionistForm" class="mb-4">
+        <!-- Gender -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-venus-mars"></i> Gender</label>
+            <select formControlName="gender"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+
+            </select>
+        </div>
+
+        <!-- Address -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-map-marker-alt"></i> Address</label>
+            <textarea formControlName="address" placeholder="Enter Address"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;"></textarea>
+        </div>
+
+        <!-- Status -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-toggle-on"></i> Status</label>
+            <select formControlName="status"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+                <option value="">Select Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+        </div>
+
+        <!-- Join Date -->
+        <div style="margin-bottom: 15px;">
+            <label><i class="fas fa-calendar-alt"></i> Join Date</label>
+            <input type="date" formControlName="joinDate"
+                style="width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; margin-top: 5px;">
+        </div>
+
+
+        <!-- Photo Upload -->
+        <div class="mb-4">
+            <label class="form-label text-dark fw-semibold"><i class="fas fa-image"></i> Upload Photo</label>
+            <input type="file" class="form-control border-info-subtle shadow-sm" (change)="onPhotoSelected($event)" />
+        </div>
+
+
+
+        <!-- Submit -->
+        <button type="submit" (click)="onSubmit()"
+            style="width: 100%; padding: 12px; background: #ff9966; border: none; border-radius: 8px; color: white; font-size: 16px; cursor: pointer; transition: 0.3s;">
+            <i class="fas fa-paper-plane"></i> Register
+        </button>
+
+    </form>
+</div>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

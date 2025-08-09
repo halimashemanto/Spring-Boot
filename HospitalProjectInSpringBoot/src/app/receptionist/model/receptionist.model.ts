@@ -1,4 +1,4 @@
-export interface Receptionist{
+export interface Receptionist {
 
 
        id: number;
@@ -6,10 +6,11 @@ export interface Receptionist{
        email: string;
        phone: string;
        gender: string;
-      
-       joinDate:Date,
+       address:string;
+       status: string;
+       joinDate: Date,
 
-       photo : string;
+       photo: string;
 
 
 

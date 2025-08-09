@@ -36,10 +36,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/user/", "/images/**", "/auth/all","/api/doctor/**","/api/user/active/**", "/auth/login","/api/nurse/**")
+                        req.requestMatchers("/api/user/", "/images/**", "/auth/all","/api/doctor/**","/api/user/active/**", "/auth/login","/api/nurse/**","/api/receptionist/**","/api/officeStaff/**")
                                 .permitAll()
-                                .requestMatchers("/api/doctor/profile")
-                                .hasAuthority("Doctor")
+                                .requestMatchers("/api/doctor/profile","/api/nurse/profile","/api/receptionist/profile")
+                                .hasAnyRole("Doctor","Nurse","Admin","Receptionist","OfficeStaff")
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)

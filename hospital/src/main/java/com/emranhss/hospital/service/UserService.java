@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
     private ReceptionistService receptionistService;
 
     @Autowired
-    private PatientService patientService;
+    private OfficeStaffService officeStaffService;
 
     @Autowired
     private JwtService jwtService;
@@ -424,10 +424,15 @@ public class UserService implements UserDetailsService {
         sendActivationEmail(savedUser);
     }
 
-    //  patient Images folder
-    public String saveImageForPatient(MultipartFile file, Patient patien) {
 
-        Path uploadPath = Paths.get(uploadDir + "/patient");
+
+
+
+
+    //  Office Staff Images folder
+    public String saveImageForOfficeStaff(MultipartFile file, OfficeStaff officeStaff) {
+
+        Path uploadPath = Paths.get(uploadDir + "officeStaff");
         if (!Files.exists(uploadPath)) {
             try {
                 Files.createDirectory(uploadPath);
@@ -437,8 +442,8 @@ public class UserService implements UserDetailsService {
             }
         }
 
-        String patientName = patien.getName() ;
-        String fileName = patientName.trim().replaceAll("\\s+", "_") ;
+        String officeStaffName = officeStaff.getName() ;
+        String fileName = officeStaffName.trim().replaceAll("\\s+", "_") ;
 
         String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
 
@@ -451,36 +456,26 @@ public class UserService implements UserDetailsService {
         return savedFileName;
 
     }
-//    patient configuration
-//
-//    public void registerOfficeStaff(User user, MultipartFile imageFile, OfficeStaff officeStaff) {
-//        if (imageFile != null && !imageFile.isEmpty()) {
-//            String filename = saveImage(imageFile, user);
-//            String officeStaffPhoto = saveImageForOfficeStaff(imageFile, officeStaff);
-//            officeStaffData.setPhoto(officeStaffPhoto);
-//            user.setPhoto(filename);
-//        }
-//
-//        user.setRole(Role.OfficeStaff);
-//        User savedUser = userRepo.save(user); // Save User first
-//
-//        // Set user to patient and save it
-//        officeStaffData.setUser(savedUser);
-//
-//        patientService.save(officeStaffData);
-//
-//        sendActivationEmail(savedUser);
-//    }
+//Office Staff Configuration
 
+    public void registerOfficeStaff(User user, MultipartFile imageFile, OfficeStaff officeStaffData)  {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and officeStaff
+            String filename = saveImage(imageFile, user);
+            String officeStaffPhoto = saveImageForOfficeStaff(imageFile,officeStaffData);
+            officeStaffData.setPhoto(officeStaffPhoto);
+            user.setPhoto(filename);
+        }
+        user.setRole(Role.OfficeStaff);
+        User savedUser = userRepo.save(user); // Save User first
 
+        // Set user to office staff and save it
+        officeStaffData.setUser(savedUser);
 
+        officeStaffService.save(officeStaffData);
 
-
-
-
-
-
-
+        sendActivationEmail(savedUser);
+    }
 
 
 

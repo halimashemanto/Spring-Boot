@@ -17,6 +17,7 @@ public class ReceptionistService {
     @Autowired
     private IReceptionistRepo receptionistRepository;
 
+
     public List<Receptionist> getAll() {
         return receptionistRepository.findAll();
     }
@@ -32,4 +33,10 @@ public class ReceptionistService {
     public void delete(Long id) {
         receptionistRepository.deleteById(id);
     }
+
+    public Receptionist getProfileByUserId(long userId) {
+        return receptionistRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+    }
+
 }

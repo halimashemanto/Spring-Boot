@@ -41,7 +41,7 @@ public class AuthService {
     private DoctorService doctorService;
 
     @Autowired
-    private NurseService nurseService;
+    private ReceptionistService receptionistService;
 
     @Autowired
     private JwtService jwtService;
