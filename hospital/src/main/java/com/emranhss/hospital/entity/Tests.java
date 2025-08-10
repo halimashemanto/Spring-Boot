@@ -10,12 +10,12 @@ public class Tests {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String testName;
-    private String testPrice;
+    private long testPrice;
 
     public Tests() {
     }
 
-    public Tests(long id, String testPrice, String testName) {
+    public Tests(long id, long testPrice, String testName) {
         this.id = id;
         this.testPrice = testPrice;
         this.testName = testName;
@@ -29,11 +29,11 @@ public class Tests {
         this.id = id;
     }
 
-    public String getTestPrice() {
+    public long getTestPrice() {
         return testPrice;
     }
 
-    public void setTestPrice(String testPrice) {
+    public void setTestPrice(long testPrice) {
         this.testPrice = testPrice;
     }
 

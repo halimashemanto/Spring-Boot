@@ -36,9 +36,6 @@ public class NurseRestController {
     private AuthService authService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private INurseRepo nurseRepository;
 
     @Autowired
@@ -58,7 +55,7 @@ public class NurseRestController {
         Nurse nurse = objectMapper.readValue(nurseJson, Nurse.class);
 
         try {
-            userService.registerNurse(user, file, nurse);
+            authService.registerNurse(user, file, nurse);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 

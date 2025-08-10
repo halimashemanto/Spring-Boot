@@ -41,10 +41,20 @@ public class AuthService {
     private DoctorService doctorService;
 
     @Autowired
+    private NurseService nurseService;
+
+
+    @Autowired
+    private OfficeStaffService officeStaffService;
+
+
+    @Autowired
     private ReceptionistService receptionistService;
+
 
     @Autowired
     private JwtService jwtService;
+
 
     @Autowired
     @Lazy
@@ -153,6 +163,15 @@ public class AuthService {
 
     }
 
+
+
+
+
+
+
+                                                                //    doctor part start
+
+
     // for doctor folder
     public String saveImageForDoctor(MultipartFile file, Doctor doctor) {
 
@@ -194,60 +213,6 @@ public class AuthService {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             // Encode password before saving User
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.Doctor);
@@ -256,7 +221,7 @@ public class AuthService {
         // Save User FIRST and get persisted instance
         User savedUser = userRepo.save(user);
 
-        // Now, associate saved User with JobSeeker and save JobSeeker
+        // Now, associate saved User with doctor and save doctor
         doctorData.setUser(savedUser);
         doctorService.save(doctorData);
 
@@ -268,7 +233,239 @@ public class AuthService {
         sendActivationEmail(savedUser);
     }
 
+                                                                //    doctor part End
 
+
+
+
+                                //    Nurse Part Start
+
+
+    //  nurse Images folder
+    public String saveImageForNurse(MultipartFile file, Nurse nurse) {
+
+        Path uploadPath = Paths.get(uploadDir + "nurse");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String nurseName = nurse.getName() ;
+        String fileName = nurseName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+//Nurse Configuration
+
+    public void registerNurse(User user, MultipartFile imageFile, Nurse nurseData)  {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and nurse
+            String filename = saveImage(imageFile, user);
+            String nursePhoto = saveImageForNurse(imageFile,nurseData);
+            nurseData.setPhoto(nursePhoto);
+            user.setPhoto(filename);
+        }
+
+
+        // Encode password before saving User
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.Nurse);
+        user.setActive(false);
+
+
+        // Save User FIRST and get persisted instance
+        User savedUser = userRepo.save(user);
+
+        // Set user to nurse and save it
+        nurseData.setUser(savedUser);
+        nurseService.save(nurseData);
+
+        // Now generate token and save Token associated with savedUser
+        String jwt = jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
+
+        // Send Activation Email
+        sendActivationEmail(savedUser);
+    }
+
+
+
+                                                 //    Nurse Part Start
+
+
+
+                                 //  OFFICE-STAFF PART START
+
+    //  Office Staff Images folder
+    public String saveImageForOfficeStaff(MultipartFile file, OfficeStaff officeStaff) {
+
+        Path uploadPath = Paths.get(uploadDir + "officeStaff");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String officeStaffName = officeStaff.getName() ;
+        String fileName = officeStaffName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+//Office Staff Configuration
+
+    public void registerOfficeStaff(User user, MultipartFile imageFile, OfficeStaff officeStaffData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and officeStaff
+            String filename = saveImage(imageFile, user);
+            String officeStaffPhoto = saveImageForOfficeStaff(imageFile, officeStaffData);
+            officeStaffData.setPhoto(officeStaffPhoto);
+            user.setPhoto(filename);
+        }
+
+
+        // Encode password before saving User
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.OfficeStaff);
+        user.setActive(false);
+
+        // Save User FIRST and get persisted instance
+        User savedUser = userRepo.save(user);
+
+        // Set user to OfficeStaff and save it
+        officeStaffData.setUser(savedUser);
+        officeStaffService.save(officeStaffData);
+
+        // Now generate token and save Token associated with savedUser
+        String jwt = jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
+
+        // Send Activation Email
+        sendActivationEmail(savedUser);
+
+
+    }
+
+                                                        //    OFFICE-STAFF PART END
+
+
+
+                       //    Receptionist PART start
+
+
+    // for receptionist folder
+    public String saveImageForReceptionist(MultipartFile file, Receptionist receptionist) {
+
+        Path uploadPath = Paths.get(uploadDir + "/receptionist");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String receptionistName = receptionist.getName();
+        String fileName = receptionistName.trim().replaceAll("\\s+", "_");
+
+        String savedFileName = fileName + "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+
+
+    public void registerReceptionist(User user, MultipartFile imageFile, Receptionist receptionistData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+
+
+            // Save image for both User and doctor
+            String filename = saveImage(imageFile, user);
+            String receptionistPhoto = saveImageForReceptionist(imageFile, receptionistData);
+            receptionistData.setPhoto(receptionistPhoto);
+            user.setPhoto(filename);
+        }
+
+
+        // Encode password before saving User
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.Receptionist);
+        user.setActive(false);
+
+        // Save User FIRST and get persisted instance
+        User savedUser = userRepo.save(user);
+
+        // Now, associate saved User with receptionist and save receptionist
+        receptionistData.setUser(savedUser);
+        receptionistService.save(receptionistData);
+
+        // Now generate token and save Token associated with savedUser
+        String jwt = jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
+
+        // Send Activation Email
+        sendActivationEmail(savedUser);
+    }
+
+
+                                                        //    Receptionist PART END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//token saved
 
     private void saveUserToken(String jwt, User user) {
         Token token = new Token();

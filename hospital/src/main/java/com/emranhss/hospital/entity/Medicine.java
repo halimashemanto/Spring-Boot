@@ -11,14 +11,13 @@ public class Medicine {
     private long id;
 
     private String medicineName;
-    private String applyWay;
 
     public Medicine() {
     }
 
-    public Medicine(long id, String applyWay, String medicineName) {
+    public Medicine(long id,  String medicineName) {
         this.id = id;
-        this.applyWay = applyWay;
+
         this.medicineName = medicineName;
     }
 
@@ -30,13 +29,7 @@ public class Medicine {
         this.id = id;
     }
 
-    public String getApplyWay() {
-        return applyWay;
-    }
 
-    public void setApplyWay(String applyWay) {
-        this.applyWay = applyWay;
-    }
 
     public String getMedicineName() {
         return medicineName;

@@ -17,6 +17,7 @@ import { Footer } from './templet/footer/footer';
 import { Login } from './auth/login/login';
 import { AllUserProfile } from './profile/all-user-profile/all-user-profile';
 import { CommonModule } from '@angular/common';
+import { AddTest } from './test/add-test/add-test';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CommonModule } from '@angular/common';
         Navbar,
         Footer,
         Login,
-        AllUserProfile
+        AllUserProfile,
+        AddTest
   ],
   imports: [
     BrowserModule,

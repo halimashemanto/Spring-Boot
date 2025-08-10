@@ -7,6 +7,7 @@ import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.repository.INurseRepo;
 import com.emranhss.hospital.repository.IOfficeStaffRepo;
 import com.emranhss.hospital.repository.IUserRepo;
+import com.emranhss.hospital.service.AuthService;
 import com.emranhss.hospital.service.NurseService;
 import com.emranhss.hospital.service.OfficeStaffService;
 import com.emranhss.hospital.service.UserService;
@@ -30,7 +31,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 public class OfficeStaffRestController {
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @Autowired
     private IOfficeStaffRepo officeStaffRepository;
@@ -52,7 +53,7 @@ public class OfficeStaffRestController {
         OfficeStaff officeStaff = objectMapper.readValue(officeStaffJson, OfficeStaff.class);
 
         try {
-            userService.registerOfficeStaff(user, file, officeStaff);
+            authService.registerOfficeStaff(user, file, officeStaff);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 

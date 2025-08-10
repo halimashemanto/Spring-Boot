@@ -29,7 +29,7 @@ public class DoctorRestController {
 
 
     @Autowired
-    private AuthService userService;
+    private AuthService authService;
 
     @Autowired
     private IDoctorRepo doctorRepository;
@@ -51,7 +51,7 @@ public class DoctorRestController {
         Doctor doctor = objectMapper.readValue(doctorJson, Doctor.class);
 
         try {
-            userService.registerDoctor(user, file, doctor);
+            authService.registerDoctor(user, file, doctor);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 

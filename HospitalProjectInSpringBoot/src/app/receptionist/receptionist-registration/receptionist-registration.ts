@@ -28,6 +28,7 @@ export class ReceptionistRegistration {
 
     this.receptionistForm = this.fb.group({
       gender: [''],
+      phone:[''],
       address: [''],
       status: [''],
       joinDate: ['']
@@ -57,7 +58,7 @@ export class ReceptionistRegistration {
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
       password: this.userForm.value.password,
-      role: 'Doctor' // adjust if necessary
+      role: 'Receptionist' // adjust if necessary
     };
 
     const receptionist = {

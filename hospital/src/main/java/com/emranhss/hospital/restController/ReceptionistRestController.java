@@ -4,6 +4,7 @@ package com.emranhss.hospital.restController;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.Receptionist;
 import com.emranhss.hospital.entity.User;
+import com.emranhss.hospital.service.AuthService;
 import com.emranhss.hospital.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class ReceptionistRestController {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @PostMapping("")
     public ResponseEntity<Map<String, String>> registerReceptionist(
@@ -36,7 +37,7 @@ public class ReceptionistRestController {
         Receptionist receptionist = objectMapper.readValue(receptionistJson, Receptionist.class);
 
         try {
-            userService.registerReceptionist(user, file, receptionist);
+           authService.registerReceptionist(user, file, receptionist);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 
