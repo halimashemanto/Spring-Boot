@@ -8,6 +8,8 @@ import { ViewDoctor } from './doctor/view-doctor/view-doctor';
 import { OfficeStaffRegistration } from './officeStaff/office-staff-registration/office-staff-registration';
 import { ReceptionistRegistration } from './receptionist/receptionist-registration/receptionist-registration';
 import { AddTest } from './test/add-test/add-test';
+import { Medicine } from './test/medicine/medicine';
+import { Department } from './department/department/department';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -21,8 +23,10 @@ const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'allprofile', component: AllUserProfile },
 
-
-  {path:'test', component:AddTest}
+// prescription part
+  {path:'test', component:AddTest},
+  {path:'medicine', component:Medicine},
+  {path:'department', component:Department},
 ];
 
 @NgModule({

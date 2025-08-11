@@ -19,6 +19,7 @@ import { AllUserProfile } from './profile/all-user-profile/all-user-profile';
 import { CommonModule } from '@angular/common';
 import { AddTest } from './test/add-test/add-test';
 import { Medicine } from './test/medicine/medicine';
+import { Department } from './department/department/department';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { Medicine } from './test/medicine/medicine';
         Login,
         AllUserProfile,
         AddTest,
-        Medicine
+        Medicine,
+        Department
   ],
   imports: [
     BrowserModule,

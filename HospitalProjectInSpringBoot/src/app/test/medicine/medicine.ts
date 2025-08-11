@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MedecineService } from '../medicineService/medecine-service';
+import { MedicineModel } from '../model/medicine.model';
 
 @Component({
   selector: 'app-medicine',
@@ -10,59 +11,65 @@ import { MedecineService } from '../medicineService/medecine-service';
 })
 export class Medicine {
 
-  medi: Medicine[] = [];
-  mediForm!: FormGroup;
 
-  mediId !: number;
+  medicines: MedicineModel[] = [];
+  mediForm!: FormGroup;
   editMode = false;
 
-  constructor(private medicineService: MedecineService,
+  constructor(
+    private medicineService: MedecineService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    this.loadMedicine();
+    this.loadMedicines();
 
     this.mediForm = this.fb.group({
-      id: [], // let JSON Server auto-generate or handle manually
+      id: [null],
       medicineName: ['', Validators.required]
-      
     });
   }
 
-  loadMedicine(): void {
+  loadMedicines(): void {
     this.medicineService.getAllMedicine().subscribe(data => {
-      this.medi = data;
+      this.medicines = data;
       this.cdr.markForCheck();
     });
   }
 
-  // onSubmit(): void {
-  //   const medi: Medicine = this.mediForm.value;
+  onSubmit(): void {
+    const medi: MedicineModel = this.mediForm.value;
 
+    if (this.editMode && medi.id) {
+      this.medicineService.updateMedicine(medi, medi.id).subscribe(() => {
+        this.loadMedicines();
+        this.resetForm();
+      });
+    } else {
+      this.medicineService.createMedicine(medi).subscribe(() => {
+        this.loadMedicines();
+        this.resetForm();
+      });
+    }
+  }
 
-  //   if (this.editMode) {
-  //     this.medicineService.updateMedicine(medi).subscribe(() => {
-  //       this.loadMedicine();
-  //       this.mediForm.reset();
-  //       this.editMode = false;
-  //     });
-  //   } else {
-  //     this.medicineService.createMedicine(medi).subscribe(() => {
-  //       this.loadMedicine();
-  //       this.mediForm.reset();
-  //     });
-  //   }
-  // }
-
-  onEdit(medi: Medicine): void {
+  onEdit(medi: MedicineModel): void {
     this.mediForm.patchValue(medi);
     this.editMode = true;
   }
 
   onDelete(id: number): void {
-    if (confirm('Are you sure to delete this Medicine Name?')) {
-      this.medicineService.deleteMedicine(id).subscribe(() => this.loadMedicine());
+    if (confirm('Are you sure to delete this medicine?')) {
+      this.medicineService.deleteMedicine(id).subscribe(() => this.loadMedicines());
     }
   }
+
+  resetForm(): void {
+    this.mediForm.reset();
+    this.editMode = false;
+  }
+
+
+
 }

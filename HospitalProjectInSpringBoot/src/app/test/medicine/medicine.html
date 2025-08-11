@@ -1,49 +1,53 @@
-
 <div class="container mt-4">
-  <h2 class="text-primary mb-4">Name of Generic</h2>
-
-  <form [formGroup]="mediForm"  class="row g-3">
-    <input type="hidden" formControlName="id" />
-
-    <div class="col-md-6">
-      <label for="testName" class="form-label">Generic Name</label>
-      <input type="text" formControlName="medicineName" id="testName" class="form-control" placeholder=" Napa, Ace+ etc" />
-    </div>
+    <h1><b>List of Generic</b></h1>
+  <!-- Medicine Form -->
+  <form [formGroup]="mediForm" (ngSubmit)="onSubmit()" class="mb-4 card p-3 shadow-sm">
 
     
-
-    <div class="col-12">
-      <button type="submit" class="btn btn-success">
-        {{ editMode ? 'Update Generic' : 'Add Generic' }}
-      </button>
-      <button type="button" class="btn btn-secondary ms-2" (click)="mediForm.reset(); editMode = false" *ngIf="editMode">
-        Cancel
-      </button>
+    <div class="row g-3 align-items-center">
+      <div class="col-md-6">
+        <input type="text" formControlName="medicineName" class="form-control" placeholder="Enter Medicine Name">
+      </div>
+      <div class="col-md-3 d-grid">
+        <button type="submit" class="btn btn-primary">
+          {{ editMode ? 'Update' : 'Save' }}
+        </button>
+      </div>
+      <div class="col-md-3 d-grid" *ngIf="editMode">
+        <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+      </div>
     </div>
   </form>
 
-  <hr class="my-4" />
+  <!-- Medicines Table -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      Medicine List
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Medicine Name</th>
+            <th style="width: 160px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of medicines">
+            <td>{{ m.id }}</td>
+            <td>{{ m.medicineName }}</td>
+            <td>
+              <button class="btn btn-sm btn-warning me-2" (click)="onEdit(m)">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(m.id)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="medicines.length === 0">
+            <td colspan="3" class="text-center text-muted">No medicines found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <h4 class="mb-3">Generic List</h4>
-  <table class="table table-bordered table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Generic Name</th>
-     
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let m of medi">
-        <!-- <td>{{ m.id }}</td>
-        <td>{{ m.m }}</td> -->
-      
-        <td>
-          <button class="btn btn-sm btn-primary me-2" (click)="onEdit(m)">Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="onDelete(m.mediId!)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

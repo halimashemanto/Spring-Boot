@@ -3,42 +3,43 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Medicine } from '../medicine/medicine';
 import { environment } from '../../../environment/environment';
+import { MedicineModel } from '../model/medicine.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedecineService {
 
- private baseUrl = environment.apiBaseUrl + '/api/medicine/';
-  
-    constructor(private http: HttpClient) { }
-    
-  
-    getAllMedicine(): Observable<Medicine[]> {
-    return this.http.get<Medicine[]>(this.baseUrl);
+  private baseUrl = environment.apiBaseUrl + '/api/medicine/';
+
+  constructor(private http: HttpClient) { }
+
+
+  getAllMedicine(): Observable<MedicineModel[]> {
+    return this.http.get<MedicineModel[]>(this.baseUrl);
   }
 
-  getMedicineById(id: number): Observable<Medicine> {
-    return this.http.get<Medicine>(`${this.baseUrl}/${id}`);
+  getMedicineById(id: number): Observable<MedicineModel> {
+    return this.http.get<MedicineModel>(`${this.baseUrl}/${id}`);
   }
 
-  createMedicine(medi: Medicine): Observable<Medicine> {
-    return this.http.post<Medicine>(this.baseUrl, medi);
+  createMedicine(medi: MedicineModel): Observable<MedicineModel> {
+    return this.http.post<MedicineModel>(this.baseUrl, medi);
   }
 
-  // updateMedicine(medi: Medicine): Observable<Medicine> {
-  //   return this.http.put<Medicine>(`${this.baseUrl}${medi.id}`, medi);
-  // }
+  updateMedicine(medi: MedicineModel, id: number): Observable<MedicineModel> {
+    return this.http.put<MedicineModel>(`${this.baseUrl}${id}`, medi);
+  }
 
   deleteMedicine(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
 
-   searchMedicine(name: string): Observable<Medicine[]> {
-    return this.http.get<Medicine[]>(`${this.baseUrl}?testName_like=^${name}`);
+  searchMedicine(name: string): Observable<MedicineModel[]> {
+    return this.http.get<MedicineModel[]>(`${this.baseUrl}?testName_like=^${name}`);
   }
-   
-  
-  
-  
+
+
+
+
 }

@@ -38,10 +38,19 @@ public class MedicineRestController {
         medicineService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public void Update(@RequestBody Medicine medicine) {
+//    @PutMapping("/{id}")
+////    public void Update(@RequestBody Medicine medicine) {
+////
+////        medicineService.save(medicine);
+////
+////    }
 
-        medicineService.save(medicine);
 
-    }
+@PutMapping("/{id}")
+public Medicine update(@PathVariable Long id, @RequestBody Medicine medicine) {
+    medicine.setId(id);
+    return medicineService.save(medicine);
+}
+
+
 }
