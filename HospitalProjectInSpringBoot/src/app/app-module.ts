@@ -18,6 +18,7 @@ import { Login } from './auth/login/login';
 import { AllUserProfile } from './profile/all-user-profile/all-user-profile';
 import { CommonModule } from '@angular/common';
 import { AddTest } from './test/add-test/add-test';
+import { Medicine } from './test/medicine/medicine';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AddTest } from './test/add-test/add-test';
         Footer,
         Login,
         AllUserProfile,
-        AddTest
+        AddTest,
+        Medicine
   ],
   imports: [
     BrowserModule,

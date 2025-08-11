@@ -1,0 +1,49 @@
+
+<div class="container mt-4">
+  <h2 class="text-primary mb-4">Name of Generic</h2>
+
+  <form [formGroup]="mediForm"  class="row g-3">
+    <input type="hidden" formControlName="id" />
+
+    <div class="col-md-6">
+      <label for="testName" class="form-label">Generic Name</label>
+      <input type="text" formControlName="medicineName" id="testName" class="form-control" placeholder=" Napa, Ace+ etc" />
+    </div>
+
+    
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">
+        {{ editMode ? 'Update Generic' : 'Add Generic' }}
+      </button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="mediForm.reset(); editMode = false" *ngIf="editMode">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <hr class="my-4" />
+
+  <h4 class="mb-3">Generic List</h4>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Generic Name</th>
+     
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of medi">
+        <!-- <td>{{ m.id }}</td>
+        <td>{{ m.m }}</td> -->
+      
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="onEdit(m)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="onDelete(m.mediId!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

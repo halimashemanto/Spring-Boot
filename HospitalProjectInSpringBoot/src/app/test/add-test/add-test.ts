@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Test } from '../model/test.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TestService } from '../test-service';
-import { v4 as uuidv4 } from 'uuid';
+
 
 @Component({
   selector: 'app-add-test',
@@ -41,11 +41,6 @@ export class AddTest {
  onSubmit(): void {
   const test: Test = this.testForm.value;
   
-
-  // Assign UUID manually if it's a new test
-  // if (!this.editMode) {
-  //   test.id = window.crypto.randomUUID(); // ✅ UUID as string
-  // }
 
   if (this.editMode) {
     this.testService.updateTest(test).subscribe(() => {

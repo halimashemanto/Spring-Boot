@@ -11,10 +11,8 @@ export class TestService {
 
     private baseUrl = environment.apiBaseUrl + '/api/tests/';
   
-    constructor(private http: HttpClient
+    constructor(private http: HttpClient) { }
     
-
-     ) { }
   
     getAllTests(): Observable<Test[]> {
     return this.http.get<Test[]>(this.baseUrl);
