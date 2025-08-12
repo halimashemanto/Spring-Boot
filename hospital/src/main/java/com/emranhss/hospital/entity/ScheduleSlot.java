@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
-
+@Table(name = "schedule")
 public class ScheduleSlot {
 
 
