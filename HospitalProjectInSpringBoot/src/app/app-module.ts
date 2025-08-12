@@ -20,6 +20,8 @@ import { CommonModule } from '@angular/common';
 import { AddTest } from './test/add-test/add-test';
 import { Medicine } from './test/medicine/medicine';
 import { Department } from './department/department/department';
+import { ScheduleSlot } from './Appoinment/schedule-slot/schedule-slot';
+import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { Department } from './department/department/department';
         AllUserProfile,
         AddTest,
         Medicine,
-        Department
+        Department,
+        ScheduleSlot,
+        AddApooinment
   ],
   imports: [
     BrowserModule,

@@ -39,29 +39,6 @@ export class Department {
     });
   }
 
-  // onSubmit() {
-    
-  //   if (this.departmentForm.valid) {
-  //     const department: DepartmentModel = this.departmentForm.value;
-
-  //     if (this.isEditMode && department.id) {
-  //       // UPDATE
-  //       this.departmentService.updateDepartment(department).subscribe(() => {
-  //         this.loadDepartments();
-  //         this.cancelEdit();
-  //       });
-  //     } else {
-  //       // CREATE
-  //       const newDepartment: DepartmentModel = { departmentName: department.departmentName };
-  //       this.departmentService.addDepartment(newDepartment).subscribe(() => {
-  //         this.loadDepartments();
-  //         this.departmentForm.reset();
-  //       });
-  //     }
-  //   }
-  // }
-
-
 
 
   onSubmit(): void {
@@ -84,9 +61,13 @@ export class Department {
 
   editDepartment(dep: DepartmentModel) {
     this.isEditMode = true;
-    this.departmentForm.patchValue(dep);
+     this.departmentForm.patchValue({
+      departmentName: dep.departmentName,
+      description: dep.description
+    });
   }
-
+  
+  
   deleteDepartment(id: number) {
     if (confirm('Are you sure you want to delete this department?')) {
       this.departmentService.deleteDepartment(id).subscribe(() => {

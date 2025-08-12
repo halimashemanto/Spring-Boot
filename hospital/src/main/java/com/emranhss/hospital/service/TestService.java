@@ -25,17 +25,20 @@ public class TestService {
 
 
     public Tests save(Tests tests) {
+
         return testRepo.save(tests);
     }
 
 
     public Optional<Tests> getById(Long id) {
+
         return testRepo.findById(id);
     }
 
     //find test by id
     public Tests findById(long id){
-        return testRepo.findById(id).orElseThrow(()->new RuntimeException("Tests Not Found with id"+id));
+        return testRepo.findById(id)
+                .orElseThrow(()->new RuntimeException("Tests Not Found with id"+id));
     }
 
     //delete

@@ -103,4 +103,5 @@ public class JwtService {
 
         return extractClaim(token, claims -> claims.get("role", String.class));
     }
+
 }

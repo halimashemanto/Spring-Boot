@@ -4,6 +4,8 @@ package com.emranhss.hospital.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "doctors")
@@ -25,6 +27,10 @@ public class Doctor {
     private String chamber;
     private Date joinDate;
     private String photo;
+
+
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ScheduleSlot> slots = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -142,5 +148,13 @@ public class Doctor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<ScheduleSlot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<ScheduleSlot> slots) {
+        this.slots = slots;
     }
 }

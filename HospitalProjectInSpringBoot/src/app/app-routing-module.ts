@@ -10,6 +10,7 @@ import { ReceptionistRegistration } from './receptionist/receptionist-registrati
 import { AddTest } from './test/add-test/add-test';
 import { Medicine } from './test/medicine/medicine';
 import { Department } from './department/department/department';
+import { ScheduleSlot } from './Appoinment/schedule-slot/schedule-slot';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -27,6 +28,8 @@ const routes: Routes = [
   {path:'test', component:AddTest},
   {path:'medicine', component:Medicine},
   {path:'department', component:Department},
+  {path:'slot', component:ScheduleSlot},
+  {path:'viewdoctor', component:ViewDoctor},
 ];
 
 @NgModule({

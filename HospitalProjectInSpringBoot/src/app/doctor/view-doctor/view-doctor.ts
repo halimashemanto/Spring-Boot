@@ -13,7 +13,7 @@ import { DoctorService } from '../doctor-service';
 export class ViewDoctor  {
 
 
-    doctor: Doctor[] = [];
+       doctor: Doctor[] = [];
 
 
   constructor(
@@ -22,13 +22,13 @@ export class ViewDoctor  {
 
   ngOnInit(): void {
 
-    this.loadUsers();
+    this.loadDoctors();
   }
 
 
  
  
-  loadUsers(): void {
+  loadDoctors(): void {
     this.doctorService.getAllDoctor().subscribe({
       next: (data) => {
         console.log("User data loaded:", data); 
@@ -39,5 +39,6 @@ export class ViewDoctor  {
       }
     });
   }
+
 
 }

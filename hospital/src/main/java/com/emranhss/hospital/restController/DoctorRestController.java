@@ -1,6 +1,7 @@
 package com.emranhss.hospital.restController;
 
 
+import com.emranhss.hospital.dto.DoctorDTO;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.repository.IDoctorRepo;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/doctor/")
@@ -67,12 +69,36 @@ public class DoctorRestController {
     }
 
 
-    @GetMapping("all")
-    public ResponseEntity<List<Doctor>> getAllUsers() {
+    @GetMapping("")
+    public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
         List<Doctor> doctorList = doctorService.getAll();
-        return ResponseEntity.ok(doctorList);
 
+        List<DoctorDTO> dtoList = doctorList.stream()
+                .map(this::toDTO)  // map each Doctor to DoctorDTO
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtoList);
     }
+
+
+    private DoctorDTO toDTO(Doctor doctor) {
+        DoctorDTO dto = new DoctorDTO();
+        dto.setId(doctor.getId());
+        dto.setName(doctor.getName());
+        dto.setEmail(doctor.getEmail());
+        dto.setPhone(doctor.getPhone());
+        dto.setGender(doctor.getGender());
+        dto.setStatus(doctor.getStatus());
+        dto.setStudy(doctor.getStudy());
+        dto.setDepartment(doctor.getDepartment());
+        dto.setChamber(doctor.getChamber());
+        dto.setJoinDate(doctor.getJoinDate());
+        dto.setPhoto(doctor.getPhoto());
+        // Don't map slots here to avoid infinite recursion
+        return dto;
+    }
+
+
 
 
     @GetMapping("profile")
