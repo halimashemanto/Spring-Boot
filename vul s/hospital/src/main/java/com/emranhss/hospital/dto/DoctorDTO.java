@@ -23,8 +23,8 @@ public class DoctorDTO {
     private Date joinDate;
     private String photo;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Lazy load to avoid big joins unless needed
-    @JoinColumn(name = "department_id", nullable = false) // FK column
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
     @JsonBackReference
     private Department department;
 
@@ -46,7 +46,7 @@ public class DoctorDTO {
             dto.setDepartment(doctor.getDepartment());
         }
 
-        // no slots or minimal slot info here to avoid recursion
+
         return dto;
     }
 

@@ -12,11 +12,11 @@ import { DepartmentModel } from '../../department/model/departmentModel.model';
 })
 export class AddDoctor {
 
- userForm: FormGroup;
+  userForm: FormGroup;
   doctorForm: FormGroup;
   photoFile!: File;
   message: string = '';
-  departments: DepartmentModel[] = [];
+  departments: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +35,7 @@ export class AddDoctor {
       status: ['', Validators.required],
       study: ['', Validators.required],
       chamber: ['', Validators.required],
-      departmentId: ['', Validators.required], 
+      departmentId: ['', Validators.required],
       joinDate: ['', Validators.required]
     });
   }
@@ -45,7 +45,7 @@ export class AddDoctor {
   }
 
   loadDepartments() {
-    this.http.get<any[]>('http://localhost:8080/api/department').subscribe({
+    this.http.get<any[]>('http://localhost:8080/api/department/').subscribe({
       next: data => this.departments = data,
       error: err => console.error('Error fetching departments', err)
     });
@@ -81,8 +81,7 @@ export class AddDoctor {
       status: this.doctorForm.value.status,
       joinDate: this.doctorForm.value.joinDate,
       study: this.doctorForm.value.study,
-      chamber: this.doctorForm.value.chamber,
-      // backend কে departmentId পাঠাচ্ছে
+      chamber: this.doctorForm.value.chamber
     };
 
     const departmentId = this.doctorForm.value.departmentId;
@@ -99,5 +98,6 @@ export class AddDoctor {
       }
     });
   }
+
 
 }

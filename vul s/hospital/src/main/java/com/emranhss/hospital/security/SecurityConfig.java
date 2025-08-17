@@ -37,7 +37,24 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
 
-                        req.requestMatchers("/api/user/", "/images/**", "/auth/all","/api/doctor/**","/api/doctor/","/api/user/active/**", "/auth/login","/api/nurse/**","/api/receptionist/**","/api/officeStaff/**","/api/tests/**","/api/medicine/**","/api/department/**","/api/department/","/api/slot/**", "/api/slot/")
+                        req.requestMatchers("/api/user/",
+                                        "/images/**",
+                                        "/auth/all",
+                                        "/api/doctor/**",
+                                        "/api/doctor/",
+                                        "/api/user/active/**",
+                                        "/auth/login",
+                                        "/api/nurse/**",
+                                        "/api/receptionist/**",
+                                        "/api/officeStaff/**",
+                                        "/api/tests/**",
+                                        "/api/medicine/**",
+                                        "/api/department/**",
+                                        "/api/department/",
+                                        "/api/slot/**",
+                                        "/api/slot/",
+                                        "/api/patient/",
+                                        "/api/patient/**")
                                 .permitAll()
                                 .requestMatchers("/api/doctor/profile","/api/nurse/profile","/api/receptionist/profile")
                                 .hasAnyRole("Doctor","Nurse","Admin","Receptionist","OfficeStaff")
