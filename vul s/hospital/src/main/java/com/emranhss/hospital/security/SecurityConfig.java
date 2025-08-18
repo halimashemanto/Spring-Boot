@@ -51,8 +51,12 @@ public class SecurityConfig {
                                         "/api/medicine/**",
                                         "/api/department/**",
                                         "/api/department/",
-                                        "/api/slot/**",
-                                        "/api/slot/")
+                                        "/api/slot/**",                              
+
+                                    
+                                        "/api/patient/",
+                                        "/api/patient/**")
+
                                 .permitAll()
                                 .requestMatchers("/api/doctor/profile","/api/nurse/profile","/api/receptionist/profile")
                                 .hasAnyRole("Doctor","Nurse","Admin","Receptionist","OfficeStaff")

@@ -7,70 +7,92 @@ import java.sql.Date;
 @Entity
 @Table(name = "patients")
 public class Patient {
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+
+    private Date date;
     private String name;
-    private String age;
-    private String address;
+    private int age;
+    private String gender;
     private String contact;
+    private String address;
+    private String medicalHistory;
     private String reason;
-    private String department;
-    private Date admittedDate;
 
-    private String photo;
+    private String status;          // Active / Discharged / Inactive
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    // Relationships
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
+    // Constructors
     public Patient() {
+
     }
 
-    public Patient(long id, User user, Date admittedDate, String department, String reason, String address, String age, String name, String contact, String photo) {
+    public Patient(Long id, Date date, String name, int age, String gender, String contact, String address, String medicalHistory, String reason, String status, Doctor doctor, Department department) {
         this.id = id;
-        this.user = user;
-        this.admittedDate = admittedDate;
-        this.department = department;
-        this.reason = reason;
-        this.address = address;
-        this.age = age;
+        this.date = date;
         this.name = name;
+        this.age = age;
+        this.gender = gender;
         this.contact = contact;
-        this.photo = photo;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Date getAdmittedDate() {
-        return admittedDate;
-    }
-
-    public void setAdmittedDate(Date admittedDate) {
-        this.admittedDate = admittedDate;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
+        this.address = address;
+        this.medicalHistory = medicalHistory;
+        this.reason = reason;
+        this.status = status;
+        this.doctor = doctor;
         this.department = department;
     }
 
-    public String getReason() {
-        return reason;
+    public Long getId() {
+        return id;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getContact() {
@@ -89,34 +111,44 @@ public class Patient {
         this.address = address;
     }
 
-    public String getAge() {
-        return age;
+    public String getMedicalHistory() {
+        return medicalHistory;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setMedicalHistory(String medicalHistory) {
+        this.medicalHistory = medicalHistory;
     }
 
-    public long getId() {
-        return id;
+    public String getReason() {
+        return reason;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public String getName() {
-        return name;
+    public String getStatus() {
+        return status;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getPhoto() {
-        return photo;
+    public Doctor getDoctor() {
+        return doctor;
     }
-    public void setPhoto(String photo) {
-        this.photo = photo;
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
+

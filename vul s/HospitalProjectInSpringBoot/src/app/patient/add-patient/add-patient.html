@@ -1,0 +1,88 @@
+<div class="container mt-4">
+  <h2 class="mb-3">{{ editingPatientId ? 'Edit Patient' : 'Add Patient' }}</h2>
+
+  <div *ngIf="message" class="alert alert-info">
+    {{ message }}
+  </div>
+
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Date</label>
+        <input type="date" class="form-control" formControlName="date">
+      </div>
+      <div class="col-md-6">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Age</label>
+        <input type="number" class="form-control" formControlName="age">
+      </div>
+      <div class="col-md-4">
+        <label>Gender</label>
+        <select class="form-control" formControlName="gender">
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Contact</label>
+        <input type="text" class="form-control" formControlName="contact">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Address</label>
+      <textarea class="form-control" formControlName="address"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Medical History</label>
+      <textarea class="form-control" formControlName="medicalHistory"></textarea>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Reason</label>
+        <input type="text" class="form-control" formControlName="reason">
+      </div>
+      <div class="col-md-6">
+        <label>Status</label>
+        <select class="form-control" formControlName="status">
+          <option value="Active">Active</option>
+          <option value="Discharged">Discharged</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Doctor</label>
+        <select class="form-control" formControlName="doctor">
+          <option value="">Select Doctor</option>
+          <option *ngFor="let doc of doctors" [ngValue]="doc">{{ doc.name }}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label>Department</label>
+        <select class="form-control" formControlName="department">
+          <option value="">Select Department</option>
+          <!-- <option *ngFor="let dep of departments" [ngValue]="departments">{{ dep. }}</option> -->
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      {{ editingPatientId ? 'Update' : 'Add Patient' }}
+    </button>
+
+  </form>
+</div>

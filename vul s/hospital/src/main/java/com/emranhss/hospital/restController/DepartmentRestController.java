@@ -49,10 +49,10 @@ public class DepartmentRestController {
 
     }
 
-    @GetMapping("")
-    public List<Department> getAllDepartments() {
-        return departmentService.getAllDepartment();
-    }
+//    @GetMapping("")
+//    public List<Department> getAllDepartments() {
+//        return departmentService.getAllDepartment();
+//    }
 
 
 }

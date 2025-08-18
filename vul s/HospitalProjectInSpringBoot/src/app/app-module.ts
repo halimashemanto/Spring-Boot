@@ -22,6 +22,8 @@ import { Medicine } from './test/medicine/medicine';
 import { Department } from './department/department/department';
 import { ScheduleSlot } from './Appoinment/schedule-slot/schedule-slot';
 import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
+import { AddPatient } from './patient/add-patient/add-patient';
+import { ViewPatient } from './patient/view-patient/view-patient';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
         Medicine,
         Department,
         ScheduleSlot,
-        AddApooinment
+        AddApooinment,
+        AddPatient,
+        ViewPatient
   ],
   imports: [
     BrowserModule,
