@@ -1,32 +1,47 @@
 <div class="container my-5" style="font-family: 'Segoe UI', Tahoma, sans-serif;">
   <div class="row">
     <div class="col-md-4 mb-4" *ngFor="let user of doctor">
-      
+
       <!-- Profile Card -->
-      <div class="profile-card"
-           style="border-radius: 15px; overflow: hidden; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); transition: transform 0.4s ease, box-shadow 0.4s ease; position: relative;">
-        
-        <!-- Cover Photo with Gradient Overlay -->
-        <div class="cover-photo" style="width:100%; height:130px; overflow:hidden; position:relative;">
+      <div 
+        style="
+          border-radius: 15px;
+          overflow: hidden;
+          background: white;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+          position: relative;
+          text-align: center;
+        "
+        onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.25)'; this.querySelector('.cover-photo-img').style.transform='scale(1.08)'; this.querySelector('.cover-photo-img').style.filter='brightness(1.05)'; this.querySelector('.profile-img').style.transform='scale(1.06)'"
+        onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.15)'; this.querySelector('.cover-photo-img').style.transform='scale(1)'; this.querySelector('.cover-photo-img').style.filter='brightness(1)'; this.querySelector('.profile-img').style.transform='scale(1)'"
+      >
+
+        <!-- Cover Photo -->
+        <div style="width:100%; height:130px; overflow:hidden; position:relative;">
           <img
             class="cover-photo-img"
             src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80"
             alt="Cover Image"
             style="width:100%; height:100%; object-fit:cover; transition: transform 0.6s ease, filter 0.4s ease;"
           />
-          <!-- Gradient Overlay -->
           <div style="
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0));
-            pointer-events: none;
+            position:absolute; top:0; left:0; width:100%; height:100%;
+            background:linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0));
+            pointer-events:none;
           "></div>
         </div>
 
         <!-- Profile Picture -->
-        <div class="image-wrapper"
-             style="width:120px; height:120px; border-radius:50%; overflow:hidden; border:4px solid white; position:absolute; top:90px; left:50%; transform:translateX(-50%); box-shadow:0 6px 18px rgba(0,0,0,0.25); transition: transform 0.4s ease;">
+        <div style="
+          width:120px; height:120px; border-radius:50%;
+          overflow:hidden; border:4px solid white;
+          position:absolute; top:90px; left:50%; transform:translateX(-50%);
+          box-shadow:0 6px 18px rgba(0,0,0,0.25);
+          transition: transform 0.4s ease;
+        ">
           <img
+            class="profile-img"
             [src]="'http://localhost:8080/images/doctor/' + user.photo"
             alt="{{ user.name }}"
             style="width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease;"
@@ -34,48 +49,15 @@
         </div>
 
         <!-- Card Body -->
-        <div class="card-body" style="padding: 90px 20px 20px 20px; text-align:center;">
+        <div style="padding:90px 20px 20px 20px;">
           <h2 style="color:#1877f2; font-weight:700; margin-bottom:6px;">{{ user.name }}</h2>
           <p style="color:#555; margin:0 0 6px;">📧 <strong>Email:</strong> {{ user.email }}</p>
           <p style="color:#555; margin:0 0 6px;">📱 <strong>Phone:</strong> {{ user.phone }}</p>
           <p style="color:#555; margin:0 0 6px;">🏥 <strong>Department:</strong> {{ user.department }}</p>
           <p style="color:#555; margin:0;">🏢 <strong>Chamber:</strong> {{ user.chamber }}</p>
         </div>
+
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  // Hover animations
-  document.querySelectorAll('.profile-card').forEach(card => {
-    const coverImg = card.querySelector('.cover-photo-img');
-    const profileImg = card.querySelector('.image-wrapper img');
-
-    card.addEventListener('mouseover', () => {
-      card.style.transform = 'translateY(-8px) scale(1.02)';
-      card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.25)';
-
-      if (coverImg) {
-        coverImg.style.transform = 'scale(1.08)';
-        coverImg.style.filter = 'brightness(1.05)';
-      }
-      if (profileImg) {
-        profileImg.style.transform = 'scale(1.06)';
-      }
-    });
-
-    card.addEventListener('mouseout', () => {
-      card.style.transform = 'translateY(0) scale(1)';
-      card.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-
-      if (coverImg) {
-        coverImg.style.transform = 'scale(1)';
-        coverImg.style.filter = 'brightness(1)';
-      }
-      if (profileImg) {
-        profileImg.style.transform = 'scale(1)';
-      }
-    });
-  });
-</script>

@@ -3,8 +3,6 @@ package com.emranhss.hospital.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
-import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -15,35 +13,26 @@ public class ScheduleSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @ManyToOne(fetch = FetchType.LAZY) // Lazy load to avoid big joins unless needed
-    @JoinColumn(name = "doctor_id", nullable = false) // FK column
-    @JsonBackReference
-    private Doctor doctor;
-
-    @Column(nullable = false)
-    private Date date;  // store as "YYYY-MM-DD"
-
-    @Column(name = "start_time", nullable = false)
+    private Date date;
     private String startTime;
-
-    @Column(name = "end_time", nullable = false)
     private String endTime;
-
-    @Column(name = "is_booked", nullable = false)
     private boolean isBooked;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    @JsonBackReference
+    private Doctor doctor;
 
     public ScheduleSlot() {
     }
 
-    public ScheduleSlot(long id, Doctor doctor, Date date, String startTime, String endTime, boolean isBooked) {
+    public ScheduleSlot(long id, Date date, String startTime, String endTime, boolean isBooked, Doctor doctor) {
         this.id = id;
-        this.doctor = doctor;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isBooked = isBooked;
+        this.doctor = doctor;
     }
 
     public long getId() {
@@ -52,14 +41,6 @@ public class ScheduleSlot {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     public Date getDate() {
@@ -92,5 +73,13 @@ public class ScheduleSlot {
 
     public void setBooked(boolean booked) {
         isBooked = booked;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

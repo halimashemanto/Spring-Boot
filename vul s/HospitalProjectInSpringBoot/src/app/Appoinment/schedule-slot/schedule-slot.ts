@@ -14,6 +14,7 @@ import { ScheduleSlotModel } from '../model/scheduleSlotModel.model';
 export class ScheduleSlot {
 
 
+
   doctors: Doctor[] = [];
   selectedDoctorId!: number;
 
@@ -32,22 +33,23 @@ export class ScheduleSlot {
     private cd: ChangeDetectorRef
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadDoctors();
   }
 
-  loadDoctors() {
+  // Load all doctors from backend
+  loadDoctors(): void {
     this.doctorService.getAllDoctor().subscribe({
       next: (data) => {
-        this.doctors = data,
-          this.cd.markForCheck();
-
+        this.doctors = data;
+        this.cd.markForCheck();
       },
       error: (err) => console.error('Error loading doctors', err)
     });
   }
 
-  onSubmit() {
+  // Create a new schedule slot
+  onSubmit(): void {
     if (!this.selectedDoctorId) {
       alert('Please select a doctor!');
       return;
@@ -67,7 +69,7 @@ export class ScheduleSlot {
         alert('Slot created successfully!');
       },
       error: (err) => {
-        console.error(err);
+        console.error('Error creating slot:', err);
         alert('Error creating slot');
       }
     });

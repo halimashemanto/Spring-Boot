@@ -211,7 +211,7 @@ public class AuthService {
     }
 
 
-    public void registerDoctor(User user, MultipartFile imageFile, Doctor doctorData, Long departmentId) {
+    public void registerDoctor(User user, MultipartFile imageFile, Doctor doctorData) {
 
         // 1️⃣ Image save (User + Doctor)
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -221,6 +221,14 @@ public class AuthService {
             user.setPhoto(filename);
         }
 
+        Department department = departmentRepository.findById(
+                doctorData.getDepartment().getId()
+        ).orElseThrow(() -> new RuntimeException("Department Not Found"));
+
+
+        doctorData.setDepartment(department);
+
+
         // 2️⃣ Password encode + role + active
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.Doctor);
@@ -229,13 +237,7 @@ public class AuthService {
         // 3️⃣ Save User
         User savedUser = userRepo.save(user);
 
-        // 4️⃣ Department fetch and set
-        if (departmentId != null) {
-            doctorData.setDepartment(
-                    departmentRepository.findById(departmentId)
-                            .orElseThrow(() -> new RuntimeException("Department not found"))
-            );
-        }
+
 
         // 5️⃣ Associate saved User
         doctorData.setUser(savedUser);

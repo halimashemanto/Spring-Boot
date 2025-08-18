@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DoctorService } from '../doctor-service';
 import { HttpClient } from '@angular/common/http';
-import { DepartmentModel } from '../../department/model/departmentModel.model';
 
 @Component({
   selector: 'app-add-doctor',
   standalone: false,
   templateUrl: './add-doctor.html',
-  styleUrl: './add-doctor.css'
+  styleUrls: ['./add-doctor.css']
 })
-export class AddDoctor {
+export class AddDoctor implements OnInit {
 
   userForm: FormGroup;
   doctorForm: FormGroup;
@@ -51,46 +50,37 @@ export class AddDoctor {
     });
   }
 
-  onPhotoSelected(event: any): void {
+  onPhotoSelected(event: any) {
     if (event.target.files.length > 0) {
       this.photoFile = event.target.files[0];
-      console.log('Selected file:', this.photoFile);
     }
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (!this.photoFile) {
       this.message = 'Please upload a photo.';
       return;
     }
+
     if (this.userForm.invalid || this.doctorForm.invalid) {
-      this.message = 'Please fill out all required fields.';
+      this.message = 'Please fill all required fields.';
       return;
     }
 
-    const user = {
-      name: this.userForm.value.name,
-      email: this.userForm.value.email,
-      phone: this.userForm.value.phone,
-      password: this.userForm.value.password,
-      role: 'Doctor'
-    };
+    const user = { ...this.userForm.value };
 
     const doctor = {
+      name: this.userForm.value.name,      // ⚡ must include
+      email: this.userForm.value.email,    // ⚡ mus
       gender: this.doctorForm.value.gender,
       status: this.doctorForm.value.status,
       joinDate: this.doctorForm.value.joinDate,
       study: this.doctorForm.value.study,
-
       chamber: this.doctorForm.value.chamber,
-     
-
-
+      department: { id: this.doctorForm.value.departmentId } // nested object
     };
 
-    const departmentId = this.doctorForm.value.departmentId;
-
-    this.doctorService.registerDoctor(user, doctor, this.photoFile, departmentId).subscribe({
+    this.doctorService.registerDoctor(user, doctor, this.photoFile).subscribe({
       next: res => {
         this.message = res.Message || 'Registration successful!';
         this.userForm.reset();
@@ -102,6 +92,4 @@ export class AddDoctor {
       }
     });
   }
-
-
 }

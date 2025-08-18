@@ -50,7 +50,7 @@ public class DoctorRestController {
     public ResponseEntity<Map<String, String>> registerDoctor(
             @RequestPart(value = "user") String userJson,
             @RequestPart(value = "doctor") String doctorJson,
-            @RequestParam(value = "departmentId", required = false) Long departmentId,
+
             @RequestParam(value = "photo") MultipartFile file
     ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -58,7 +58,7 @@ public class DoctorRestController {
         Doctor doctor = objectMapper.readValue(doctorJson, Doctor.class);
 
         try {
-            authService.registerDoctor(user, file, doctor,  departmentId);
+            authService.registerDoctor(user, file, doctor);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 

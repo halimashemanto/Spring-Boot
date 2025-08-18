@@ -64,7 +64,9 @@
           <label class="form-label">Department</label>
           <select class="form-select" formControlName="departmentId">
             <option value="">Select Department</option>
+          
             <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.departmentName }}</option>
+
           </select>
         </div>
       </div>
@@ -78,7 +80,7 @@
 
     <!-- Submit Button -->
     <div class="text-center">
-      <button type="submit" class="btn btn-primary" (click)="onSubmit()">Register</button>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()">Register</button>
     </div>
 
     <!-- Message Alert -->
