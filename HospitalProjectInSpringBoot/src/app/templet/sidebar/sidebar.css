@@ -1,0 +1,104 @@
+/* Sidebar main container - Glassmorphism */
+.sidebar {
+  background: rgba(31, 41, 55, 0.7); /* semi-transparent dark */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "Poppins", sans-serif;
+  padding-top: 1rem;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Brand section */
+.sidebar-brand {
+  color: #fff !important;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-brand-icon {
+  font-size: 1.6rem;
+}
+
+/* Sidebar items */
+.nav-item {
+  margin: 6px 0;
+}
+
+.nav-link {
+  color: #e5e7eb !important;
+  font-size: 0.96rem;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.25s ease;
+}
+
+.nav-link i {
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+/* Hover effect with neon glow */
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+  color: #fff !important;
+}
+
+.nav-link:hover i {
+  transform: scale(1.15);
+  color: #38bdf8; /* soft cyan */
+}
+
+/* Active item */
+.nav-item.active > .nav-link {
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Sidebar heading */
+.sidebar-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #cbd5e1 !important;
+  padding: 10px 15px;
+  letter-spacing: 0.05em;
+}
+
+/* Divider */
+.sidebar-divider {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Collapse inner links */
+.collapse-inner {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(8px);
+  border-left: 3px solid #3b82f6;
+}
+
+.collapse-item {
+  font-size: 0.9rem;
+  color: #1f2937 !important;
+  transition: all 0.2s ease;
+}
+
+.collapse-item:hover {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #1e3a8a !important;
+  border-radius: 6px;
+}
+
+/* Sidebar toggle button */
+#sidebarToggle {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+#sidebarToggle:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}

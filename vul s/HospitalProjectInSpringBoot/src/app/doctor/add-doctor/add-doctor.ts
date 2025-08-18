@@ -12,11 +12,11 @@ import { DepartmentModel } from '../../department/model/departmentModel.model';
 })
 export class AddDoctor {
 
- userForm: FormGroup;
+  userForm: FormGroup;
   doctorForm: FormGroup;
   photoFile!: File;
   message: string = '';
-  departments: DepartmentModel[] = [];
+  departments: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +82,7 @@ export class AddDoctor {
       joinDate: this.doctorForm.value.joinDate,
       study: this.doctorForm.value.study,
       chamber: this.doctorForm.value.chamber,
-      // backend কে departmentId পাঠাচ্ছে
+     
     };
 
     const departmentId = this.doctorForm.value.departmentId;

@@ -1,0 +1,153 @@
+<div class="container mt-5">
+  <div
+    class="card p-5 shadow-lg rounded-4 border-0 text-dark"
+    style="max-width: 750px; margin: auto; background: linear-gradient(to right, #fdfbfb, #ebedee);"
+  >
+    <!-- Title -->
+    <h2
+      class="text-center mb-4 fw-bold"
+      style="color: #007bff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"
+    >
+       Office-Staff Registration
+    </h2>
+
+    <!-- User Form -->
+    <form [formGroup]="userForm" class="mb-4">
+      <h5 class="text-white bg-primary p-2 ps-3 rounded mb-3">👤 Personal Information</h5>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Name</label>
+          <input
+            class="form-control border-primary-subtle shadow-sm"
+            formControlName="name"
+            placeholder="Enter your name"
+          />
+        </div>
+        
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control border-primary-subtle shadow-sm"
+            formControlName="email"
+            placeholder="Enter email"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Phone</label>
+          <input
+            class="form-control border-primary-subtle shadow-sm"
+            formControlName="phone"
+            placeholder="Enter phone number"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control border-primary-subtle shadow-sm"
+            formControlName="password"
+            placeholder="Enter password"
+          />
+        </div>
+      </div>
+    </form>
+
+    <!-- Doctor Form -->
+    <form [formGroup]="officeStaffForm" class="mb-4">
+      <h5 class="text-white bg-success p-2 ps-3 rounded mb-3">🧑‍⚕️ Professional Information</h5>
+
+      <div class="row g-3">
+         <div class="col-md-6">
+          <label class="form-label">Age</label>
+          <input
+            type="text"
+            class="form-control border-primary-subtle shadow-sm"
+            formControlName="age"
+            placeholder="Enter Age"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Gender</label>
+          <select class="form-select shadow-sm border-success-subtle" formControlName="gender">
+            <option value=""></option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Joining Date</label>
+          <input
+            type="date"
+            class="form-control shadow-sm border-success-subtle"
+            formControlName="joinDate"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Position</label>
+          <input
+            type="text"
+            class="form-control shadow-sm border-success-subtle"
+            formControlName="Position"
+            placeholder=""
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Working Hours</label>
+          <input
+            type="text"
+            class="form-control shadow-sm border-success-subtle"
+            formControlName="workingHours"
+            placeholder=""
+          />
+        </div>
+        
+        <div class="col-md-6">
+          <label class="form-label">Department</label>
+          <input
+            type="text"
+            class="form-control shadow-sm border-success-subtle"
+            formControlName="department"
+            placeholder=""
+          />
+        </div>
+      </div>
+    </form>
+
+    <!-- Photo Upload -->
+    <div class="mb-4">
+      <label class="form-label text-dark fw-semibold">Upload Photo</label>
+      <input type="file" class="form-control border-info-subtle shadow-sm" (change)="onPhotoSelected($event)" />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <!-- <button
+        type="submit"
+        class="btn btn-lg px-5 py-2 text-white"
+        style="background: linear-gradient(45deg, #007bff, #00d4ff); border: none; transition: 0.3s;"
+        (mouseover)="this.style.transform='scale(1.05)'"
+        (mouseout)="this.style.transform='scale(1)'"
+        (click)="onSubmit()"
+      > -->
+
+      <button  type="submit"   (click)="onSubmit()">
+        Register
+      </button>
+    </div>
+
+    <!-- Message Alert -->
+    <div class="mt-4" *ngIf="message">
+      <div
+        class="alert text-center fw-semibold"
+        [ngClass]="{
+          'alert-success': message.includes('Success'),
+          'alert-danger': !message.includes('Success')
+        }"
+      >
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>

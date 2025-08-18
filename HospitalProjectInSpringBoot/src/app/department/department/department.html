@@ -1,0 +1,103 @@
+<div class="container my-4" style="font-family: Arial, sans-serif;">
+
+  <h2 class="mb-4" style="color:#1E40AF; font-weight:700;">Department CRUD</h2>
+
+  <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()" class="row g-3" style="margin-bottom: 30px;">
+    <div class="col-md-6">
+      <label for="name" class="form-label" style="font-weight:600; color:#1E40AF;">Department Name:</label>
+      <input id="name" formControlName="departmentName" type="text" class="form-control"
+        style="border-radius: 8px; padding: 8px; border: 1px solid #94A3B8;" />
+    </div>
+
+    <div class="col-md-6">
+      <label for="description" class="form-label" style="font-weight:600; color:#1E40AF;">Description:</label>
+      <input id="description" formControlName="description" type="text" class="form-control"
+        style="border-radius: 8px; padding: 8px; border: 1px solid #94A3B8;" />
+    </div>
+
+    <div class="col-12" style="margin-top: 10px;">
+      <button type="submit" class="btn btn-primary me-2"
+        [disabled]="departmentForm.invalid"
+        style="background: linear-gradient(90deg, #2563EB, #3B82F6); border:none; padding: 10px 20px; border-radius: 10px; font-weight: 700; color: white; cursor: pointer; transition: transform 0.3s ease;">
+        {{ isEditMode ? 'Update' : 'Add' }} Department
+      </button>
+
+      <button type="button" class="btn btn-secondary" *ngIf="isEditMode" (click)="resetForm()"
+        style="background: #64748B; border:none; padding: 10px 20px; border-radius: 10px; color: white; font-weight: 600; margin-left: 10px;">
+        Cancel Edit
+      </button>
+    </div>
+  </form>
+
+  <!-- Only Card View -->
+  <div class="row mt-5" style="gap: 24px;">
+    <h3 style="color:#1E40AF; font-weight:700; margin-bottom: 20px; width: 100%;">Departments</h3>
+
+    <div *ngFor="let dep of departments; let i = index" 
+         class="dep-card"
+         style="flex: 1 1 300px; background: linear-gradient(135deg, #E0F2FE, #F0F9FF); border-left: 6px solid #2563EB; border-radius: 12px; padding: 20px; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2); display: flex; flex-direction: column;">
+
+      <div style="display: flex; align-items: center; margin-bottom: 15px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#2563EB" viewBox="0 0 16 16" 
+          style="animation: heartbeat 1.5s infinite; flex-shrink: 0; margin-right: 14px;">
+          <path fill-rule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8zm7-3c.567 0 1.234.59 1.515 1.196.16.36.536.411.758.059l.616-.88a.5.5 0 0 1 .738-.03l.768.817a.5.5 0 0 1-.001.695l-3.046 3.33a.5.5 0 0 1-.782-.08L6.5 8.1 5.4 10.77a.5.5 0 0 1-.858-.514l1.3-3.862A.5.5 0 0 1 6.5 6z"/>
+        </svg>
+        <h5 style="color:#2563EB; margin: 0; font-weight: 700;">{{ dep.departmentName }}</h5>
+      </div>
+
+      <p style="color:#475569; font-size: 0.9rem; flex-grow: 1; min-height: 60px;">{{ dep.description }}</p>
+
+      <div style="margin-top: 15px; display: flex; gap: 10px;">
+        <button (click)="editDepartment(dep)" 
+          style="flex:1; background:#3B82F6; border:none; padding: 8px 0; border-radius: 6px; color:white; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
+          Edit
+        </button>
+        <button (click)="deleteDepartment(dep.id!)" 
+          style="flex:1; background:#DC2626; border:none; padding: 8px 0; border-radius: 6px; color:white; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    button:hover {
+      opacity: 0.85;
+    }
+    .dep-card {
+      animation: fadeSlideUp 0.6s ease forwards;
+      opacity: 0;
+    }
+    .dep-card:nth-child(1) { animation-delay: 0.1s; }
+    .dep-card:nth-child(2) { animation-delay: 0.2s; }
+    .dep-card:nth-child(3) { animation-delay: 0.3s; }
+    .dep-card:nth-child(4) { animation-delay: 0.4s; }
+    .dep-card:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    [style*="cursor: pointer"]:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 25px rgba(37, 99, 235, 0.3);
+    }
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+        fill: #2563EB;
+      }
+      50% {
+        transform: scale(1.2);
+        fill: #3B82F6;
+      }
+    }
+  </style>
+
+</div>

@@ -33,8 +33,8 @@ export class DoctorService {
     return this.http.post(this.baseUrl, formData);
   }
 
-  getAllDoctor(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/all');
+  getAllDoctor(): Observable<any[]> {
+    return this.http.get<any[]>(environment.apiBaseUrl + '/api/doctor/all');
   }
 
  

@@ -1,0 +1,108 @@
+<div class="container mt-5" 
+     style="min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #6EE7B7, #3B82F6); animation: fadeInBg 3s ease-in-out;">
+  
+  <div class="card shadow-lg p-4 rounded-4" 
+       style="width: 100%; max-width: 480px; background:rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: none; animation: slideIn 1.2s ease;">
+    
+    <div style="text-align:center; margin-bottom:12px;">
+      <img src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" 
+           alt="Hospital Logo" width="80" style="animation: pulse 2s infinite;">
+      <h2 style="color:#0F172A; font-weight:800; margin-top:12px; letter-spacing:0.6px;">Hospital Login</h2>
+
+      <!-- Dynamic Marquee -->
+      <div style="overflow:hidden; white-space:nowrap; margin-top:10px; height:24px; position:relative;">
+        <span id="marqueeText" 
+              style="display:inline-block; animation: marquee 8s linear infinite; font-size:16px; font-weight:600; color:#0B6E4F;">
+        💙 💙 Trust, Hope & Healing — Your Health Our Priority
+        </span>
+      </div>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label" style="font-weight:600;">Email:</label>
+        <input id="email" type="email" class="form-control" formControlName="email" 
+               style="border-radius:10px; padding:10px; border:1px solid #E6EEF2;">
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+             class="text-danger mt-1">
+          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email address.</small>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label" style="font-weight:600;">Password:</label>
+        <input id="password" type="password" class="form-control" formControlName="password" 
+               style="border-radius:10px; padding:10px; border:1px solid #E6EEF2;">
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+             class="text-danger mt-1">
+          <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <button type="submit" class="btn w-100" 
+              style="background:linear-gradient(90deg, #0EA5A4, #2563EB); color:white; font-weight:700; padding:10px; border-radius:10px; transition:0.25s;"
+              [disabled]="loginForm.invalid"
+              onmouseover="this.style.transform='translateY(-2px)';"
+              onmouseout="this.style.transform='translateY(0)';">
+        Login
+      </button>
+    </form>
+
+    <!-- Messages -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+
+    <div style="text-align:center; margin-top:14px;">
+      <small style="color:#6B7280;">Don't have an account? <a href="#" style="color:#2563EB; font-weight:600;">Register</a></small>
+    </div>
+  </div>
+</div>
+
+<!-- Inline Animations -->
+<style>
+@keyframes slideIn {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+
+<!-- JavaScript for Dynamic Text -->
+<script>
+const marqueeTexts = [
+  "Trust, Hope & Healing — Your Health Our Priority",
+  "Caring for You, Every Step of the Way",
+  "Where Compassion Meets Excellence",
+  "Your Wellness, Our Mission",
+  "Healing Hands, Caring Hearts"
+];
+
+let index = 0;
+const marqueeSpan = document.getElementById('marqueeText');
+
+setInterval(() => {
+  index = (index + 1) % marqueeTexts.length;
+  marqueeSpan.style.animation = "none"; // stop animation
+  void marqueeSpan.offsetWidth; // trigger reflow
+  marqueeSpan.textContent = marqueeTexts[index];
+  marqueeSpan.style.animation = "marquee 8s linear infinite"; // restart animation
+}, 9000);
+</script>
