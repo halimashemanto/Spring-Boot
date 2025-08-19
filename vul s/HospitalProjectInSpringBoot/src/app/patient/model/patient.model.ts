@@ -14,6 +14,6 @@ export interface Patient {
   reason: string;
   status: string;
 
-  doctor?: Doctor;           // full Doctor object (from Doctor API)
+  doctor?: Doctor;           
   department?: Department; 
 }  

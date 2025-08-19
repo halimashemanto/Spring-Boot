@@ -21,12 +21,13 @@ export class ScheduleSlot {
 
   slotForm: FormGroup;
   doctors: Doctor[] = [];
-  slots: ScheduleSlotModel[] = [];
+  slots: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private slotService: ScheduleSlotService,
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
+    private cdr : ChangeDetectorRef
   ) {
     this.slotForm = this.fb.group({
       doctor: [null],
@@ -44,46 +45,61 @@ export class ScheduleSlot {
 
   loadDoctors(): void {
     this.doctorService.getAllDoctor().subscribe({
+      
       next: (data) => this.doctors = data,
       error: (err) => console.error('Error loading doctors', err)
+      
     });
+    this.cdr.markForCheck();
   }
 
-  loadSlots(): void {
-    this.slotService.getAllSlots().subscribe({
-      next: (data) => this.slots = data,
-      error: (err) => console.error('Error loading slots', err)
-    });
-  }
+ 
+loadSlots(): void {
+  this.slotService.getAllSlots().subscribe({
+    next: (data) => {
+      this.slots = data.map(slot => ({
+        ...slot,
+        doctor: slot.doctor || { doctorName: 'Unknown' } 
+      }));
+    },
+    error: err => console.error(err)
+  });
+  this.cdr.markForCheck();
+}
 
-  onSubmit(): void {
-    if (this.slotForm.invalid) {
-      alert('Please fill all fields.');
-      return;
-    }
 
-    const selectedDoctor: Doctor = this.slotForm.value.doctor;
 
-    const newSlot: ScheduleSlotModel = {
-      date: this.slotForm.value.date,
-      startTime: this.slotForm.value.startTime,
-      endTime: this.slotForm.value.endTime,
-      booked: false,
-      doctor: selectedDoctor
-    };
 
-    this.slotService.createSlot(newSlot, selectedDoctor.id!).subscribe({
-      next: () => {
-        alert('Schedule slot added!');
-        this.slotForm.reset({ isBooked: false, doctor: null });
-        this.loadSlots();
-      },
-      error: (err) => {
-        console.error('Error saving slot', err);
-        alert('Failed to save slot. Check console.');
-      }
-    });
-  }
+
+onSubmit(): void {
+  if (this.slotForm.invalid) return;
+
+  const selectedDoctor: Doctor = this.slotForm.value.doctor;
+
+  const newSlot: ScheduleSlotModel = {
+    id: this.slotForm.value.id, 
+    date: this.slotForm.value.date,
+    startTime: this.slotForm.value.startTime,
+    endTime: this.slotForm.value.endTime,
+    booked: this.slotForm.value.isBooked || false,
+    doctor: selectedDoctor   
+  };
+
+  this.slotService.createSlot(newSlot, selectedDoctor.id!).subscribe({
+    next: () => {
+      // alert('Schedule slot saved!');
+      this.slotForm.reset({ isBooked:false, doctor:null });
+      this.loadSlots();
+    },
+    error: err => console.error(err)
+  });
+}
+
+
+
+
+
+
 
   deleteSlot(slotId: number): void {
     if (confirm('Are you sure you want to delete this slot?')) {
@@ -93,6 +109,17 @@ export class ScheduleSlot {
       });
     }
   }
+
+  editSlot(slot: ScheduleSlotModel) {
+  this.slotForm.patchValue({
+    doctor: slot.doctor,
+    date: slot.date,
+    startTime: slot.startTime,
+    endTime: slot.endTime,
+    id: slot.id
+  });
+}
+
 
 }
 

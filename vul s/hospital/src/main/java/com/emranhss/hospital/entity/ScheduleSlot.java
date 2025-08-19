@@ -2,7 +2,9 @@ package com.emranhss.hospital.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity
@@ -18,10 +20,17 @@ public class ScheduleSlot {
     private String endTime;
     private boolean isBooked;
 
+
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
-    @JsonBackReference
+    @JsonIgnoreProperties({"scheduleSlots", "department"})
     private Doctor doctor;
+
+
+
+
 
     public ScheduleSlot() {
     }

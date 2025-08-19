@@ -41,7 +41,7 @@ getDoctorsByDepartment(departmentId: number): Observable<Doctor[]> {
 
 
   getAllDoctor(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/all');
+    return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/');
   }
 
 

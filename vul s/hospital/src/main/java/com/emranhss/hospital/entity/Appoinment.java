@@ -3,6 +3,8 @@ package com.emranhss.hospital.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "appoinments")
 public class Appoinment {
@@ -30,6 +32,8 @@ public class Appoinment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "slot_id", nullable = false)
     private ScheduleSlot scheduleSlot;
+
+
 
     public Appoinment() {
     }

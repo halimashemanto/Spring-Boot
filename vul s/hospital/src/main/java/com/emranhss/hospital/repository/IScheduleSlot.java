@@ -14,6 +14,10 @@ public interface IScheduleSlot extends JpaRepository<ScheduleSlot,Long> {
 
 //    Optional<ScheduleSlot> findByDoctorId(long doctorId);
 
+    public ScheduleSlot findByName(String name);
+
+
+
 
     List<ScheduleSlot> findByDoctorId(long doctorId);
 

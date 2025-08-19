@@ -18,7 +18,7 @@ export class AddPatient {
 
   patients: Patient[] = [];
   doctors: Doctor[] = [];
-  departments: Department[] = [];
+  departments: any[] = [];
 
   patientForm!: FormGroup;
   isEditing: boolean = false;
@@ -56,6 +56,8 @@ export class AddPatient {
   loadPatients() {
     this.patientService.getAll().subscribe(data => {
       this.patients = data;
+              this.cdr.markForCheck();
+
     });
   }
 
@@ -68,23 +70,14 @@ export class AddPatient {
       });
   }
 
-  // 🟢 Departments
+
+
   loadDepartments() {
-    this.http.get<Department[]>('http://localhost:8080/api/department/')
-      .subscribe(data => {
-        this.departments = data;
-         this.cdr.markForCheck();
-      });
+    this.http.get<any[]>('http://localhost:8080/api/department/').subscribe({
+      next: data => this.departments = data,
+      error: err => console.error('Error fetching departments', err)
+    });
   }
-
-
-
-
-
-
-
-
-
   
 
   // 🟢 Save / Update

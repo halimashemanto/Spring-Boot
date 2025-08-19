@@ -1,6 +1,7 @@
 package com.emranhss.hospital.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -36,6 +37,7 @@ public class Patient {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Department department;
 
     // Constructors

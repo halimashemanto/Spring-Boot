@@ -1,5 +1,6 @@
 package com.emranhss.hospital.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,14 +19,19 @@ public class Department {
     private String description;
 
 
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"department", "scheduleSlots"})
+    private List<Doctor> doctors;
+
 
     public Department() {
     }
 
-    public Department(long id, String departmentName, String description) {
+    public Department(long id, String departmentName, String description, List<Doctor> doctors) {
         this.id = id;
         this.departmentName = departmentName;
         this.description = description;
+        this.doctors = doctors;
     }
 
     public long getId() {
@@ -50,5 +56,13 @@ public class Department {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
 }
