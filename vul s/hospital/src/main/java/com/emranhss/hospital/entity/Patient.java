@@ -1,5 +1,6 @@
 package com.emranhss.hospital.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -29,6 +30,8 @@ public class Patient {
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
+    @JsonIgnore
+
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)

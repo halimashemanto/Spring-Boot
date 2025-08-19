@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Patient } from '../model/patient.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from '../patient-service';
 import { Department } from '../../department/department/department';
 import { Doctor } from '../../doctor/model/doctor.model';
+import { DoctorService } from '../../doctor/doctor-service';
+import { DepartmentService } from '../../department/department-service';
+import { DepartmentModel } from '../../department/model/departmentModel.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-patient',
@@ -13,26 +17,29 @@ import { Doctor } from '../../doctor/model/doctor.model';
 })
 export class AddPatient {
 
- patientForm!: FormGroup;
+
+  patients: Patient[] = [];
   doctors: Doctor[] = [];
   departments: Department[] = [];
-  message: string = '';
-  editingPatientId?: number;
+
+  patientForm!: FormGroup;
+  isEditing: boolean = false;
+  selectedId?: number;
 
   constructor(
+    private patientService: PatientService,
     private fb: FormBuilder,
-    private patientService: PatientService
-  ) { }
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.initForm();
+    this.loadPatients();
     this.loadDoctors();
     this.loadDepartments();
-  }
 
-  initForm() {
     this.patientForm = this.fb.group({
-      date: [new Date()],
+      date: [''],
       name: [''],
       age: [''],
       gender: [''],
@@ -41,57 +48,71 @@ export class AddPatient {
       medicalHistory: [''],
       reason: [''],
       status: [''],
-      doctor: [''],
-      department: ['']
+      doctor: [null],
+      department: [null]
     });
   }
 
+  // 🟢 Patients
+  loadPatients() {
+    this.patientService.getAll().subscribe(data => {
+      this.patients = data;
+    });
+  }
+
+  // 🟢 Doctors
   loadDoctors() {
-    this.patientService.getAllDoctors().subscribe({
-      next: (res) => this.doctors = res,
-      error: (err) => console.error(err)
-    });
+    this.http.get<Doctor[]>('http://localhost:8080/api/doctor/')
+      .subscribe(data => {
+        this.doctors = data;
+        this.cdr.markForCheck();
+      });
   }
 
+  // 🟢 Departments
   loadDepartments() {
-    this.patientService.getAllDepartments().subscribe({
-      next: (res) => this.departments = res,
-      error: (err) => console.error(err)
-    });
+    this.http.get<Department[]>('http://localhost:8080/api/department/')
+      .subscribe(data => {
+        this.departments = data;
+         this.cdr.markForCheck();
+      });
   }
 
+  // 🟢 Save / Update
   onSubmit() {
-    if (this.patientForm.invalid) {
-      this.message = 'Please fill all required fields.';
-      return;
-    }
+    if (this.patientForm.invalid) return;
 
     const patient: Patient = this.patientForm.value;
 
-    if (this.editingPatientId) {
-      // Update existing patient
-      this.patientService.updatePatient(this.editingPatientId, patient).subscribe({
-        next: (res) => {
-          this.message = 'Patient updated successfully!';
-          this.patientForm.reset({ status: 'Active', date: new Date() });
-          this.editingPatientId = undefined;
-        },
-        error: (err) => this.message = 'Update failed: ' + err.message
+    if (this.isEditing && this.selectedId) {
+      this.patientService.update(this.selectedId, patient).subscribe(() => {
+        this.loadPatients();
+        this.resetForm();
       });
     } else {
-      // Create new patient
-      this.patientService.createPatient(patient).subscribe({
-        next: (res) => {
-          this.message = 'Patient added successfully!';
-        },
-        error: (err) => this.message = 'Creation failed: ' + err.message
+      this.patientService.create(patient).subscribe(() => {
+        this.loadPatients();
+        this.resetForm();
       });
     }
   }
 
-  editPatient(patient: Patient) {
-    this.editingPatientId = patient.id;
-    this.patientForm.patchValue(patient);
+  editPatient(p: Patient) {
+    this.isEditing = true;
+    this.selectedId = p.id;
+    this.patientForm.patchValue(p);
   }
 
+  deletePatient(id?: number) {
+    if (!id) return;
+    this.patientService.delete(id).subscribe(() => {
+      this.loadPatients();
+    });
+  }
+
+  resetForm() {
+    this.isEditing = false;
+    this.selectedId = undefined;
+        this.patientForm.reset();
+}
 }

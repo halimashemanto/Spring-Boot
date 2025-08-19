@@ -22,22 +22,22 @@ public class PatientService {
     @Autowired
     private IDepartmentRepository departmentRepo;
 
-//   public List<Patient> getAll() {
-//        return patientRepository.findAll();
-//   }
-//
-//    public Optional<Patient> getById(Long id) {
-//        return patientRepository.findById(id);
-//    }
-//
-//    public Patient save(Patient patient) {
-//        return patientRepository.save(patient);
-//    }
-//
-//    public void delete(Long id) {
-//        patientRepository.deleteById(id);
-//    }
-//
+   public List<Patient> getAll() {
+        return patientRepository.findAll();
+   }
+
+    public Optional<Patient> getById(Long id) {
+        return patientRepository.findById(id);
+    }
+
+    public Patient save(Patient patient) {
+        return patientRepository.save(patient);
+    }
+
+    public void delete(Long id) {
+        patientRepository.deleteById(id);
+    }
+
 
 
 

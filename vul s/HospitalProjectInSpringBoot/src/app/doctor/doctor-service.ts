@@ -35,28 +35,32 @@ export class DoctorService {
 
 
 
-
-
-
-  // getAllDoctor(): Observable<Doctor[]> {
-  //   return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/all');
-  // }
-getAllDoctor(): Observable<Doctor[]> {
-  let token = '';
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('token') || '';
+getDoctorsByDepartment(departmentId: number): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(`${this.baseUrl}by-department${departmentId}`);
   }
 
-  return this.http.get<Doctor[]>(
-    `${this.baseUrl}all`,  // baseUrl already ends with '/'
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      }
-    }
-  );
-}
+
+  getAllDoctor(): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/all');
+  }
+
+
+//    getAllDoctor(): Observable<Doctor[]> {
+//   let token = '';
+//   if (typeof window !== 'undefined') {
+//     token = localStorage.getItem('token') || '';
+//   }
+
+//   return this.http.get<Doctor[]>(
+//     `${this.baseUrl}all`,  // baseUrl already ends with '/'
+//     {
+//       headers: {
+//         'Authorization': `Bearer ${token}`,
+//         'Accept': 'application/json'
+//       }
+//     }
+//   );
+// }
 
 
 }
