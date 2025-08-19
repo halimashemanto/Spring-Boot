@@ -1,75 +1,54 @@
-<div class="container my-3" style="font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 500px;">
-  <h3 style="margin-bottom: 20px; color: #1877f2;">Create Schedule Slot</h3>
-
-  <form (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 15px;">
-
-    <!-- Doctor Selection -->
-    <div>
-      <label for="doctorSelect" style="font-weight: 600;">Select Doctor</label>
-      <select
-        id="doctorSelect"
-        [(ngModel)]="selectedDoctorId"
-        name="doctor"
-        [ngModelOptions]="{standalone: true}"
-        required
-        style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"
-      >
-        <option [ngValue]="null" disabled selected>Select a doctor</option>
-        <option *ngFor="let doctor of doctors" [ngValue]="doctor.id">
-          {{ doctor.name }} - {{ doctor.department }}
-        </option>
-      </select>
-    </div>
-
-    <!-- Date -->
-    <div>
-      <label style="font-weight: 600;">Date</label>
-      <input
-        type="date"
-        [(ngModel)]="slot.date"
-        name="date"
-        required
-        style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"
-      />
-    </div>
-
-    <!-- Start Time -->
-    <div>
-      <label style="font-weight: 600;">Start Time</label>
-      <input
-        type="time"
-        [(ngModel)]="slot.startTime"
-        name="startTime"
-        required
-        style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"
-      />
-    </div>
-
-    <!-- End Time -->
-    <div>
-      <label style="font-weight: 600;">End Time</label>
-      <input
-        type="time"
-        [(ngModel)]="slot.endTime"
-        name="endTime"
-        required
-        style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"
-      />
-    </div>
-
-    <button
-      type="submit"
-      style="padding: 10px 15px; background-color: #1877f2; color: white; border: none; border-radius: 6px; cursor: pointer;"
-    >
-      Create Slot
-    </button>
-  </form>
-
-  <!-- Created Slot Info
-  <div
-    *ngIf="createdSlot"
-    style="margin-top: 20px; padding: 10px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 6px; color: #155724;"
-  >
-    Slot created for Doctor ID: {{ createdSlot.doctor?.doctorId }} on {{ createdSlot.date }}
+<form [formGroup]="slotForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="doctor">Select Doctor:</label>
+    <select id="doctor" formControlName="doctor">
+      <option value="" disabled>Select a doctor</option>
+      <option *ngFor="let doc of doctors" [ngValue]="doc">{{ doc.name }}</option>
+    </select>
   </div>
-</div> -->
+
+  <div>
+    <label for="date">Date:</label>
+    <input type="date" id="date" formControlName="date" />
+  </div>
+
+  <div>
+    <label for="startTime">Start Time:</label>
+    <input type="time" id="startTime" formControlName="startTime" />
+  </div>
+
+  <div>
+    <label for="endTime">End Time:</label>
+    <input type="time" id="endTime" formControlName="endTime" />
+  </div>
+
+  <button type="submit">Add Slot</button>
+</form>
+
+<hr />
+
+<h3>All Schedule Slots</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Doctor</th>
+      <th>Date</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Booked</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let slot of slots">
+      <td>{{ slot.doctor?.name }}</td>
+      <td>{{ slot.date | date:'yyyy-MM-dd' }}</td>
+      <td>{{ slot.startTime }}</td>
+      <td>{{ slot.endTime }}</td>
+      <td>{{ slot.booked }}</td>
+      <td>
+        <button (click)="deleteSlot(slot.id!)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

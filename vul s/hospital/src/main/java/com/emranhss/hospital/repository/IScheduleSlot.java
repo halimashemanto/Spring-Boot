@@ -12,9 +12,9 @@ import java.util.Optional;
 @Repository
 public interface IScheduleSlot extends JpaRepository<ScheduleSlot,Long> {
 
-    Optional<ScheduleSlot> findByDoctorId(long doctorId);
+//    Optional<ScheduleSlot> findByDoctorId(long doctorId);
 
 
-
+    List<ScheduleSlot> findByDoctorId(long doctorId);
 
 }

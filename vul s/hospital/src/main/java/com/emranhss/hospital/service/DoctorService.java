@@ -37,4 +37,11 @@ public class DoctorService {
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
 
+//    ei getDoctorById slot pawar jnno banaici
+
+    public Doctor getDoctorById(Long doctorId) {
+        return doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new RuntimeException("Doctor not found with id " + doctorId));
+    }
+
 }

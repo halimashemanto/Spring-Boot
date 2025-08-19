@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Doctor } from '../doctor/model/doctor.model';
 import { Department } from '../department/department/department';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class PatientService {
 
 
-  private apiUrl = 'http://localhost:8080/api/patient/'; 
+  private apiUrl = environment.apiBaseUrl + '/api/patient/';; 
 
   constructor(private http: HttpClient) { }
   getAll(): Observable<Patient[]> {

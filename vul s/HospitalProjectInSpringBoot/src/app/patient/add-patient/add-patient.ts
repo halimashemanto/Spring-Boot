@@ -4,9 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from '../patient-service';
 import { Department } from '../../department/department/department';
 import { Doctor } from '../../doctor/model/doctor.model';
-import { DoctorService } from '../../doctor/doctor-service';
-import { DepartmentService } from '../../department/department-service';
-import { DepartmentModel } from '../../department/model/departmentModel.model';
+
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -52,6 +50,7 @@ export class AddPatient {
       department: [null]
     });
   }
+  
 
   // 🟢 Patients
   loadPatients() {
@@ -77,6 +76,16 @@ export class AddPatient {
          this.cdr.markForCheck();
       });
   }
+
+
+
+
+
+
+
+
+
+  
 
   // 🟢 Save / Update
   onSubmit() {
