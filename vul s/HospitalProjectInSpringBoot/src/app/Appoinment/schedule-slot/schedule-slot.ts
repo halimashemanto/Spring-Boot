@@ -5,8 +5,7 @@ import { Doctor } from '../../doctor/model/doctor.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleSlotModel } from '../model/scheduleSlotModel.model';
 import { DoctorService } from '../../doctor/doctor-service';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environment/environment';
+
 
 
 @Component({
@@ -93,13 +92,8 @@ onSubmit(): void {
     },
     error: err => console.error(err)
   });
+  this.cdr.markForCheck();
 }
-
-
-
-
-
-
 
   deleteSlot(slotId: number): void {
     if (confirm('Are you sure you want to delete this slot?')) {

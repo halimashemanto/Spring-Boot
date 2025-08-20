@@ -1,1 +1,93 @@
-<p>add-apooinment works!</p>
+<div class="container mt-4">
+  <h2>📅 Book Appointment</h2>
+
+  <!-- Appointment Form -->
+  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+
+    <!-- Patient Name -->
+    <div class="mb-3">
+      <label for="patientName" class="form-label">Patient Name</label>
+      <input
+        id="patientName"
+        type="text"
+        class="form-control"
+        formControlName="patientName"
+        placeholder="Enter patient name"
+      />
+    </div>
+
+    <!-- Patient Contact -->
+    <div class="mb-3">
+      <label for="patientContact" class="form-label">Patient Contact</label>
+      <input
+        id="patientContact"
+        type="text"
+        class="form-control"
+        formControlName="patientContact"
+        placeholder="Enter contact number"
+      />
+    </div>
+
+    <!-- Reason -->
+    <div class="mb-3">
+      <label for="reason" class="form-label">Reason</label>
+      <textarea
+        id="reason"
+        class="form-control"
+        formControlName="reason"
+        placeholder="Enter reason for appointment"
+      ></textarea>
+    </div>
+
+    <!-- Department -->
+    <div class="mb-3">
+      <label for="department" class="form-label">Department</label>
+      <select
+        id="department"
+        class="form-select"
+        formControlName="department"
+        (change)="loadDoctors()"
+      >
+        <option value="" disabled selected>Select Department</option>
+        <option *ngFor="let dept of departments" [ngValue]="dept">
+          {{ dept.departmentName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Doctor -->
+    <div class="mb-3">
+      <label for="doctor" class="form-label">Doctor</label>
+      <select
+        id="doctor"
+        class="form-select"
+        formControlName="doctor"
+        (change)="loadSlots()"
+      >
+        <option value="" disabled selected>Select Doctor</option>
+        <option *ngFor="let doc of doctors" [ngValue]="doc">
+          {{ doc.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Slot -->
+    <div class="mb-3">
+      <label for="scheduleSlot" class="form-label">Schedule Slot</label>
+      <select
+        id="scheduleSlot"
+        class="form-select"
+        formControlName="scheduleSlot"
+      >
+        <option value="" disabled selected>Select Slot</option>
+        <option *ngFor="let slot of slots" [ngValue]="slot" [disabled]="slot.booked">
+          {{ slot.startTime }} - {{ slot.endTime }}
+          <span *ngIf="slot.booked"> (Booked)</span>
+        </option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+  </form>
+</div>

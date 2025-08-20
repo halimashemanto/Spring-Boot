@@ -1,13 +1,14 @@
 import { Department } from "../../department/department/department";
 import { Doctor } from "../../doctor/model/doctor.model";
-import { ScheduleSlot } from "../schedule-slot/schedule-slot";
+import { ScheduleSlotModel } from "./scheduleSlotModel.model";
+
 
 export interface Appointment {
-  id: number;             
-  departmentId: Department;      
-  doctorId: Doctor;
-  scheduleSlotId: ScheduleSlot;
-      
+  id?: number;
+  department: Department;     
+  doctor: Doctor;
+  scheduleSlot: ScheduleSlotModel;
+
   patientName: string;
   patientContact: string;
   reason: string;
