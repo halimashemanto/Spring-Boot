@@ -12,6 +12,7 @@ import { Medicine } from './test/medicine/medicine';
 import { Department } from './department/department/department';
 import { ScheduleSlot } from './Appoinment/schedule-slot/schedule-slot';
 import { AddPatient } from './patient/add-patient/add-patient';
+import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path:'slot', component:ScheduleSlot},
   {path:'viewdoctor', component:ViewDoctor},
   {path:'addpatient', component:AddPatient},
+  {path:'appoinment', component:AddApooinment},
 ];
 
 @NgModule({

@@ -1,6 +1,5 @@
 package com.emranhss.hospital.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,11 +17,8 @@ public class Department {
     private String departmentName;
     private String description;
 
-
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"department", "scheduleSlots"})
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Doctor> doctors;
-
 
     public Department() {
     }

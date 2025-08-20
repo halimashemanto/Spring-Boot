@@ -1,7 +1,7 @@
 package com.emranhss.hospital.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -22,10 +22,9 @@ public class ScheduleSlot {
 
 
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id")
-    @JsonIgnoreProperties({"scheduleSlots", "department"})
+    @JsonIgnoreProperties({"slots"})
     private Doctor doctor;
 
 
