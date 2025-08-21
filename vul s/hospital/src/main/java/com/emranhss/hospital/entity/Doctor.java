@@ -35,8 +35,12 @@ public class Doctor {
 
 
 
-    @OneToMany(mappedBy = "doctor" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"doctor"})
+//    @OneToMany(mappedBy = "doctor" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonIgnoreProperties({"doctor"})
+//    private List<ScheduleSlot> slots;
+
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "slots"})
     private List<ScheduleSlot> slots;
 
 

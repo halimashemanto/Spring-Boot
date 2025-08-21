@@ -1,9 +1,11 @@
 package com.emranhss.hospital.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "prescriptions")
@@ -20,32 +22,34 @@ public class Prescription {
     private String bp;
     private Date date;
 
-    @JoinColumn(name = "medicine_id",nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Medicine medicine;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "test_id", nullable = false)
-    private Tests test;
 
-    @JoinColumn(name = "doctor_id",nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("prescription")
+    private List<Medicine> medicines;
+
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("prescription")
+    private List<Tests> tests;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    @JsonIgnoreProperties("prescription")
     private Doctor doctor;
 
-    public Prescription() {
-    }
 
-    public Prescription(Long id, Doctor doctor, Tests test, Date date, String weight, String note, String advice, String height, String bp, Medicine medicine) {
-        this.id = id;
-        this.doctor = doctor;
-        this.test = test;
-        this.date = date;
-        this.weight = weight;
-        this.note = note;
-        this.advice = advice;
-        this.height = height;
-        this.bp = bp;
-        this.medicine = medicine;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id", nullable = false)
+    @JsonIgnoreProperties("prescriptions")
+    private Appoinment appointment;
+
+
+
+
+
+
+
+    public Prescription() {
     }
 
     public Long getId() {
@@ -56,20 +60,20 @@ public class Prescription {
         this.id = id;
     }
 
-    public String getAdvice() {
-        return advice;
-    }
-
-    public void setAdvice(String advice) {
-        this.advice = advice;
-    }
-
     public String getNote() {
         return note;
     }
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getAdvice() {
+        return advice;
+    }
+
+    public void setAdvice(String advice) {
+        this.advice = advice;
     }
 
     public String getHeight() {
@@ -104,20 +108,20 @@ public class Prescription {
         this.date = date;
     }
 
-    public Medicine getMedicine() {
-        return medicine;
+    public List<Medicine> getMedicines() {
+        return medicines;
     }
 
-    public void setMedicine(Medicine medicine) {
-        this.medicine = medicine;
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
     }
 
-    public Tests getTest() {
-        return test;
+    public List<Tests> getTests() {
+        return tests;
     }
 
-    public void setTest(Tests test) {
-        this.test = test;
+    public void setTests(List<Tests> tests) {
+        this.tests = tests;
     }
 
     public Doctor getDoctor() {
@@ -126,5 +130,13 @@ public class Prescription {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public Appoinment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appoinment appointment) {
+        this.appointment = appointment;
     }
 }

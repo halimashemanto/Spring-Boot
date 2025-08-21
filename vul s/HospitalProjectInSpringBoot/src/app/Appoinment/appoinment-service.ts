@@ -3,6 +3,7 @@ import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { Appointment } from './model/appoinment.model';
 import { Observable } from 'rxjs';
+import { Doctor } from '../doctor/model/doctor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,9 @@ export class AppoinmentService {
   cancelAppointment(id: number): Observable<string> {
     return this.http.delete<string>(`${this.baseUrl}/${id}`);
   }
+getDoctorsByDepartment(deptId: number) {
+  return this.http.get<Doctor[]>(`${this.baseUrl}/doctor/by-department/${deptId}`);
+}
 
   getAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.baseUrl);
