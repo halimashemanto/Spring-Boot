@@ -17,24 +17,38 @@ export class AppoinmentService {
   constructor(private http: HttpClient) { }
 
 
+
+
+
+ // Book new appointment
   bookAppointment(appointment: Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>(this.baseUrl, appointment);
+    return this.http.post<Appointment>(`${this.baseUrl}`, appointment);
   }
 
-
+  // Cancel appointment by ID
   cancelAppointment(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
   }
 getDoctorsByDepartment(deptId: number) {
   return this.http.get<Doctor[]>(`${this.baseUrl}/doctor/by-department/${deptId}`);
 }
 
-  getAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.baseUrl);
-  }
 
-  getAppointmentById(id: number): Observable<Appointment> {
-    return this.http.get<Appointment>(`${this.baseUrl}/${id}`);
-  }
+  // bookAppointment(appointment: Appointment): Observable<Appointment> {
+  //   return this.http.post<Appointment>(this.baseUrl, appointment);
+  // }
+
+
+  // cancelAppointment(id: number): Observable<string> {
+  //   return this.http.delete<string>(`${this.baseUrl}/${id}`);
+  // }
+
+  // getAppointments(): Observable<Appointment[]> {
+  //   return this.http.get<Appointment[]>(this.baseUrl);
+  // }
+
+  // getAppointmentById(id: number): Observable<Appointment> {
+  //   return this.http.get<Appointment>(`${this.baseUrl}/${id}`);
+  // }
 
 }

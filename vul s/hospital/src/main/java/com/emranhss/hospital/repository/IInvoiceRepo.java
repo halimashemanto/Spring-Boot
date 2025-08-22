@@ -1,4 +1,10 @@
 package com.emranhss.hospital.repository;
 
-public interface IInvoiceRepo {
+
+import com.emranhss.hospital.entity.Invoice;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface IInvoiceRepo extends JpaRepository<Invoice,Long> {
 }

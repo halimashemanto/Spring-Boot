@@ -13,13 +13,16 @@ public class Tests {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String testName;
-    private long testPrice;
+    private Double testPrice;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prescription_id")
     private Prescription prescription;  // ✅ match mappedBy
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
 
     public Tests() {
     }
@@ -40,11 +43,11 @@ public class Tests {
         this.testName = testName;
     }
 
-    public long getTestPrice() {
+    public Double getTestPrice() {
         return testPrice;
     }
 
-    public void setTestPrice(long testPrice) {
+    public void setTestPrice(Double testPrice) {
         this.testPrice = testPrice;
     }
 
@@ -54,5 +57,11 @@ public class Tests {
 
     public void setPrescription(Prescription prescription) {
         this.prescription = prescription;
+    }
+    public Invoice getInvoice() {
+        return invoice;
+    }
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }
