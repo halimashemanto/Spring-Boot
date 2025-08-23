@@ -27,39 +27,15 @@ public class Invoice {
     private Boolean status;
     private String preparedBy;
 
-//
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "appoinment_id", nullable = false)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//
-//    private Appoinment appoinment;
-//
-//
-//    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JoinColumn(name = "doctor_id", nullable = false)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//
-//    private Doctor doctor;
-//
-//
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "invoice_id")
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//
-//    private List<Tests> tests;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     @JsonIgnore
-
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appoinment_id", nullable = false)
     @JsonIgnore
-
     private Appoinment appoinment;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -73,22 +49,11 @@ public class Invoice {
                 .mapToDouble(t -> t.getTestPrice() != null ? t.getTestPrice() : 0.0)
                 .sum() : 0.0;
 
-
         this.totalDiscount = (this.discount != null) ? this.discount : 0.0;
-
-        // amount - discount
         this.totalAmount = this.amount - this.totalDiscount;
-
-        // payable
         this.payable = this.totalAmount;
-
-        // received default 0
         double receivedAmount = (this.received != null) ? this.received : 0.0;
-
-        // due
         this.due = this.payable - receivedAmount;
-
-        // status
         this.status = this.due <= 0;
     }
 

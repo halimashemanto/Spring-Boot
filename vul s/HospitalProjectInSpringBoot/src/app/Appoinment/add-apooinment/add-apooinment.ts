@@ -8,6 +8,7 @@ import { DepartmentModel } from '../../department/model/departmentModel.model';
 import { ScheduleSlotService } from '../schedule-slot-service';
 import { DoctorService } from '../../doctor/doctor-service';
 import { DepartmentService } from '../../department/department-service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-apooinment',
@@ -17,87 +18,91 @@ import { DepartmentService } from '../../department/department-service';
 })
 export class AddApooinment {
 
-  appointmentForm: FormGroup;
+  appoinments: any[] = [];
+  doctors: any[] = [];
+  scheduleSlot: any[] = [];
+  departments: any[] = [];
 
-  departments: DepartmentModel[] = [];
-  doctors: Doctor[] = [];
-  slots: ScheduleSlotModel[] = [];
+  selectedAppoinment: number = 0;
+  selectedDepartment: number = 0;
+  selectedDoctor: number = 0;
+  selectedScheduleSlot: number = 0;
 
-  constructor(
-    private fb: FormBuilder,
-    private departmentService: DepartmentService,
-    private doctorService: DoctorService,
-    private slotService: ScheduleSlotService,
-    private appointmentService: AppoinmentService
-  ) {
-    this.appointmentForm = this.fb.group({
-      patientName: [''],
-      patientContact: [''],
-      reason: [''],
-      doctor: [null],
-      department: [null],
-      scheduleSlot: [null]
-    });
+  patientContact: string = '';
+  patientName: string = '';
+  reason: string = '';
 
-  }
+  constructor(private appoinmentService: AppoinmentService,
+
+    private cdr: ChangeDetectorRef
+  ) {}
+
 
   ngOnInit(): void {
     this.loadDepartments();
   }
 
-  loadDepartments(): void {
-    this.departmentService.getAllDepartment().subscribe({
-      next: (data) => this.departments = data,
-      error: (err) => console.error(err)
+  loadDepartments() {
+    this.appoinmentService.getAppointments().subscribe(data => {
+      this.appoinments = data;
     });
   }
 
-  loadDoctors(): void {
-    const departmentId = this.appointmentForm.value.departmentId;
-    this.doctorService.getDoctorsByDepartment(departmentId).subscribe({
-      next: (data) => this.doctors = data,
-      error: (err) => console.error(err)
-    });
-  }
+  onDepartmentChange() {
+    this.departments= [];
+    this.doctors = [];
+    this.scheduleSlot = [];
+    this.selectedDepartment = 0;
+    this.selectedDoctor = 0;
+    this.selectedScheduleSlot = 0;
 
-  loadSlots(): void {
-    
-    const doctorId = this.appointmentForm.value.doctorId;
-    this.slotService.getAllSlots().subscribe({
-      next: (data) => this.slots = data,
-      error: (err) => console.error(err)
-    });
-  }
-
-  onSubmit(): void {
-    if (this.appointmentForm.invalid) {
-      alert('Fill all fields.');
-      return;
+    if (this.selectedDepartment) {
+      this.appoinmentService.getDoctorsByDepartment(this.selectedDepartment).subscribe(data => {
+        this.doctors = data;
+        this.cdr.markForCheck();
+      });
     }
+  }
 
-    const appt: Appointment = {
-      department: this.appointmentForm.value.department,
-      doctor: this.appointmentForm.value.doctor,
-      scheduleSlot: this.appointmentForm.value.scheduleSlot,
-      patientName: this.appointmentForm.value.patientName,
-      patientContact: this.appointmentForm.value.patientContact,
-      reason: this.appointmentForm.value.reason
+  onDoctorChange() {
+    this.scheduleSlot = [];
+   
+    this.selectedScheduleSlot = 0;
+   
+
+    if (this.selectedDoctor) {
+      this.appoinmentService.getScheduleSlotByDoctor(this.selectedDoctor).subscribe(data => {
+        this.scheduleSlot = data;
+        this.cdr.markForCheck();
+      });
+    }
+  }
+
+  onScheduleSlotChange() {
+    this.scheduleSlot = [];
+    this.selectedScheduleSlot = 0;
+
+    if (this.selectedScheduleSlot) {
+      this.appoinmentService.getScheduleSlotByDoctor(this.selectedScheduleSlot).subscribe(data => {
+        this.scheduleSlot = data;
+        this.cdr.markForCheck();
+      });
+    }
+  }
+
+  saveAppoinmrnt() {
+    const appoinment = {
+      patientName: this.patientName,
+      patientContact: this.patientContact,
+      reason: this.reason,
+    departments: { id: this.selectedDepartment },
+      doctors: { id: this.selectedDoctor },
+      scheduleSlot: { id: this.selectedScheduleSlot }
     };
 
-    this.appointmentService.bookAppointment(appt).subscribe({
-      next: () => {
-
-        const selectedSlot = this.slots.find(s => s.id === appt.id);
-        if (selectedSlot) {
-          selectedSlot.booked = true;
-
-        }
-        alert('Appointment booked successfully!');
-        this.appointmentForm.reset();
-        this.slots = [];
-        this.doctors = [];
-      },
-      error: (err) => console.error(err)
+    this.appoinmentService.saveAppoinment(appoinment).subscribe(() => {
+      this.cdr.markForCheck();
+      alert('Appointment saved successfully!');
     });
   }
 }

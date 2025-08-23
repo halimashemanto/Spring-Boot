@@ -1,5 +1,6 @@
 package com.emranhss.hospital.service;
 
+import com.emranhss.hospital.dto.InvoiceDTO;
 import com.emranhss.hospital.entity.Appoinment;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.Invoice;
@@ -43,57 +44,45 @@ public class InvoiceService {
         this.appoinmentRepository = appoinmentRepository;
     }
 
+
     @Transactional
-    public Invoice saveInvoice(Invoice invoice) {
-        // 1️⃣ Check doctor
-        Doctor doctor = Optional.ofNullable(invoice.getDoctor())
-                .map(d -> doctorRepository.findById(d.getId())
-                        .orElseThrow(() -> new RuntimeException("Doctor not found!")))
+    public Invoice saveInvoice(InvoiceDTO dto) {
+        // 1️⃣ Doctor
+        Doctor doctor = doctorRepository.findById(dto.getDoctorId())
                 .orElseThrow(() -> new RuntimeException("Doctor must be provided!"));
 
+        // 2️⃣ Appointment (optional)
+        Appoinment appoinment = null;
+        if (dto.getAppoinmentId() != null) {
+            appoinment = appoinmentRepository.findById(dto.getAppoinmentId())
+                    .orElseThrow(() -> new RuntimeException("Appointment not found!"));
+        }
+
+        // 3️⃣ Tests
+        List<Tests> tests = testsRepository.findAllById(dto.getTestIds());
+
+        // 4️⃣ Create Invoice
+        Invoice invoice = new Invoice();
         invoice.setDoctor(doctor);
-
-        // 2️⃣ Check appointment
-        Appoinment appoinment = Optional.ofNullable(invoice.getAppoinment())
-                .map(a -> appoinmentRepository.findById(a.getId())
-                        .orElseThrow(() -> new RuntimeException("Appoinment not found!")))
-                .orElse(null); // appointment optional
         invoice.setAppoinment(appoinment);
+        invoice.setTests(tests);
+        invoice.setDiscount(dto.getDiscount());
+        invoice.setInvoiceDate(dto.getInvoiceDate());
+        invoice.setDeliveryDate(dto.getDeliveryDate());
+        invoice.setDeliveryTime(dto.getDeliveryTime());
 
-        // 3️⃣ Merge tests
-        if(invoice.getTests() != null) {
-            for(int i = 0; i < invoice.getTests().size(); i++) {
-                Tests test = invoice.getTests().get(i);
-                invoice.getTests().set(i, entityManager.merge(test));
-            }
-        }
+        // 5️⃣ Calculate total, payable, due
+        invoice.calculateTotal();
 
-        // 4️⃣ Calculate totalAmount
-        double total = 0;
-        if(invoice.getTests() != null) {
-            total = invoice.getTests().stream()
-                    .mapToDouble(Tests::getTestPrice)
-                    .sum();
-        }
-        if(invoice.getDiscount() != null) {
-            total -= invoice.getDiscount();
-        }
-        invoice.setTotalAmount(total);
-
-        // 5️⃣ Save invoice
         return invoiceRepository.save(invoice);
     }
-
-
 
     public List<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();
     }
 
-
     public Optional<Invoice> getInvoiceById(Long id) {
         return invoiceRepository.findById(id);
     }
-
 
 }

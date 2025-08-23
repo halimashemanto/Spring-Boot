@@ -1,6 +1,8 @@
 package com.emranhss.hospital.restController;
 
 
+import com.emranhss.hospital.Mapper.InvoiceMapper;
+import com.emranhss.hospital.dto.InvoiceDTO;
 import com.emranhss.hospital.entity.Invoice;
 import com.emranhss.hospital.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/invoice")
@@ -17,76 +20,38 @@ public class InvoiceRestController {
     private  InvoiceService invoiceService;
 
     @Autowired
-    public InvoiceRestController(InvoiceService invoiceService) {
+    private InvoiceMapper invoiceMapper;
+
+    @Autowired
+    public InvoiceRestController(InvoiceService invoiceService, InvoiceMapper invoiceMapper) {
         this.invoiceService = invoiceService;
+        this.invoiceMapper = invoiceMapper;
     }
 
-
-
-
+    // Create Invoice
     @PostMapping
-
-    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
-        Invoice savedInvoice = invoiceService.saveInvoice(invoice);
-        return ResponseEntity.ok(savedInvoice);
+    public ResponseEntity<InvoiceDTO> createInvoice(@RequestBody InvoiceDTO dto) {
+        Invoice savedInvoice = invoiceService.saveInvoice(dto);
+        InvoiceDTO response = invoiceMapper.toDto(savedInvoice);
+        return ResponseEntity.ok(response);
     }
 
-    // ✅ Get all invoices
+    // Get All Invoices
     @GetMapping
-    public ResponseEntity<List<Invoice>> getAllInvoices() {
-        List<Invoice> invoices = invoiceService.getAllInvoices();
+    public ResponseEntity<List<InvoiceDTO>> getAllInvoices() {
+        List<InvoiceDTO> invoices = invoiceService.getAllInvoices()
+                .stream()
+                .map(invoiceMapper::toDto)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(invoices);
     }
 
-    // ✅ Get invoice by ID
+    // Get Invoice by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Invoice> getInvoiceById(@PathVariable Long id) {
+    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long id) {
         return invoiceService.getInvoiceById(id)
+                .map(invoiceMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    @PostMapping
-//    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
-//        Invoice savedInvoice = invoiceService.saveInvoice(invoice);
-//        return ResponseEntity.ok(savedInvoice);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<Invoice>> getAllInvoices() {
-//        List<Invoice> invoices = invoiceService.getAllInvoices();
-//        return ResponseEntity.ok(invoices);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Invoice> getInvoiceById(@PathVariable Long id) {
-//        return invoiceService.getInvoiceById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Invoice> updateInvoice(@PathVariable Long id, @RequestBody Invoice updatedInvoice) {
-//        Invoice invoice = invoiceService.updateInvoice(id, updatedInvoice);
-//        return ResponseEntity.ok(invoice);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteInvoice(@PathVariable Long id) {
-//        invoiceService.deleteInvoice(id);
-//        return ResponseEntity.noContent().build();
-//    }
-
 }

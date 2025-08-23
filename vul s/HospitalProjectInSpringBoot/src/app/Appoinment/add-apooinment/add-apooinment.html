@@ -1,93 +1,48 @@
+
 <div class="container mt-4">
-  <h2>📅 Book Appointment</h2>
+  <h3>Appointment</h3>
 
-  <!-- Appointment Form -->
-  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+  <div class="form-group mb-2">
+    <label>Patient Name</label>
+    <input type="text" class="form-control" [(ngModel)]="patientName">
+  </div>
 
-    <!-- Patient Name -->
-    <div class="mb-3">
-      <label for="patientName" class="form-label">Patient Name</label>
-      <input
-        id="patientName"
-        type="text"
-        class="form-control"
-        formControlName="patientName"
-        placeholder="Enter patient name"
-      />
-    </div>
+  <div class="form-group mb-2">
+    <label>Patient contact</label>
+    <input type="text" class="form-control" [(ngModel)]="patientContact">
+  </div>
 
-    <!-- Patient Contact -->
-    <div class="mb-3">
-      <label for="patientContact" class="form-label">Patient Contact</label>
-      <input
-        id="patientContact"
-        type="text"
-        class="form-control"
-        formControlName="patientContact"
-        placeholder="Enter contact number"
-      />
-    </div>
+  <div class="form-group mb-2">
+    <label>Department</label>
+    <select class="form-select" [(ngModel)]="selectedDepartment" (change)="onDepartmentChange()">
+      <option value="">-- Select Department --</option>
+      <option *ngFor="let c of departments" [value]="c.id">{{ c.name }}</option>
+    </select>
+  </div>
 
-    <!-- Reason -->
-    <div class="mb-3">
-      <label for="reason" class="form-label">Reason</label>
-      <textarea
-        id="reason"
-        class="form-control"
-        formControlName="reason"
-        placeholder="Enter reason for appointment"
-      ></textarea>
-    </div>
+  <div class="form-group mb-2">
+    <label>Doctor</label>
+    <select class="form-select" [(ngModel)]="selectedDoctor" (change)="onDoctorChange()">
+      <option value="">-- Select Doctor --</option>
+      <option *ngFor="let d of doctors" [value]="d.id">{{ d.name }}</option>
+    </select>
+  </div>
 
-    <!-- Department -->
-    <div class="mb-3">
-      <label for="department" class="form-label">Department</label>
-      <select
-        id="department"
-        class="form-select"
-        formControlName="department"
-        (change)="loadDoctors()"
-      >
-        <option value="" disabled selected>Select Department</option>
-        <option *ngFor="let dept of departments" [ngValue]="dept">
-          {{ dept.departmentName }}
-        </option>
-      </select>
-    </div>
+  <div class="form-group mb-2">
+    <label>Schedule Slot</label>
+    <select class="form-select" [(ngModel)]="selectedScheduleSlot" (change)="onScheduleSlotChange()">
+      <option value="">-- Select Schedule Slot --</option>
+      <option *ngFor="let d of scheduleSlot" [value]="d.id">{{ d.name }}</option>
+    </select>
+  </div>
 
-    <!-- Doctor -->
-    <div class="mb-3">
-      <label for="doctor" class="form-label">Doctor</label>
-      <select
-        id="doctor"
-        class="form-select"
-        formControlName="doctor"
-        (change)="loadSlots()"
-      >
-        <option value="" disabled selected>Select Doctor</option>
-        <option *ngFor="let doc of doctors" [ngValue]="doc">
-          {{ doc.name }}
-        </option>
-      </select>
-    </div>
+  <!-- <div class="form-group mb-3">
+    <label>Police Station</label>
+    <select class="form-select" [(ngModel)]="selectedPoliceStation">
+      <option value="">-- Select Police Station --</option>
+      <option *ngFor="let ps of policeStations" [value]="ps.id">{{ ps.name }}</option>
+    </select>
+  </div> -->
 
-    <!-- Slot -->
-    <div class="mb-3">
-      <label for="scheduleSlot" class="form-label">Schedule Slot</label>
-      <select
-        id="scheduleSlot"
-        class="form-select"
-        formControlName="scheduleSlot"
-      >
-        <option value="" disabled selected>Select Slot</option>
-        <option *ngFor="let slot of slots" [ngValue]="slot" [disabled]="slot.booked">
-          {{ slot.startTime }} - {{ slot.endTime }}
-          <span *ngIf="slot.booked"> (Booked)</span>
-        </option>
-      </select>
-    </div>
-
-    <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary">Book Appointment</button>
-  </form>
+  <button class="btn btn-primary" (click)="saveAppoinmrnt()">Save Address</button>
 </div>

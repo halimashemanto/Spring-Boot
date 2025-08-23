@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Appointment } from './model/appoinment.model';
 import { Observable } from 'rxjs';
 import { Doctor } from '../doctor/model/doctor.model';
@@ -9,46 +9,59 @@ import { Doctor } from '../doctor/model/doctor.model';
   providedIn: 'root'
 })
 export class AppoinmentService {
-  
 
 
- private baseUrl = environment.apiBaseUrl + '/api/appoinment';
+
+  private baseUrl = environment.apiBaseUrl + '/api/';
 
   constructor(private http: HttpClient) { }
 
 
 
+  
+
+//  getAppointments() {
+//     const token = localStorage.getItem('token'); // login er por save kora JWT
+//     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+//     return this.http.get<any[]>(this.baseUrl, { headers });
+//   }
 
 
- // Book new appointment
-  bookAppointment(appointment: Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>(`${this.baseUrl}`, appointment);
-  }
+   saveAppoinment(appoinment: any): Observable<any> {
+        return this.http.post(`${this.baseUrl}`, appoinment);
+    }
 
-  // Cancel appointment by ID
   cancelAppointment(id: number): Observable<string> {
-    return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
+    return this.http.delete<string>(`${this.baseUrl}/${id}`);
   }
-getDoctorsByDepartment(deptId: number) {
-  return this.http.get<Doctor[]>(`${this.baseUrl}/doctor/by-department/${deptId}`);
-}
 
 
-  // bookAppointment(appointment: Appointment): Observable<Appointment> {
-  //   return this.http.post<Appointment>(this.baseUrl, appointment);
-  // }
+  getAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.baseUrl);
+  }
+
+  getAppointmentById(id: number): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.baseUrl}/${id}`);
+  }
+
+  findByContact(contact: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}?contact=${contact}`);
+  }
 
 
-  // cancelAppointment(id: number): Observable<string> {
-  //   return this.http.delete<string>(`${this.baseUrl}/${id}`);
-  // }
 
-  // getAppointments(): Observable<Appointment[]> {
-  //   return this.http.get<Appointment[]>(this.baseUrl);
-  // }
 
-  // getAppointmentById(id: number): Observable<Appointment> {
-  //   return this.http.get<Appointment>(`${this.baseUrl}/${id}`);
-  // }
+  getDepartments(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/department/`);
+  }
+
+  getDoctorsByDepartment(deptId: number) {
+    return this.http.get<any[]>(`${this.baseUrl}/doctor/by-department/${deptId}`);
+  }
+
+  getScheduleSlotByDoctor(doctorId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/slot/by-doctor/${doctorId}`);
+  }
+
 
 }

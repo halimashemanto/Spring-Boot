@@ -20,16 +20,13 @@ public class AppoinmentService {
     @Autowired
     private IScheduleSlot slotRepo;
 
-    @Autowired
-    private IDepartmentRepository departmentRepo;
+ 
 
-    @Autowired
-    private IDoctorRepo doctorRepo;
 
 
 
     public Appoinment bookAppointment(Appoinment appointment) {
-        // Load slot from DB to make sure it's valid
+
         ScheduleSlot slot = slotRepo.findById(appointment.getScheduleSlot().getId())
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
 
@@ -37,14 +34,14 @@ public class AppoinmentService {
             throw new RuntimeException("Slot already booked!");
         }
 
-        // Mark slot as booked
+
         slot.setBooked(true);
         slotRepo.save(slot);
 
-        // Attach slot back to appointment
+
         appointment.setScheduleSlot(slot);
 
-        // Save appointment
+
         return appointmentRepo.save(appointment);
     }
 
@@ -53,12 +50,12 @@ public class AppoinmentService {
         Appoinment appointment = appointmentRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-        // Free up slot
+
         ScheduleSlot slot = appointment.getScheduleSlot();
         slot.setBooked(false);
         slotRepo.save(slot);
 
-        // Delete appointment
+
         appointmentRepo.delete(appointment);
     }
 
