@@ -58,6 +58,8 @@ public class SecurityConfig {
                                         "/api/patient/",
                                         "/api/invoice",
                                         "/api/invoice/**",
+                                        "/api/report",
+                                        "/api/report/**",
                                         "/api/appoinment",
                                         "/api/appoinment/**",
                                         "/api/patient/**")

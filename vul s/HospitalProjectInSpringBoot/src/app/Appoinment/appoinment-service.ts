@@ -3,7 +3,7 @@ import { environment } from '../../environment/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Appointment } from './model/appoinment.model';
 import { Observable } from 'rxjs';
-import { Doctor } from '../doctor/model/doctor.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +12,9 @@ export class AppoinmentService {
 
 
 
-  private baseUrl = environment.apiBaseUrl + '/api/';
+  private baseUrl = environment.apiBaseUrl + '/api/appoinment';
 
   constructor(private http: HttpClient) { }
-
-
-
-  
-
-//  getAppointments() {
-//     const token = localStorage.getItem('token'); // login er por save kora JWT
-//     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-//     return this.http.get<any[]>(this.baseUrl, { headers });
-//   }
 
 
    saveAppoinment(appoinment: any): Observable<any> {

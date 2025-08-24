@@ -29,21 +29,12 @@ public class Doctor {
     private Date joinDate;
     private String photo;
 
-//
-//    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
-//    private List<ScheduleSlot> scheduleSlots;
-
-
-
-//    @OneToMany(mappedBy = "doctor" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties({"doctor"})
-//    private List<ScheduleSlot> slots;
-
     @OneToMany(mappedBy = "doctor")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "slots"})
     private List<ScheduleSlot> slots;
 
-
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reports;
 
     @ManyToOne(fetch = FetchType.LAZY) // Lazy load to avoid big joins unless needed
     @JoinColumn(name = "department_id") // FK column
@@ -53,24 +44,26 @@ public class Doctor {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
-
     private User user;
 
 
     public Doctor() {
     }
 
-    public Doctor(long id, String photo, Date joinDate, String study, String gender, String email, String name, String phone, String status,  String chamber, User user) {
+    public Doctor(long id, String name, String email, String phone, String gender, String status, String study, String chamber, Date joinDate, String photo, List<ScheduleSlot> slots, List<Report> reports, Department department, User user) {
         this.id = id;
-        this.photo = photo;
-        this.joinDate = joinDate;
-        this.study = study;
-        this.gender = gender;
-        this.email = email;
         this.name = name;
+        this.email = email;
         this.phone = phone;
+        this.gender = gender;
         this.status = status;
+        this.study = study;
         this.chamber = chamber;
+        this.joinDate = joinDate;
+        this.photo = photo;
+        this.slots = slots;
+        this.reports = reports;
+        this.department = department;
         this.user = user;
     }
 
@@ -177,5 +170,13 @@ public class Doctor {
 
     public void setSlots(List<ScheduleSlot> slots) {
         this.slots = slots;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

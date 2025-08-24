@@ -25,6 +25,7 @@ import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
 import { AddPatient } from './patient/add-patient/add-patient';
 import { ViewPatient } from './patient/view-patient/view-patient';
 import { AddInvoice } from './invoice/add-invoice/add-invoice';
+import { AddReport } from './report/add-report/add-report';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { AddInvoice } from './invoice/add-invoice/add-invoice';
         AddApooinment,
         AddPatient,
         ViewPatient,
-        AddInvoice
+        AddInvoice,
+        AddReport
   ],
   imports: [
     BrowserModule,
