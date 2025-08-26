@@ -16,7 +16,7 @@
     <label>Department</label>
     <select class="form-select" [(ngModel)]="selectedDepartment" (change)="onDepartmentChange()">
       <option value="">-- Select Department --</option>
-      <option *ngFor="let c of departments" [value]="c.id">{{ c.name }}</option>
+      <option *ngFor="let c of departments" [value]="c.id">{{ c.departmentName }}</option>
     </select>
   </div>
 
@@ -30,19 +30,13 @@
 
   <div class="form-group mb-2">
     <label>Schedule Slot</label>
-    <select class="form-select" [(ngModel)]="selectedScheduleSlot" (change)="onScheduleSlotChange()">
+    <select class="form-select" [(ngModel)]="selectedScheduleSlot" >
       <option value="">-- Select Schedule Slot --</option>
-      <option *ngFor="let d of scheduleSlot" [value]="d.id">{{ d.name }}</option>
+      <option *ngFor="let d of scheduleSlot" [value]="d.id">{{ d.startTime }}</option>
     </select>
   </div>
 
-  <!-- <div class="form-group mb-3">
-    <label>Police Station</label>
-    <select class="form-select" [(ngModel)]="selectedPoliceStation">
-      <option value="">-- Select Police Station --</option>
-      <option *ngFor="let ps of policeStations" [value]="ps.id">{{ ps.name }}</option>
-    </select>
-  </div> -->
 
-  <button class="btn btn-primary" (click)="saveAppoinmrnt()">Save Address</button>
+
+  <button class="btn btn-primary" (click)="saveAppoinmrnt()">Save Appointment </button>
 </div>

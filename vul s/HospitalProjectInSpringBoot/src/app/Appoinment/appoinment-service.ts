@@ -42,16 +42,20 @@ export class AppoinmentService {
 
 
   getDepartments(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/department/`);
+    return this.http.get<any[]>("http://localhost:8080/api/department/");
   }
 
   getDoctorsByDepartment(deptId: number) {
-    return this.http.get<any[]>(`${this.baseUrl}/doctor/by-department/${deptId}`);
+    return this.http.get<any[]>("http://localhost:8080/api/doctor/by-department/"+deptId);
   }
 
   getScheduleSlotByDoctor(doctorId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/slot/by-doctor/${doctorId}`);
+    return this.http.get<any[]>("http://localhost:8080/api/slot/doctor/"+doctorId);
   }
+
+
+
+
 
 
 }

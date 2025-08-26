@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Doctor } from '../../doctor/model/doctor.model';
 import { ReportService } from '../report-service';
 import { DoctorService } from '../../doctor/doctor-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-report',
@@ -13,82 +14,106 @@ import { DoctorService } from '../../doctor/doctor-service';
 export class AddReport {
 
 
-  reportForm: FormGroup;
+
+ 
   doctors: Doctor[] = [];
-  report: any[] = [];
+  reports: Report[] = [];
+
+    reportForm!: FormGroup;
+  isEditing: boolean = false;
+  selectedId?: number;
 
   constructor(
     private fb: FormBuilder,
+    private http: HttpClient,
     private reportService: ReportService,
     private doctorService: DoctorService,
-    private cdr : ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {
     this.reportForm = this.fb.group({
-      doctor: [null],
-      date: [''],
-      startTime: [''],
-      endTime: [''],
-      isBooked: [false]
+      reportResult: [''],
+      description: [''],
+      sampleId: [''],
+      interpretation: [''],
+      patientName: [''],
+      testDate: [''],
+      createDate: [''],
+      deliveryDate: [''],
+      doctor: [null
+        
+      ]
     });
   }
-
-  ngOnInit(): void {
+ ngOnInit(): void {
     this.loadDoctors();
-    this.loadReport();
+    this.loadReports();
   }
+
 
   loadDoctors(): void {
-    this.doctorService.getAllDoctor().subscribe({
-      
-      next: (data) => this.doctors = data,
+    this.reportService.getAllDoctor().subscribe({
+      next: (data: Doctor[]) => {
+        this.doctors = data || [];
+        this.cdr.markForCheck();
+      },
       error: (err) => console.error('Error loading doctors', err)
-      
     });
-    this.cdr.markForCheck();
   }
 
- 
-loadReport(): void {
-  this.reportService.getAllReport().subscribe({
-    next: (data) => {
-      this.report = data.map(slot => ({
-        ...this.report,
-        doctor: slot.doctor || { doctorName: 'Unknown' } 
-      }));
-    },
-    error: err => console.error(err)
-  });
-  this.cdr.markForCheck();
-}
+  loadReports(): void {
+    this.reportService.getAllReport().subscribe({
+      next: (data: any) => {
+    
+        let reportsArray: Report[] = [];
+        if (Array.isArray(data)) {
+          reportsArray = data;
+        } else if (data && Array.isArray(data.content)) {
+          reportsArray = data.content;
+        }
 
+       
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Error loading reports', err)
+    });
+  }
 
+  // onSubmit(): void {
+  //   if (this.reportForm.invalid) {
+     
+  //     return;
+  //   }
 
+  //   const selectedDoctor: Doctor = this.reportForm.value.doctor;
+  //   if (!selectedDoctor || !selectedDoctor.id) {
+      
+  //     return;
+  //   }
 
+  //   const report: Report = {
+  //     ...this.reportForm.value,
+  //     testDate: new Date(this.reportForm.value.testDate),
+  //     createDate: this.reportForm.value.createDate ? new Date(this.reportForm.value.createDate) : new Date(),
+  //     deliveryDate: this.reportForm.value.deliveryDate ? new Date(this.reportForm.value.deliveryDate) : undefined,
+  //     doctor: selectedDoctor
+  //   };
 
-// onSubmit(): void {
-//   if (this.reportForm.invalid) return;
+  //   this.reportService.createReport(report , selectedDoctor.id).subscribe({
+  //     next: () => {
+  //       alert('Report saved successfully!');
+  //       this.resetForm();
+  //       this.loadReports();
+  //       this.cdr.markForCheck();
+  //     },
+  //     error: (err) => {
+  //       console.error('Error saving report', err);
+  //       alert('Failed to save report. ');
+  //     }
+  //   });
+  // }
 
-//   const selectedDoctor: Doctor = this.reportForm.value.doctor;
-
-//   const newReport: Report = {
-//     id: this.reportForm.value.id, 
-//     date: this.reportForm.value.date,
-//     startTime: this.reportForm.value.startTime,
-//     endTime: this.reportForm.value.endTime,
-//     booked: this.reportForm.value.isBooked || false,
-//     doctor: selectedDoctor   
-//   };
-
-//   this.reportService.createReport(newReport, selectedDoctor.id!).subscribe({
-//     next: () => {
-//       alert('Report saved!');
-//       this.reportForm.reset({ doctor:null });
-//       this.loadReport();
-//     },
-//     error: err => console.error(err)
-//   });
-//   this.cdr.markForCheck();
-// }
-
-
-}
+  
+  resetForm(): void {
+    this.reportForm.reset({ doctor: null });
+  }
+  }

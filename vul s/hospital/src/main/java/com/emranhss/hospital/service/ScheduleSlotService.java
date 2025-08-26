@@ -1,6 +1,7 @@
 package com.emranhss.hospital.service;
 
 
+import com.emranhss.hospital.dto.SlotResponseDTO;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.ScheduleSlot;
 import com.emranhss.hospital.repository.IDoctorRepo;
@@ -36,20 +37,24 @@ public class ScheduleSlotService {
         scheduleSlot.setDoctor(doctor);
         return scheduleSlotRepo.save(scheduleSlot);
     }
-
     // delete slot by id
     public void delete(Long id) {
         scheduleSlotRepo.deleteById(id);
     }
 
 
-    public ScheduleSlot getFirstSlotByDoctorId(long doctorId) {
-        List<ScheduleSlot> slots = scheduleSlotRepo.findByDoctorId(doctorId);
+
+
+    public List<SlotResponseDTO> getAllSlotsByDoctorId(long doctorId) {
+        List<SlotResponseDTO> slots = scheduleSlotRepo.findBookedSlotsByDoctorId(doctorId);
+
         if (slots.isEmpty()) {
             throw new RuntimeException("No slots found for doctor id " + doctorId);
         }
-        return slots.get(0);
+
+        return slots; // return all slots
     }
+
 
 
 

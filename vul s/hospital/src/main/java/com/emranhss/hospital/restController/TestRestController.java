@@ -1,5 +1,6 @@
 package com.emranhss.hospital.restController;
 
+import com.emranhss.hospital.dto.TestDTO;
 import com.emranhss.hospital.entity.Tests;
 import com.emranhss.hospital.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class TestRestController {
     }
 
     @GetMapping("")
-    public List<Tests> getAll() {
+    public List<TestDTO> getAll() {
 
-        return testService.getAllTests();
+        return testService.getAllTestsDTO();
     }
 
     @GetMapping("{id}")

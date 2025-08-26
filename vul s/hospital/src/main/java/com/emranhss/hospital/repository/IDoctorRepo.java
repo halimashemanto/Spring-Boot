@@ -17,4 +17,7 @@ public interface IDoctorRepo extends JpaRepository<Doctor,Long> {
 
 
     Optional<Doctor> findByUserId(long userId);
+
+    List<Doctor> findByDepartmentId(Long departmentId);
+
 }

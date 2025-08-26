@@ -23,19 +23,17 @@ public class Appoinment {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
+    @JoinColumn(name = "department_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
-    @JsonIgnore
     private Doctor doctor;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "slot_id", nullable = false)
-    @JsonIgnore
+    @JoinColumn(name = "slot_id")
     private ScheduleSlot scheduleSlot;
 
 

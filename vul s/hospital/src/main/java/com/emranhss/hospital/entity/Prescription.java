@@ -43,12 +43,6 @@ public class Prescription {
     @JsonIgnoreProperties("prescriptions")
     private Appoinment appointment;
 
-
-
-
-
-
-
     public Prescription() {
     }
 

@@ -1,6 +1,7 @@
 package com.emranhss.hospital.service;
 
 
+import com.emranhss.hospital.dto.DoctorDTO;
 import com.emranhss.hospital.entity.Department;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.repository.IDepartmentRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
@@ -43,5 +45,29 @@ public class DoctorService {
         return doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found with id " + doctorId));
     }
+
+
+
+    public List<DoctorDTO> getDoctorsByDepartment(Long departmentId) {
+        return doctorRepository.findByDepartmentId(departmentId)
+                .stream()
+                .map(d -> new DoctorDTO(
+                        d.getId(),
+                        d.getName(),
+                        d.getEmail(),
+                        d.getPhone(),
+                        d.getGender(),
+                        d.getStatus(),
+                        d.getStudy(),
+                        d.getChamber(),
+                        d.getJoinDate(),
+                        d.getPhoto(),
+                        d.getDepartment() != null ? d.getDepartment().getId() : null,
+                        d.getDepartment() != null ? d.getDepartment().getDepartmentName() : null,
+                        d.getDepartment() != null ? d.getDepartment().getDescription() : null
+                ))
+                .collect(Collectors.toList());
+    }
+
 
 }

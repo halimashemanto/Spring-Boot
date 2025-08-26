@@ -19,7 +19,6 @@ public class MedicineService {
 
 
     public List<Medicine> getAllMedicine() {
-
         return medicineRepo.findAll();
     }
 
@@ -33,12 +32,12 @@ public class MedicineService {
         return medicineRepo.findById(id);
     }
 
-    //find Medicine by id
+
     public Medicine findById(long id){
         return medicineRepo.findById(id).orElseThrow(()->new RuntimeException("Tests Not Found with id"+id));
     }
 
-    //delete
+
     public void delete(long id) {
         medicineRepo.deleteById(id);
     }

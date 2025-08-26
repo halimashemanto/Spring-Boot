@@ -2,7 +2,7 @@ import { Doctor } from "../../doctor/model/doctor.model";
 
 export interface Report{
 
-     id: number;
+     id?: number;
 
  
     reportResult: string;
@@ -16,7 +16,7 @@ export interface Report{
     createDate: Date;
     deliveryDate: Date;
 
-    doctor: Doctor;
+    doctor?: Doctor;
 
 
 }

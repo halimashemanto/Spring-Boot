@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
@@ -16,20 +16,19 @@ export class ReportService {
   constructor(private http: HttpClient) {}
 
 
+ 
   getAllReport(): Observable<Report[]> {
     return this.http.get<Report[]>(this.baseUrl);
   }
-
 
   getAllDoctor(): Observable<Doctor[]> {
     return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/');
   }
 
-
-  
+ 
   createReport(report: Report, doctorId: number): Observable<Report> {
-  return this.http.post<Report>(`${this.baseUrl}?doctor_id=${doctorId}`, report);
+    const params = new HttpParams().set('doctor_id', doctorId.toString());
+    return this.http.post<Report>(this.baseUrl, report, { params });
+  }
 }
 
-  
-}

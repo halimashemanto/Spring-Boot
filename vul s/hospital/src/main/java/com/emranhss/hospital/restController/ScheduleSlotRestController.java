@@ -1,5 +1,6 @@
 package com.emranhss.hospital.restController;
 
+import com.emranhss.hospital.dto.SlotResponseDTO;
 import com.emranhss.hospital.entity.ScheduleSlot;
 import com.emranhss.hospital.service.ScheduleSlotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,27 @@ public class ScheduleSlotRestController {
     }
 
 
+
+
+
     @GetMapping("/doctor/{doctorId}")
-    public ResponseEntity<List<ScheduleSlot>> getSlotsByDoctor(@PathVariable Long doctorId) {
-        return ResponseEntity.ok(scheduleSlotService.getAvailableSlots(doctorId));
+    public ResponseEntity<List<SlotResponseDTO>> getSlotsByDoctor(@PathVariable Long doctorId) {
+        List<SlotResponseDTO> slots = scheduleSlotService.getAllSlotsByDoctorId(doctorId);
+
+        if (slots.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 if no slots
+        }
+
+        return ResponseEntity.ok(slots); // 200 OK with list of slots
     }
 
 
     @PostMapping("")
     public ScheduleSlot saveSlot(@RequestBody ScheduleSlot b,
-                             @RequestParam long doctor_id) {
+                                 @RequestParam long doctor_id) {
         return scheduleSlotService.save(b, doctor_id);
     }
+
 
 
     @DeleteMapping("/{Id}")

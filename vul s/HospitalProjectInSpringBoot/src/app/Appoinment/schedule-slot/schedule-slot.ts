@@ -45,11 +45,16 @@ export class ScheduleSlot {
   loadDoctors(): void {
     this.doctorService.getAllDoctor().subscribe({
       
-      next: (data) => this.doctors = data,
-      error: (err) => console.error('Error loading doctors', err)
+      next: (data) => {
+        this.doctors = data;
+        this.cdr.markForCheck();
+      },      
+      error: (err) => {
+        console.error('Error loading doctors', err);
+      }
       
     });
-    this.cdr.markForCheck();
+   
   }
 
  
@@ -58,12 +63,13 @@ loadSlots(): void {
     next: (data) => {
       this.slots = data.map(slot => ({
         ...slot,
-        doctor: slot.doctor || { doctorName: 'Unknown' } 
+        doctor: slot.doctor || { doctorName: 'Unknown' }         
       }));
+       this.cdr.markForCheck();
     },
     error: err => console.error(err)
   });
-  this.cdr.markForCheck();
+ 
 }
 
 
@@ -89,10 +95,11 @@ onSubmit(): void {
       // alert('Schedule slot saved!');
       this.slotForm.reset({ isBooked:false, doctor:null });
       this.loadSlots();
+        this.cdr.markForCheck();
     },
     error: err => console.error(err)
   });
-  this.cdr.markForCheck();
+
 }
 
   deleteSlot(slotId: number): void {

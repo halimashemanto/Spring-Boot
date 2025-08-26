@@ -43,7 +43,6 @@ public class Doctor {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private User user;
 
 

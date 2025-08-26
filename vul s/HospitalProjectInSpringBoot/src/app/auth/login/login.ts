@@ -28,6 +28,48 @@ export class Login {
     });
   }
 
+
+
+// onSubmit() {
+//   this.userService.login(this.user as User).subscribe({
+//     next: (response: AuthResponse) => {
+//       console.log("Login successful:", response);
+
+//       //Save Token in localStorage
+//       localStorage.setItem('authToken', response.token);
+
+//       this.successMessage = response.message;
+//       this.errorMessage = '';
+
+//       // Find role by decode JWT Token
+//       const payload = JSON.parse(atob(response.token.split('.')[1]));
+//       const role = payload.role;
+//       const accountId = payload.id;
+//       console.log("Account id "+accountId);
+
+//       // Redirect By Role
+//       if(role === 'ADMIN') {
+//         this.router.navigate(['/admin-profile']);
+//       } else if(role === 'EMPLOYEE') {
+//         this.router.navigate(['/employee-profile']);
+//       } else if(role === 'USER') {
+//         this.router.navigate(['/account-profile']);
+
+//       } else {
+//         this.router.navigate(['/']);
+//       }
+//     },
+//     error: (err) => {
+//       console.error("Login failed:", err);
+//       this.errorMessage = "Invalid email or password!";
+//       this.successMessage = '';
+//     }
+//   });
+// }
+
+
+
+
   onSubmit(): void {
     if (this.loginForm.invalid) {
       return;
@@ -39,7 +81,8 @@ export class Login {
       next: (response) => {
         this.successMessage = 'Login successful!';
         this.errorMessage = null;
-        this.router.navigate(['/allprofile']); // Redirect to home or another route after login
+        
+        this.router.navigate(['/doctorprofile']); // Redirect to home or another route after login
       },
       error: (err) => {
         this.errorMessage = 'Login failed. Please check your credentials.';

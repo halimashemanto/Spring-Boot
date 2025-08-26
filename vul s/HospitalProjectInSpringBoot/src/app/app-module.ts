@@ -26,6 +26,11 @@ import { AddPatient } from './patient/add-patient/add-patient';
 import { ViewPatient } from './patient/view-patient/view-patient';
 import { AddInvoice } from './invoice/add-invoice/add-invoice';
 import { AddReport } from './report/add-report/add-report';
+import { PublicNav } from './templet/public-nav/public-nav';
+import { DoctorIndivisualProfile } from './profile/doctor-indivisual-profile/doctor-indivisual-profile';
+import { NurseIndivisualProfile } from './profile/nurse-indivisual-profile/nurse-indivisual-profile';
+import { OfficeStaffIndivisualProfile } from './profile/office-staff-indivisual-profile/office-staff-indivisual-profile';
+import { ReceptionistIndivisualProfile } from './profile/receptionist-indivisual-profile/receptionist-indivisual-profile';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,12 @@ import { AddReport } from './report/add-report/add-report';
         AddPatient,
         ViewPatient,
         AddInvoice,
-        AddReport
+        AddReport,
+        PublicNav,
+        DoctorIndivisualProfile,
+        NurseIndivisualProfile,
+        OfficeStaffIndivisualProfile,
+        ReceptionistIndivisualProfile
   ],
   imports: [
     BrowserModule,

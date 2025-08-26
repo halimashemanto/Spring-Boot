@@ -52,7 +52,7 @@ export class AddPatient {
   }
   
 
-  // 🟢 Patients
+ 
   loadPatients() {
     this.patientService.getAll().subscribe(data => {
       this.patients = data;
@@ -61,7 +61,7 @@ export class AddPatient {
     });
   }
 
-  // 🟢 Doctors
+
   loadDoctors() {
     this.http.get<Doctor[]>('http://localhost:8080/api/doctor/')
       .subscribe(data => {
@@ -80,7 +80,7 @@ export class AddPatient {
   }
   
 
-  // 🟢 Save / Update
+ 
   onSubmit() {
     if (this.patientForm.invalid) return;
 

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/doctor/")
-@CrossOrigin("*")
+
 public class DoctorRestController {
 
 
@@ -95,7 +95,7 @@ public class DoctorRestController {
         dto.setGender(doctor.getGender());
         dto.setStatus(doctor.getStatus());
         dto.setStudy(doctor.getStudy());
-        dto.setDepartment(doctor.getDepartment());
+
         dto.setChamber(doctor.getChamber());
         dto.setJoinDate(doctor.getJoinDate());
         dto.setPhoto(doctor.getPhoto());
@@ -117,6 +117,11 @@ public class DoctorRestController {
 
     }
 
+
+    @GetMapping("/by-department/{departmentId}")
+    public List<DoctorDTO> getDoctorsByDepartment(@PathVariable Long departmentId) {
+        return doctorService.getDoctorsByDepartment(departmentId);
+    }
 
 
 

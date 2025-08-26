@@ -35,7 +35,7 @@ export class AddApooinment {
   constructor(private appoinmentService: AppoinmentService,
 
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
 
   ngOnInit(): void {
@@ -43,16 +43,20 @@ export class AddApooinment {
   }
 
   loadDepartments() {
-    this.appoinmentService.getAppointments().subscribe(data => {
-      this.appoinments = data;
+    this.appoinmentService.getDepartments().subscribe(data => {
+      this.departments = data;
+      this.cdr.markForCheck();
+      console.log(this.appoinments);
     });
   }
 
   onDepartmentChange() {
-    this.departments= [];
+
     this.doctors = [];
     this.scheduleSlot = [];
-    this.selectedDepartment = 0;
+   this.selectedDepartment = +this.selectedDepartment; 
+    console.log(this.selectedDepartment + "Department ")
+
     this.selectedDoctor = 0;
     this.selectedScheduleSlot = 0;
 
@@ -66,9 +70,9 @@ export class AddApooinment {
 
   onDoctorChange() {
     this.scheduleSlot = [];
-   
-    this.selectedScheduleSlot = 0;
-   
+
+    this.selectedScheduleSlot = +this.selectedScheduleSlot;
+
 
     if (this.selectedDoctor) {
       this.appoinmentService.getScheduleSlotByDoctor(this.selectedDoctor).subscribe(data => {
@@ -78,24 +82,24 @@ export class AddApooinment {
     }
   }
 
-  onScheduleSlotChange() {
-    this.scheduleSlot = [];
-    this.selectedScheduleSlot = 0;
+  // onScheduleSlotChange() {
+  //   this.scheduleSlot = [];
+  //   this.selectedScheduleSlot = 0;
 
-    if (this.selectedScheduleSlot) {
-      this.appoinmentService.getScheduleSlotByDoctor(this.selectedScheduleSlot).subscribe(data => {
-        this.scheduleSlot = data;
-        this.cdr.markForCheck();
-      });
-    }
-  }
+  //   if (this.selectedScheduleSlot) {
+  //     this.appoinmentService.getScheduleSlotByDoctor(this.selectedScheduleSlot).subscribe(data => {
+  //       this.scheduleSlot = data;
+  //       this.cdr.markForCheck();
+  //     });
+  //   }
+  // }
 
   saveAppoinmrnt() {
     const appoinment = {
       patientName: this.patientName,
       patientContact: this.patientContact,
       reason: this.reason,
-    departments: { id: this.selectedDepartment },
+      departments: { id: this.selectedDepartment },
       doctors: { id: this.selectedDoctor },
       scheduleSlot: { id: this.selectedScheduleSlot }
     };

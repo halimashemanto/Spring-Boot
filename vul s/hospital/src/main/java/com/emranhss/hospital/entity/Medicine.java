@@ -1,9 +1,7 @@
 package com.emranhss.hospital.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 
-import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "medicines")
@@ -12,16 +10,9 @@ public class Medicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String medicineName;
 
 
-
-//    @OneToMany(mappedBy = "medicine" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties({"medicine"})
-//    private List<Prescription> prescriptions;
-
-    // Many medicines belong to one prescription
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prescription_id")
     private Prescription prescription;

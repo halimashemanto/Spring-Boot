@@ -14,6 +14,8 @@ import { ScheduleSlot } from './Appoinment/schedule-slot/schedule-slot';
 import { AddPatient } from './patient/add-patient/add-patient';
 import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
 import { AddInvoice } from './invoice/add-invoice/add-invoice';
+import { PublicNav } from './templet/public-nav/public-nav';
+import { DoctorIndivisualProfile } from './profile/doctor-indivisual-profile/doctor-indivisual-profile';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -26,6 +28,7 @@ const routes: Routes = [
   { path: 'rr', component: ReceptionistRegistration },
   { path: 'login', component: Login },
   { path: 'allprofile', component: AllUserProfile },
+  { path: 'doctorprofile', component: DoctorIndivisualProfile },
 
 // prescription part
   {path:'test', component:AddTest},
@@ -36,6 +39,7 @@ const routes: Routes = [
   {path:'addpatient', component:AddPatient},
   {path:'appoinment', component:AddApooinment},
   {path:'invoice', component:AddInvoice},
+  {path:'public', component:PublicNav},
 
 ];
 

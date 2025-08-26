@@ -13,14 +13,16 @@ public class AppoinmentRestController {
     @Autowired
     private AppoinmentService appointmentService;
 
-    // Book appointment
+
     @PostMapping
     public ResponseEntity<Appoinment> bookAppointment(@RequestBody Appoinment appointment) {
+
+        System.out.println(appointment+ "333333333333333333333333333");
         Appoinment saved = appointmentService.bookAppointment(appointment);
         return ResponseEntity.ok(saved);
     }
 
-    // Cancel appointment
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> cancelAppointment(@PathVariable Long id) {
         appointmentService.cancelAppointment(id);

@@ -31,8 +31,6 @@ public class Patient {
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
-    @JsonIgnore
-
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)

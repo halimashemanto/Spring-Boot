@@ -62,7 +62,10 @@ public class SecurityConfig {
                                         "/api/report/**",
                                         "/api/appoinment",
                                         "/api/appoinment/**",
-                                        "/api/patient/**")
+                                        "/api/patient/**",
+                                        "/api/doctor/by-department/**",
+                                "/api/slot/doctor/**"
+                                        )
 
                                 .permitAll()
                                 .requestMatchers("/api/doctor/profile","/api/nurse/profile","/api/receptionist/profile")

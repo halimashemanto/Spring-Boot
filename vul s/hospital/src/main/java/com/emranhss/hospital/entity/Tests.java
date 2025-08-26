@@ -18,11 +18,13 @@ public class Tests {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prescription_id")
-    private Prescription prescription;  // ✅ match mappedBy
+    private Prescription prescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
+
+
 
     public Tests() {
     }

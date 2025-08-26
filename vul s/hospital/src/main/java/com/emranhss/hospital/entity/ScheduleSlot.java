@@ -24,7 +24,7 @@ public class ScheduleSlot {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id")
-    @JsonIgnoreProperties({"slots"})
+//    @JsonIgnoreProperties({"slots"})
     private Doctor doctor;
 
 

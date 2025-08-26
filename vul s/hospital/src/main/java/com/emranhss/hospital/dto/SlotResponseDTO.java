@@ -5,8 +5,6 @@ import java.util.Date;
 public class SlotResponseDTO {
 
 
-
-
         private Long id;
         private Date date;
         private String startTime;

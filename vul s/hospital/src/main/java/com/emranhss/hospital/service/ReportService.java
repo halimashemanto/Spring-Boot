@@ -21,8 +21,6 @@ public class ReportService {
     private IDoctorRepo doctorRepository;
 
 
-
-
     public Report save(Report report, long doctor_id) {
         Doctor doctor = doctorRepository.findById(doctor_id)
                 .orElseThrow(() -> new RuntimeException("Doctor not found with id " + doctor_id));
@@ -31,11 +29,9 @@ public class ReportService {
     }
 
 
-
     public List<Report> getAllReports() {
         return reportRepository.findAll();
     }
-
 
     public Optional<Report> getReportById(Long id) {
         return reportRepository.findById(id);
