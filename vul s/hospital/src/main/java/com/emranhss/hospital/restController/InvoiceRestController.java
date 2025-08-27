@@ -28,7 +28,7 @@ public class InvoiceRestController {
         this.invoiceMapper = invoiceMapper;
     }
 
-    // Create Invoice
+
     @PostMapping
     public ResponseEntity<InvoiceDTO> createInvoice(@RequestBody InvoiceDTO dto) {
         Invoice savedInvoice = invoiceService.saveInvoice(dto);
@@ -36,7 +36,7 @@ public class InvoiceRestController {
         return ResponseEntity.ok(response);
     }
 
-    // Get All Invoices
+
     @GetMapping
     public ResponseEntity<List<InvoiceDTO>> getAllInvoices() {
         List<InvoiceDTO> invoices = invoiceService.getAllInvoices()
@@ -46,7 +46,7 @@ public class InvoiceRestController {
         return ResponseEntity.ok(invoices);
     }
 
-    // Get Invoice by ID
+
     @GetMapping("/{id}")
     public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long id) {
         return invoiceService.getInvoiceById(id)

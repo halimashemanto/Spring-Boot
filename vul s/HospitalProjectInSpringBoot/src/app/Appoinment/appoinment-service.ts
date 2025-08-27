@@ -62,7 +62,9 @@ export class AppoinmentService {
     return this.http.get<any[]>("http://localhost:8080/api/slot/doctor/"+doctorId);
   }
 
-
+  getAppointmentByDoctorId(doctorId: number): Observable<any > {
+    return this.http.get<any []>(`${this.baseUrl}/doctor/${doctorId}`);
+  }
 
 
 

@@ -114,7 +114,7 @@ export class AddApooinment {
 saveAppoinmrnt() {
   const appointment = {
     patientName: this.patientName,
-    contact: this.patientContact,
+    patientContact: this.patientContact,
     reason: this.reason,
     department: { id: this.selectedDepartment },
     doctor: { id: this.selectedDoctor },

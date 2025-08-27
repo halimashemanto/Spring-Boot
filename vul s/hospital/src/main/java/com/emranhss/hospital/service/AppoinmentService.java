@@ -1,14 +1,18 @@
 package com.emranhss.hospital.service;
 
 
+import com.emranhss.hospital.Mapper.AppointmentMapper;
+import com.emranhss.hospital.dto.AppoinmentDTO;
 import com.emranhss.hospital.entity.Appoinment;
 import com.emranhss.hospital.entity.ScheduleSlot;
 import com.emranhss.hospital.repository.IAppoinmentRepo;
 import com.emranhss.hospital.repository.IScheduleSlot;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppoinmentService {
@@ -18,6 +22,13 @@ public class AppoinmentService {
 
     @Autowired
     private IScheduleSlot slotRepo;
+
+
+
+
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
 
 //    public Appoinment bookAppointment(Appoinment appointment) {
 //        System.out.println("Done");
@@ -85,10 +96,46 @@ public class AppoinmentService {
 
 
 
-    public List<Appoinment> getAllAppointments() {
-        return appointmentRepo.findAll();
+
+    // All appointments
+    @Transactional
+    public List<AppoinmentDTO> getAllAppointments() {
+        List<Appoinment> appointments = appointmentRepo.findAll();
+        return appointments.stream()
+                .map(appointmentMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
+    // Get appointment by ID
+    @Transactional
+    public AppoinmentDTO getAppointmentById(Long id) {
+        return appointmentRepo.findById(id)
+                .map(appointmentMapper::toDTO)
+                .orElse(null);
+    }
+
+    // Optional: Get latest appointment for a doctor
+    @Transactional
+    public AppoinmentDTO getLatestAppointmentByDoctorId(Long doctorId) {
+        return appointmentRepo.findTopByDoctorIdOrderByIdDesc(doctorId)
+                .map(appointmentMapper::toDTO)
+                .orElse(null);
+    }
+
+
+
+
+
+
+
+
+    // Optional: ডাক্তারের জন্য filter করা যাবে
+    public List<AppoinmentDTO> getAppointmentsByDoctorId(Long doctorId) {
+        return appointmentRepo.findByDoctorId(doctorId)
+                .stream()
+                .map(appointmentMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
 
 

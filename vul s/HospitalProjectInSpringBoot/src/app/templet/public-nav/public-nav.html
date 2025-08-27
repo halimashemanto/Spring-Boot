@@ -1,1 +1,376 @@
-<p>public-nav works!</p>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CarePlus Hospital — আপনার বিশ্বস্ত হাসপাতাল</title>
+  <meta name="description" content="CarePlus Hospital — 24/7 জরুরি সেবা, অনলাইন অ্যাপয়েন্টমেন্ট, ডায়াগনস্টিকস, অভিজ্ঞ ডাক্তার দল।" />
+  <meta property="og:title" content="CarePlus Hospital" />
+  <meta property="og:description" content="২৪/৭ জরুরি সেবা ও অনলাইন অ্যাপয়েন্টমেন্ট" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230ea5e9'/><path d='M45 20h10v25h25v10H55v25H45V55H20V45h25z' fill='white'/></svg>">
+  <style>
+    :root{
+      --primary:#0ea5e9; /* sky-500 */
+      --primary-dark:#0284c7; /* sky-600 */
+      --accent:#22c55e; /* green-500 */
+      --text:#0f172a; /* slate-900 */
+      --muted:#475569; /* slate-600 */
+      --bg:#f8fafc; /* slate-50 */
+      --card:#ffffff;
+      --ring: 0 0 0 3px rgba(14,165,233,.25);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* Navbar */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter: blur(8px);border-bottom:1px solid #e2e8f0}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand-badge{width:36px;height:36px;border-radius:10px;background:var(--primary);display:grid;place-items:center;color:#fff;font-weight:800}
+    .nav-links{display:flex;gap:20px;align-items:center}
+    .nav-links a{padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:500}
+    .nav-links a:hover, .nav-links a:focus{outline:none;background:#e0f2fe;color:#0c4a6e}
+    .nav-cta{padding:10px 16px;border-radius:999px;background:var(--primary);color:#fff;font-weight:600;border:0}
+    .nav-cta:hover{background:var(--primary-dark)}
+    .menu-btn{display:none;background:transparent;border:0;font-size:20px}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden}
+    .hero-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding:64px 0}
+    .blob{position:absolute;inset:auto -12% -30% auto;width:520px;height:520px;background:radial-gradient(40% 40% at 50% 50%, #7dd3fc, transparent 60%), radial-gradient(35% 35% at 70% 30%, #bae6fd, transparent 60%), radial-gradient(30% 30% at 30% 70%, #38bdf8, transparent 60%);filter:blur(40px);opacity:.5;pointer-events:none}
+    .hero h1{font-size:44px;line-height:1.15;margin:0 0 14px}
+    .hero p{color:var(--muted);font-size:18px;margin:0 0 24px}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#e0f2fe;color:#0c4a6e;font-weight:600;font-size:13px}
+    .hero-card{background:linear-gradient(180deg,#fff, #f0f9ff);border:1px solid #e2e8f0;border-radius:var(--radius);padding:20px;box-shadow:0 12px 30px rgba(2,132,199,.15)}
+    .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+    .stat .item{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-align:center}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;border:0;background:var(--primary);color:#fff;font-weight:600}
+    .btn.secondary{background:#e2e8f0;color:#0f172a}
+    .btn:hover{filter:brightness(.95)}
+
+    /* Sections */
+    section{padding:56px 0}
+    .section-title{font-size:28px;margin:0 0 10px}
+    .section-sub{color:var(--muted);margin:0 0 28px}
+
+    /* Services */
+    .grid{display:grid;gap:18px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .card{background:var(--card);border:1px solid #e2e8f0;border-radius:var(--radius);padding:18px}
+    .card h3{margin:10px 0 6px;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+
+    /* Doctors */
+    .doctor{display:flex;gap:14px;align-items:center}
+    .avatar{width:62px;height:62px;border-radius:50%;background:#e2e8f0;object-fit:cover}
+    .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#ecfeff;border:1px solid #bae6fd;color:#0369a1;font-size:12px;font-weight:600}
+
+    /* Appointment */
+    .form{display:grid;gap:14px}
+    .input{padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}
+    .input:focus{outline:none;box-shadow:var(--ring);border-color:var(--primary)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+    /* Testimonials */
+    .quote{font-style:italic;color:#334155}
+
+    /* Footer */
+    footer{background:#0b1220;color:#cbd5e1}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
+    .footer-grid a{color:#cbd5e1}
+    .copyright{border-top:1px solid rgba(148,163,184,.25);margin-top:24px;padding-top:14px;color:#94a3b8}
+
+    /* Responsive */
+    @media (max-width: 940px){
+      .hero-wrap{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      .row{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .nav-links{display:none}
+      .menu-btn{display:block}
+      .grid-3{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary Navigation">
+    <div class="container nav-inner">
+      <a class="brand" href="#" aria-label="CarePlus Hospital Home">
+        <span class="brand-badge" aria-hidden="true">＋</span>
+        <span>CarePlus Hospital</span>
+      </a>
+      <button class="menu-btn" aria-label="Toggle Menu" onclick="toggleMenu()">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#services">সার্ভিস</a>
+        <a href="#doctors">ডাক্তার</a>
+        <a href="#appointment">অ্যাপয়েন্টমেন্ট</a>
+        <a href="#contact">যোগাযোগ</a>
+        <a class="nav-cta" href="#appointment">বুক করুন</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="blob" aria-hidden="true"></div>
+    <div class="container hero-wrap">
+      <div>
+        <span class="badge">২৪/৭ জরুরি সেবা</span>
+        <h1>আপনার সুস্বাস্থ্যই আমাদের অঙ্গীকার</h1>
+        <p>CarePlus Hospital আধুনিক প্রযুক্তি, দক্ষ ডাক্তার ও মানবিক সেবার সমন্বয়ে স্বাস্থ্যসেবাকে করেছে আরও সহজ ও নির্ভরযোগ্য।</p>
+        <div style="display:flex;gap:12px">
+          <a class="btn" href="#appointment">এখনই অ্যাপয়েন্টমেন্ট নিন</a>
+          <a class="btn secondary" href="#services">আমাদের সার্ভিস দেখুন</a>
+        </div>
+        <div class="stat">
+          <div class="item"><div style="font-size:22px;font-weight:800">50+</div><div class="muted">ডিপার্টমেন্ট</div></div>
+          <div class="item"><div style="font-size:22px;font-weight:800">120+</div><div class="muted">বিশেষজ্ঞ ডাক্তার</div></div>
+          <div class="item"><div style="font-size:22px;font-weight:800">1M+</div><div class="muted">সন্তুষ্ট রোগী</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="hero-card" role="img" aria-label="Hospital Illustration">
+          <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1200&auto=format&fit=crop" alt="Modern hospital interior" style="border-radius:12px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+            <div class="card"><strong>ডিজিটাল ল্যাব</strong><br><span class="muted">রিপোর্ট অনলাইনে</span></div>
+            <div class="card"><strong>ফার্মেসি</strong><br><span class="muted">২৪/৭ ওপেন</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section id="services" aria-labelledby="services-title">
+    <div class="container">
+      <h2 class="section-title" id="services-title">আমাদের সার্ভিস</h2>
+      <p class="section-sub">ডায়াগনস্টিকস, ইনডোর ও আউটডোর, সার্জারি, মাতৃত্বকালীন সেবা ও আরও অনেক কিছু।</p>
+      <div class="grid grid-3">
+        <div class="card">
+          <span class="tag">ডায়াগনস্টিক</span>
+          <h3>প্যাথলজি ও ইমেজিং</h3>
+          <p>MRI, CT, X-Ray, আল্ট্রাসনোগ্রাফি, পূর্ণ রুটিন পরীক্ষা।</p>
+        </div>
+        <div class="card">
+          <span class="tag">জরুরি</span>
+          <h3>২৪/৭ ইমার্জেন্সি</h3>
+          <p>অ্যাম্বুলেন্স, ট্রায়াজ, ক্রিটিক্যাল কেয়ার, দ্রুত ভর্তি ব্যবস্থা।</p>
+        </div>
+        <div class="card">
+          <span class="tag">সার্জারি</span>
+          <h3>মডার্ন অপারেশন থিয়েটার</h3>
+          <p>ল্যাপারোস্কোপি, অর্থোপেডিক, কার্ডিয়াক ও জেনারেল সার্জারি।</p>
+        </div>
+        <div class="card">
+          <span class="tag">মাতৃত্ব</span>
+          <h3>ম্যাটারনিটি ও নিওনেটাল</h3>
+          <p>স্বল্প ব্যথার নরমাল ডেলিভারি, NICU, ল্যাক্টেশন সাপোর্ট।</p>
+        </div>
+        <div class="card">
+          <span class="tag">চিকিৎসা</span>
+          <h3>আউটডোর চেম্বার</h3>
+          <p>বিশেষজ্ঞ ডাক্তারের নিয়মিত চেকআপ ও ফলো-আপ।</p>
+        </div>
+        <div class="card">
+          <span class="tag">ফার্মেসি</span>
+          <h3>ইন-হাউস ফার্মেসি</h3>
+          <p>অরিজিনাল মেডিসিন, কন্সাল্টেশন ও হোম ডেলিভারি।</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Doctors -->
+  <section id="doctors" aria-labelledby="doctors-title" style="background:#f0f9ff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0">
+    <div class="container">
+      <h2 class="section-title" id="doctors-title">বিশেষজ্ঞ ডাক্তার</h2>
+      <p class="section-sub">অভিজ্ঞ ও সার্টিফাইড কনসালট্যান্টদের নিয়ে আমাদের টিম।</p>
+      <div class="grid grid-3">
+        <div class="card doctor">
+          <img class="avatar" src="https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=400&auto=format&fit=crop" alt="ডা. সায়েম রহমান">
+          <div>
+            <strong>ডা. সায়েম রহমান</strong>
+            <div class="muted">কার্ডিওলজিস্ট, FCPS</div>
+            <span class="tag">১০+ বছরের অভিজ্ঞতা</span>
+          </div>
+        </div>
+        <div class="card doctor">
+          <img class="avatar" src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=400&auto=format&fit=crop" alt="ডা. নুসরাত জাহান">
+          <div>
+            <strong>ডা. নুসরাত জাহান</strong>
+            <div class="muted">গাইনোকোলজিস্ট, MRCOG</div>
+            <span class="tag">৮+ বছরের অভিজ্ঞতা</span>
+          </div>
+        </div>
+        <div class="card doctor">
+          <img class="avatar" src="https://images.unsplash.com/photo-1606813907291-76a3600b5ca2?q=80&w=400&auto=format&fit=crop" alt="ডা. হৃদয় চৌধুরী">
+          <div>
+            <strong>ডা. হৃদয় চৌধুরী</strong>
+            <div class="muted">অর্থোপেডিক সার্জন, MS</div>
+            <span class="tag">১২+ বছরের অভিজ্ঞতা</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment -->
+  <section id="appointment" aria-labelledby="appointment-title">
+    <div class="container">
+      <h2 class="section-title" id="appointment-title">অনলাইন অ্যাপয়েন্টমেন্ট</h2>
+      <p class="section-sub">ফর্মটি পূরণ করুন, আমরা দ্রুতই আপনার সাথে যোগাযোগ করবো।</p>
+      <form class="form" onsubmit="submitForm(event)" aria-describedby="formHelp">
+        <div class="row">
+          <input class="input" name="name" placeholder="পুরো নাম *" required aria-label="পুরো নাম">
+          <input class="input" name="phone" placeholder="মোবাইল নম্বর *" required aria-label="মোবাইল নম্বর" pattern="^01[0-9]{9}$" title="বাংলাদেশি মোবাইল নম্বর দিন (১১ সংখ্যা)">
+        </div>
+        <div class="row">
+          <input class="input" type="email" name="email" placeholder="ইমেইল" aria-label="ইমেইল">
+          <input class="input" type="date" name="date" placeholder="তারিখ *" required aria-label="তারিখ">
+        </div>
+        <div class="row">
+          <select class="input" name="department" required aria-label="ডিপার্টমেন্ট">
+            <option value="" disabled selected>ডিপার্টমেন্ট নির্বাচন করুন *</option>
+            <option>কার্ডিওলজি</option>
+            <option>গাইনোকোলজি</option>
+            <option>অর্থোপেডিক</option>
+            <option>পেডিয়াট্রিক</option>
+            <option>মেডিসিন</option>
+            <option>ডার্মাটোলজি</option>
+          </select>
+          <select class="input" name="doctor" aria-label="ডাক্তার">
+            <option value="" disabled selected>ডাক্তার (ঐচ্ছিক)</option>
+            <option>ডা. সায়েম রহমান</option>
+            <option>ডা. নুসরাত জাহান</option>
+            <option>ডা. হৃদয় চৌধুরী</option>
+          </select>
+        </div>
+        <textarea class="input" name="message" rows="4" placeholder="সমস্যার সংক্ষিপ্ত বর্ণনা" aria-label="সমস্যার সংক্ষিপ্ত বর্ণনা"></textarea>
+        <div id="formHelp" class="muted">আপনার তথ্য নিরাপদে সংরক্ষিত থাকবে। *</div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="btn" type="submit">রিকুয়েস্ট সাবমিট করুন</button>
+          <span id="formStatus" class="muted" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section aria-labelledby="testimonials-title" style="background:#fff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0">
+    <div class="container">
+      <h2 class="section-title" id="testimonials-title">রোগীদের মতামত</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <p class="quote">“দ্রুত সার্ভিস ও দারুণ কেয়ার। আমার বাবার হার্টের চিকিৎসায় খুব সহায়ক ছিল।”</p>
+          <div class="muted">— মাহিন, ঢাকা়</div>
+        </div>
+        <div class="card">
+          <p class="quote">“ম্যাটারনিটি ওয়ার্ড পরিষ্কার-পরিচ্ছন্ন এবং নার্সিং স্টাফ অসাধারণ।”</p>
+          <div class="muted">— ফারিয়া, চট্টগ্রাম</div>
+        </div>
+        <div class="card">
+          <p class="quote">“অনলাইনে অ্যাপয়েন্টমেন্ট দিয়ে খুব সহজেই চিকিৎসা নিতে পেরেছি।”</p>
+          <div class="muted">— সাকিব, সিলেট</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <h2 class="section-title" id="contact-title">যোগাযোগ</h2>
+      <p class="section-sub">হটলাইন: ১০৬০০ • ইমেইল: hello@careplus.example</p>
+      <div class="grid" style="grid-template-columns: 1.1fr .9fr; gap:18px">
+        <div class="card">
+          <h3 style="margin-top:0">হাসপাতালের ঠিকানা</h3>
+          <p>House 12, Road 7, Dhanmondi, Dhaka-1205</p>
+          <p class="muted">খোলা: প্রতিদিন ২৪ ঘন্টা</p>
+          <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0">
+          <h3>হটলাইন</h3>
+          <p>+880 9612-000000</p>
+          <h3>ইমেইল</h3>
+          <p>support@careplus.example</p>
+        </div>
+        <div class="card" aria-label="Map placeholder">
+          <div style="background:#e2e8f0;border-radius:10px;height:260px;display:grid;place-items:center;color:#334155">
+            মানচিত্র এমবেড করুন (Google Maps iframe)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container" style="padding:28px 0">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:10px">
+            <span class="brand-badge" aria-hidden="true">＋</span>
+            <span>CarePlus Hospital</span>
+          </div>
+          <p style="margin:0;color:#cbd5e1">মানসম্মত স্বাস্থ্যসেবার বিশ্বস্ত নাম।</p>
+        </div>
+        <div>
+          <strong>কুইক লিংক</strong>
+          <div style="display:grid;gap:8px;margin-top:10px">
+            <a href="#services">সার্ভিস</a>
+            <a href="#doctors">ডাক্তার</a>
+            <a href="#appointment">অ্যাপয়েন্টমেন্ট</a>
+            <a href="#contact">যোগাযোগ</a>
+          </div>
+        </div>
+        <div>
+          <strong>নীতিমালা</strong>
+          <div style="display:grid;gap:8px;margin-top:10px">
+            <a href="#">প্রাইভেসি পলিসি</a>
+            <a href="#">টার্মস & কন্ডিশন</a>
+            <a href="#">রিফান্ড পলিসি</a>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">© <span id="year"></span> CarePlus Hospital. সর্বস্বত্ব সংরক্ষিত।</div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMenu(){
+      const nav = document.getElementById('navLinks');
+      if(getComputedStyle(nav).display === 'none'){
+        nav.style.display = 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.gap = '10px';
+        nav.style.padding = '12px 0';
+      } else {
+        nav.style.display = '';
+      }
+    }
+
+    // Appointment fake submit
+    function submitForm(e){
+      e.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.textContent = 'সাবমিট হয়েছে! আমাদের কেয়ার টিম খুব শীঘ্রই যোগাযোগ করবে.';
+      e.target.reset();
+      setTimeout(()=> status.textContent = '', 5000);
+    }
+
+    // Current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

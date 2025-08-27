@@ -1,5 +1,6 @@
 package com.emranhss.hospital.restController;
 
+import com.emranhss.hospital.dto.AppoinmentDTO;
 import com.emranhss.hospital.entity.Appoinment;
 import com.emranhss.hospital.service.AppoinmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,8 @@ public class AppoinmentRestController {
 
 
     @GetMapping
-    public ResponseEntity<List<Appoinment>> getAllAppointments() {
-        List<Appoinment> appointments = appointmentService.getAllAppointments();
-        return ResponseEntity.ok(appointments);
+    public ResponseEntity<List<AppoinmentDTO>> getAllAppointments() {
+        return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
 
 

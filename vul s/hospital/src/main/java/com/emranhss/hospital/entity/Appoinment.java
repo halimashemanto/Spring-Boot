@@ -22,17 +22,17 @@ public class Appoinment {
     private String patientContact;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "department_id")
 //    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Department department;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "slot_id")
     private ScheduleSlot scheduleSlot;
 

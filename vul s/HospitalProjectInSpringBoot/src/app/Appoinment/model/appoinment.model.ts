@@ -12,4 +12,12 @@ export interface Appointment {
   patientName: string;
   patientContact: string;
   reason: string;
+
+
+
+  doctorName: string;
+    departmentName: string;
+    slotDate: string;
+    slotStartTime: string;
+    slotEndTime: string;
 }

@@ -49,9 +49,11 @@
         
        <h4 style="color:#17a2b8; margin-bottom:8px;">
   <i class="bi bi-person-circle"></i> {{ slot.doctor?.name || 'Unknown' }}
+
 </h4>
 
 
+       
         <p style="margin:0;">📅 <strong>Date:</strong> {{ slot.date | date:'shortDate' }}</p>
         <p style="margin:0;">⏰ <strong>Time:</strong> {{ slot.startTime }} - {{ slot.endTime }}</p>
         <p style="margin:0;">✅ <strong>Status:</strong> {{ slot.booked ? 'Booked' : 'Available' }}</p>

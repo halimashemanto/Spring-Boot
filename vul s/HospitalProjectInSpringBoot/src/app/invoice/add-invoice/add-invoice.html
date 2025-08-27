@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <h2>Create Invoice</h2>
+
+  <form [formGroup]="invoiceForm" (ngSubmit)="createInvoice()">
+    <div class="row g-3">
+      <!-- Doctor Dropdown -->
+      <div class="col-md-4">
+        <label>Doctor</label>
+        <select formControlName="doctorId" class="form-control">
+          <option value="">Select Doctor</option>
+          <option *ngFor="let doc of doctors" [value]="doc.id">{{ doc.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label>Patient Name</label>
+        <input formControlName="patientName" class="form-control" readonly/>
+      </div>
+
+      <div class="col-md-4">
+        <label>Patient Contact</label>
+        <input formControlName="patientContact" class="form-control" readonly/>
+      </div>
+
+      <!-- Test multiselect -->
+      <div class="col-md-6">
+        <label>Tests</label>
+        <select formControlName="testIds" class="form-control" multiple>
+          <option *ngFor="let test of tests" [value]="test.id">{{ test.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label>Discount</label>
+        <input formControlName="discount" type="number" class="form-control"/>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Save & Download PDF</button>
+  </form>
+</div>

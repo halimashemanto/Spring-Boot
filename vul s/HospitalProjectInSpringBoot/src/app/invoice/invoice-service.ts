@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  Invoice} from './model/invoice.model';
+import {   InvoiceDTO} from './model/invoice.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
-import { Doctor } from '../doctor/model/doctor.model';
-import { Appointment } from '../Appoinment/model/appoinment.model';
-import { Test } from '../test/model/test.model';
+;
 
 @Injectable({
   providedIn: 'root'
@@ -13,56 +11,30 @@ import { Test } from '../test/model/test.model';
 export class InvoiceService {
 
 
- baseUrl = 'http://localhost:8080/api/invoice';
+   private baseUrl = environment.apiBaseUrl + '/api/invoice';
 
-  constructor(private http: HttpClient) { }
+ constructor(private http: HttpClient) {}
 
-  getAllDoctors(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(this.baseUrl);
-  }
-  getAllPatients(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.baseUrl);
+createInvoice(dto: InvoiceDTO): Observable<InvoiceDTO> {
+    return this.http.post<InvoiceDTO>(this.baseUrl, dto);
   }
 
-  saveInvoice(bill: Test): Observable<any> {
-    return this.http.post(this.baseUrl, bill);
+  getAllInvoices(): Observable<InvoiceDTO[]> {
+    return this.http.get<InvoiceDTO[]>(this.baseUrl);
   }
 
-  // getAllBills(): Observable<any> {
-  //   return this.http.get<Invoice(`${this.apiUrl}/`);
-  // }
-
-  // createBill(bill: Test): Observable<any> {
-  //   return this.http.post<Test>(this.apiUrl, bill);
-  // }
-
- loadBill(bill:Test): Observable<any> {
-    return this.http.get(this.baseUrl+'/'+bill);
+  // Doctors list
+  getAllDoctors(): Observable<any[]> {
+    return this.http.get<any[]>(environment.apiBaseUrl + '/api/doctor');
   }
 
+  // Tests list
+  getAllTests(): Observable<any[]> {
+    return this.http.get<any[]>(environment.apiBaseUrl + '/api/test');
+  }
 
-
-  
-// baseUrl = 'http://localhost:8080/api/invoice';
-//   doctorUrl = 'http://localhost:8080/api/doctor/';
-//   appointmentUrl = 'http://localhost:8080/api/appointment/';
-//   testUrl = 'http://localhost:8080/api/test/';
-
-//   constructor(private http: HttpClient) {}
-
-//   saveInvoice(invoice: InvoiceDTO): Observable<InvoiceDTO> {
-//     return this.http.post<InvoiceDTO>(this.baseUrl, invoice);
-//   }
-
-//   getDoctors(): Observable<Doctor[]> {
-//     return this.http.get<Doctor[]>(this.doctorUrl);
-//   }
-
-//   getAppointments(): Observable<Appointment[]> {
-//     return this.http.get<Appointment[]>(this.appointmentUrl);
-//   }
-
-//   getTests(): Observable<Test[]> {
-//     return this.http.get<Test[]>(this.testUrl);
-//   }
+  // Get appointment by doctor id (latest/active)
+  getAppointmentByDoctorId(doctorId: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/appointment/doctor/${doctorId}`);
+  }
 }

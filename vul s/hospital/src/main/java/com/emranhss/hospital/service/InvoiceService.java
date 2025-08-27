@@ -45,23 +45,24 @@ public class InvoiceService {
     }
 
 
+
     @Transactional
     public Invoice saveInvoice(InvoiceDTO dto) {
-        // 1️⃣ Doctor
+
         Doctor doctor = doctorRepository.findById(dto.getDoctorId())
                 .orElseThrow(() -> new RuntimeException("Doctor must be provided!"));
 
-        // 2️⃣ Appointment (optional)
+
         Appoinment appoinment = null;
         if (dto.getAppoinmentId() != null) {
             appoinment = appoinmentRepository.findById(dto.getAppoinmentId())
                     .orElseThrow(() -> new RuntimeException("Appointment not found!"));
         }
 
-        // 3️⃣ Tests
+
         List<Tests> tests = testsRepository.findAllById(dto.getTestIds());
 
-        // 4️⃣ Create Invoice
+
         Invoice invoice = new Invoice();
         invoice.setDoctor(doctor);
         invoice.setAppoinment(appoinment);
@@ -71,11 +72,45 @@ public class InvoiceService {
         invoice.setDeliveryDate(dto.getDeliveryDate());
         invoice.setDeliveryTime(dto.getDeliveryTime());
 
-        // 5️⃣ Calculate total, payable, due
+
         invoice.calculateTotal();
 
         return invoiceRepository.save(invoice);
     }
+
+
+
+//    @Transactional
+//    public Invoice saveInvoice(InvoiceDTO dto) {
+//        // 1️⃣ Doctor
+//        Doctor doctor = doctorRepository.findById(dto.getDoctorId())
+//                .orElseThrow(() -> new RuntimeException("Doctor must be provided!"));
+//
+//        // 2️⃣ Appointment (optional)
+//        Appoinment appoinment = null;
+//        if (dto.getAppoinmentId() != null) {
+//            appoinment = appoinmentRepository.findById(dto.getAppoinmentId())
+//                    .orElseThrow(() -> new RuntimeException("Appointment not found!"));
+//        }
+//
+//        // 3️⃣ Tests
+//        List<Tests> tests = testsRepository.findAllById(dto.getTestIds());
+//
+//        // 4️⃣ Create Invoice
+//        Invoice invoice = new Invoice();
+//        invoice.setDoctor(doctor);
+//        invoice.setAppoinment(appoinment);
+//        invoice.setTests(tests);
+//        invoice.setDiscount(dto.getDiscount());
+//        invoice.setInvoiceDate(dto.getInvoiceDate());
+//        invoice.setDeliveryDate(dto.getDeliveryDate());
+//        invoice.setDeliveryTime(dto.getDeliveryTime());
+//
+//        // 5️⃣ Calculate total, payable, due
+//        invoice.calculateTotal();
+//
+//        return invoiceRepository.save(invoice);
+//    }
 
     public List<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();

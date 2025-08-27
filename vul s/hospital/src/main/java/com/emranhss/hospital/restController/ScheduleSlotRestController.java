@@ -25,7 +25,7 @@ public class ScheduleSlotRestController {
 
     @GetMapping
     public ResponseEntity<List<SlotResponseDTO>> getAllSlots() {
-        List<SlotResponseDTO> dtoList = scheduleSlotService.getAllSlots(); 
+        List<SlotResponseDTO> dtoList = scheduleSlotService.getAllSlots();
         return ResponseEntity.ok(dtoList);
     }
 
@@ -37,10 +37,10 @@ public class ScheduleSlotRestController {
         List<SlotResponseDTO> slots = scheduleSlotService.getAllSlotsByDoctorId(doctorId);
 
         if (slots.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204 if no slots
+            return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(slots); // 200 OK with list of slots
+        return ResponseEntity.ok(slots);
     }
 
 
