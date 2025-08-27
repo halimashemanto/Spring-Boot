@@ -18,11 +18,16 @@ public class ScheduleSlotRestController {
     private ScheduleSlotService scheduleSlotService;
 
 
-    @GetMapping
-    public ResponseEntity<List<ScheduleSlot>> getAllSlots() {
-        return ResponseEntity.ok(scheduleSlotService.getAllScheduleSlot());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<ScheduleSlot>> getAllSlots() {
+//        return ResponseEntity.ok(scheduleSlotService.getAllScheduleSlot());
+//    }
 
+    @GetMapping
+    public ResponseEntity<List<SlotResponseDTO>> getAllSlots() {
+        List<SlotResponseDTO> dtoList = scheduleSlotService.getAllSlots(); 
+        return ResponseEntity.ok(dtoList);
+    }
 
 
 

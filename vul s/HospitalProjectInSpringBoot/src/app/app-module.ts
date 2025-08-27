@@ -31,6 +31,7 @@ import { DoctorIndivisualProfile } from './profile/doctor-indivisual-profile/doc
 import { NurseIndivisualProfile } from './profile/nurse-indivisual-profile/nurse-indivisual-profile';
 import { OfficeStaffIndivisualProfile } from './profile/office-staff-indivisual-profile/office-staff-indivisual-profile';
 import { ReceptionistIndivisualProfile } from './profile/receptionist-indivisual-profile/receptionist-indivisual-profile';
+import { ViewAllAppointment } from './Appoinment/view-all-appointment/view-all-appointment';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ReceptionistIndivisualProfile } from './profile/receptionist-indivisual
         DoctorIndivisualProfile,
         NurseIndivisualProfile,
         OfficeStaffIndivisualProfile,
-        ReceptionistIndivisualProfile
+        ReceptionistIndivisualProfile,
+        ViewAllAppointment
   ],
   imports: [
     BrowserModule,

@@ -1,42 +1,74 @@
+<div style="max-width:600px; margin:40px auto; padding:30px; border-radius:20px; 
+            background: linear-gradient(135deg,#f9f9f9,#e0f7fa); 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2); font-family: 'Segoe UI', sans-serif; 
+            animation: fadeIn 1s ease-in-out;">
+  
+  <h2 style="text-align:center; margin-bottom:25px; color:#00796b; animation: slideDown 1s ease;">
+    Book Your Appointment
+  </h2>
 
-<div class="container mt-4">
-  <h3>Appointment</h3>
+  <form (ngSubmit)="saveAppoinmrnt()">
 
-  <div class="form-group mb-2">
-    <label>Patient Name</label>
-    <input type="text" class="form-control" [(ngModel)]="patientName">
-  </div>
+    <!-- Patient Info -->
+    <div style="margin-bottom:20px;">
+      <input type="text" [(ngModel)]="patientName" name="patientName" placeholder="Patient Name" required
+             style="width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; margin-bottom:10px; transition:0.3s;"
+             (focus)="onFocus($event)" (blur)="onBlur($event)">
 
-  <div class="form-group mb-2">
-    <label>Patient contact</label>
-    <input type="text" class="form-control" [(ngModel)]="patientContact">
-  </div>
+      <input type="text" [(ngModel)]="patientContact" name="patientContact" placeholder="Patient Contact" required
+             style="width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; margin-bottom:10px; transition:0.3s;"
+             (focus)="onFocus($event)" (blur)="onBlur($event)">
 
-  <div class="form-group mb-2">
-    <label>Department</label>
-    <select class="form-select" [(ngModel)]="selectedDepartment" (change)="onDepartmentChange()">
-      <option value="">-- Select Department --</option>
-      <option *ngFor="let c of departments" [value]="c.id">{{ c.departmentName }}</option>
-    </select>
-  </div>
+      <input type="text" [(ngModel)]="reason" name="reason" placeholder="Reason for Appointment" required
+             style="width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; transition:0.3s;"
+             (focus)="onFocus($event)" (blur)="onBlur($event)">
+    </div>
 
-  <div class="form-group mb-2">
-    <label>Doctor</label>
-    <select class="form-select" [(ngModel)]="selectedDoctor" (change)="onDoctorChange()">
-      <option value="">-- Select Doctor --</option>
-      <option *ngFor="let d of doctors" [value]="d.id">{{ d.name }}</option>
-    </select>
-  </div>
+    <!-- Department Cards -->
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
+      <div *ngFor="let d of departments"
+           (click)="selectedDepartment=d.id; onDepartmentChange()"
+           [style.border]="selectedDepartment===d.id ? '2px solid #26a69a' : '1px solid #ccc'"
+           style="flex:1 1 calc(50% - 10px); padding:15px; border-radius:15px; text-align:center; cursor:pointer; background:#fff; transition:all 0.3s; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+        {{d.departmentName}}
+      </div>
+    </div>
 
-  <div class="form-group mb-2">
-    <label>Schedule Slot</label>
-    <select class="form-select" [(ngModel)]="selectedScheduleSlot" >
-      <option value="">-- Select Schedule Slot --</option>
-      <option *ngFor="let d of scheduleSlot" [value]="d.id">{{ d.startTime }}</option>
-    </select>
-  </div>
+    <!-- Doctor Cards -->
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;" *ngIf="doctors.length>0">
+      <div *ngFor="let doc of doctors"
+           (click)="selectedDoctor=doc.id; onDoctorChange()"
+           [style.border]="selectedDoctor===doc.id ? '2px solid #ff7043' : '1px solid #ccc'"
+           style="flex:1 1 calc(50% - 10px); padding:15px; border-radius:15px; text-align:center; cursor:pointer; background:#fff3e0; transition:all 0.3s; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+        {{doc.name}}
+      </div>
+    </div>
 
+    <!-- Schedule Slot Cards -->
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:25px;" *ngIf="scheduleSlot.length>0">
+      <div *ngFor="let s of scheduleSlot"
+           (click)="selectedScheduleSlot=s.id"
+           [style.border]="selectedScheduleSlot===s.id ? '2px solid #42a5f5' : '1px solid #ccc'"
+           style="flex:1 1 calc(50% - 10px); padding:12px; border-radius:12px; text-align:center; cursor:pointer; background:#e3f2fd; transition:all 0.3s; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        {{s.startTime}} - {{s.endTime}}
+      </div>
+    </div>
 
-
-  <button class="btn btn-primary" (click)="saveAppoinmrnt()">Save Appointment </button>
+    <!-- Submit Button -->
+    <button type="submit"
+            style="width:100%; padding:16px; border:none; border-radius:15px; background:linear-gradient(45deg,#42a5f5,#26c6da); color:white; font-size:16px; font-weight:bold; cursor:pointer; transition:all 0.3s; box-shadow:0 6px 18px rgba(0,0,0,0.2);">
+      Confirm Appointment
+    </button>
+  </form>
 </div>
+
+<style>
+@keyframes fadeIn {
+  0% { opacity:0; transform: scale(0.95);}
+  100% { opacity:1; transform: scale(1);}
+}
+@keyframes slideDown {
+  0% { opacity:0; transform: translateY(-20px);}
+  100% { opacity:1; transform: translateY(0);}
+}
+</style>

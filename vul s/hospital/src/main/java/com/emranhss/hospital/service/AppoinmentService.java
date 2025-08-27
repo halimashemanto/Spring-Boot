@@ -8,6 +8,8 @@ import com.emranhss.hospital.repository.IScheduleSlot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AppoinmentService {
 
@@ -68,11 +70,6 @@ public class AppoinmentService {
 
 
 
-
-
-
-
-
     public void cancelAppointment(Long id) {
         Appoinment appointment = appointmentRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
@@ -87,6 +84,10 @@ public class AppoinmentService {
     }
 
 
+
+    public List<Appoinment> getAllAppointments() {
+        return appointmentRepo.findAll();
+    }
 
 
 

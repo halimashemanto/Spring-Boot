@@ -20,9 +20,33 @@ public class ScheduleSlotService {
     private IDoctorRepo doctorRepository;
 
 
-    public List<ScheduleSlot> getAllScheduleSlot() {
-        return scheduleSlotRepo.findAll();
+//    public List<ScheduleSlot> getAllScheduleSlot() {
+//        return scheduleSlotRepo.findAll();
+//    }
+
+
+    public List<SlotResponseDTO> getAllSlots() {
+        List<ScheduleSlot> slots = scheduleSlotRepo.findAll();
+
+        return slots.stream().map(slot -> {
+            String doctorName = slot.getDoctor() != null ? slot.getDoctor().getName() : null;
+            String departmentName = (slot.getDoctor() != null && slot.getDoctor().getDepartment() != null)
+                    ? slot.getDoctor().getDepartment().getDepartmentName()
+                    : null;
+
+            return new SlotResponseDTO(
+                    slot.getId(),
+                    slot.getDate(),
+                    slot.getStartTime(),
+                    slot.getEndTime(),
+                    slot.isBooked(),
+                    doctorName,
+                    departmentName
+            );
+        }).toList();
     }
+
+
 
 
     public List<ScheduleSlot> getAvailableSlots(Long doctorId) {

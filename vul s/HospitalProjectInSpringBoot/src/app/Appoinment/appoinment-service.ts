@@ -17,9 +17,18 @@ export class AppoinmentService {
   constructor(private http: HttpClient) { }
 
 
-   saveAppoinment(appoinment: any): Observable<any> {
-        return this.http.post(`${this.baseUrl}`, appoinment);
-    }
+  //  saveAppoinment(appoinment: any): Observable<any> {
+  //       return this.http.post(`${this.baseUrl}`, appoinment);
+  //   }
+
+  saveAppoinment(appoinment: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}`, appoinment, {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  });
+}
+
 
   cancelAppointment(id: number): Observable<string> {
     return this.http.delete<string>(`${this.baseUrl}/${id}`);

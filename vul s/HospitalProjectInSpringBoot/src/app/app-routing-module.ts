@@ -16,6 +16,7 @@ import { AddApooinment } from './Appoinment/add-apooinment/add-apooinment';
 import { AddInvoice } from './invoice/add-invoice/add-invoice';
 import { PublicNav } from './templet/public-nav/public-nav';
 import { DoctorIndivisualProfile } from './profile/doctor-indivisual-profile/doctor-indivisual-profile';
+import { ViewAllAppointment } from './Appoinment/view-all-appointment/view-all-appointment';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path:'viewdoctor', component:ViewDoctor},
   {path:'addpatient', component:AddPatient},
   {path:'appoinment', component:AddApooinment},
+  {path:'viewAppoinment', component:ViewAllAppointment},
   {path:'invoice', component:AddInvoice},
   {path:'public', component:PublicNav},
 
