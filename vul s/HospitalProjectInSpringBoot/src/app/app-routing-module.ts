@@ -23,8 +23,11 @@ const routes: Routes = [
   { path: '', component: AddDoctor },
   { path: 'viewdoc', component: ViewDoctor },
 
+
+  {path:'', component:PublicNav},
+
   // Registration Part
-  { path: '', component: AddDoctor },
+  { path: 'doc', component: AddDoctor },
   { path: 'nr', component: NurseRegistration },
   { path: 'or', component: OfficeStaffRegistration },
   { path: 'rr', component: ReceptionistRegistration },
@@ -43,7 +46,7 @@ const routes: Routes = [
   {path:'appoinment', component:AddApooinment},
   {path:'viewAppoinment', component:ViewAllAppointment},
   {path:'invoice', component:AddInvoice},
-  {path:'public', component:PublicNav},
+  
 
 ];
 

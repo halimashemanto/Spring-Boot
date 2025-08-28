@@ -34,4 +34,12 @@ export class PatientService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}`);
   }
+getDepartments(): Observable<any[]> {
+    return this.http.get<any[]>("http://localhost:8080/api/department/");
+  }
+
+  getDoctorsByDepartment(deptId: number) {
+    return this.http.get<any[]>("http://localhost:8080/api/doctor/by-department/"+deptId);
+  }
+
 }

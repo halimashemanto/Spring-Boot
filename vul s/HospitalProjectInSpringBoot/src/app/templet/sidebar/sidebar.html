@@ -1,119 +1,111 @@
-<ul class="navbar-nav sidebar sidebar-dark accordion shadow" id="accordionSidebar"
-    style="background: linear-gradient(to bottom right, #1f2937, #4b5563); color: white;">
+<!-- Sidebar -->
+<ul class="navbar-nav sidebar shadow-lg min-h-screen transition-all duration-500 ease-in-out"
+    id="accordionSidebar"
+    style="background: linear-gradient(to bottom right, #1e293b, #334155); color: white;">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" style="padding: 1rem;">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-user-shield fa-lg" style="color: #facc15;"></i>
+    <a class="sidebar-brand flex items-center justify-center gap-3 py-4 transition-transform duration-300 hover:scale-105"
+        href="index.html">
+        <div class="sidebar-brand-icon">
+            <i class="fas fa-hospital-user fa-2x text-yellow-400 animate-bounce"></i>
         </div>
-        <div class="sidebar-brand-text mx-3 fw-bold">Health Care of Bangladesh</div>
+        <div class="sidebar-brand-text font-bold tracking-wide text-lg">HCB</div>
     </a>
 
-    <hr class="sidebar-divider my-0" style="border-color: rgba(255,255,255,0.2);">
+    <!-- Divider -->
+    <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="index.html" style="color: #fff;">
-            <i class="fas fa-tachometer-alt" style="color: #38bdf8;"></i>
-            <span class="ms-2"></span>
+    <li class="nav-item active group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            href="index.html">
+            <i class="fas fa-tachometer-alt text-sky-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Dashboard</span>
         </a>
     </li>
 
-    <hr class="sidebar-divider" style="border-color: rgba(255,255,255,0.2);">
-
-    <!-- Heading -->
-    <div class="sidebar-heading" style="color: #e5e7eb;"></div>
-
-    <!-- Doctor -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" style="color: #fff;">
-            <i class="fas fa-user-md" style="color: #f87171;"></i>
-            <span class="ms-2">Registration</span>
+    <!-- Registration -->
+    <li class="nav-item group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            data-toggle="collapse" href="#collapseTwo">
+            <i class="fas fa-user-md text-rose-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Registration & Login</span>
         </a>
-        <div id="collapseTwo" class="collapse">
-            <div class="bg-light py-2 collapse-inner rounded">
-                <h6 class="collapse-header text-dark"><i class="fas fa-cogs me-1"></i>  </h6>
-                <a class="collapse-item" href="/nr"><i class="fas fa-hand-pointer me-1"></i> Nurse Registration</a>
-                <a class="collapse-item" href="/rr"><i class="fas fa-hand-pointer me-1"></i> Receptionist Registration</a>
-                <a class="collapse-item" href="/or"><i class="fas fa-hand-pointer me-1"></i> Office-Staff Registration</a>
-                <a class="collapse-item" href="/login"><i class="fas fa-hand-pointer me-1"></i> Login</a>
-                <a class="collapse-item" href="cards.html"><i class="fas fa-id-card me-1"></i> Cards</a>
-            </div>
+        <div id="collapseTwo" class="collapse ml-10">
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/doc"><i class="fas fa-user-nurse"></i> Doctor</a><br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/nr"><i class="fas fa-user"></i> Nurse</a><br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/rr"><i class="fas fa-user-tie"></i> Receptionist</a>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/or"><i class="fas fa-users-cog"></i> Office Staff</a>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
         </div>
     </li>
 
-    <!-- Utilities -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" style="color: #fff;">
-            <i class="fas fa-tools" style="color: #4ade80;"></i>
-            <span class="ms-2">Prescription</span>
+    <!-- Appointment -->
+    <li class="nav-item group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            data-toggle="collapse" href="#collapseUtilities">
+            <i class="fas fa-calendar-check text-green-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Appointment</span>
         </a>
-        <div id="collapseUtilities" class="collapse">
-            <div class="bg-light py-2 collapse-inner rounded">
-              
-                <h6 class="collapse-header text-dark"><i class="fas fa-sliders-h me-1"></i> Department </h6>
-                <a class="collapse-item" href="/allprofile"><i class="fas fa-palette me-1"></i> All Role Profile</a>
-                <a class="collapse-item" href="/viewdoctor"><i class="fas fa-palette me-1"></i> Doctor Profile</a>
-                <a class="collapse-item" href="/doctorprofile"><i class="fas fa-palette me-1"></i> Doctor Induvisual Profile</a>
-                <a class="collapse-item" href="/slot"><i class="fas fa-palette me-1"></i> Schedule Slot</a>
-                <a class="collapse-item" href="/department"><i class="fas fa-palette me-1"></i> Department</a>
-                <a class="collapse-item" href="/appoinment"><i class="fas fa-palette me-1"></i> Appoinment</a>
-                <a class="collapse-item" href="/invoice"><i class="fas fa-palette me-1"></i> Invoice</a>
-                <a class="collapse-item" href="/test"><i class="fas fa-palette me-1"></i> Test</a>
-                <a class="collapse-item" href="/medicine"><i class="fas fa-border-style me-1"></i> Medicine</a>
-                <a class="collapse-item" href="/addpatient"><i class="fas fa-magic me-1"></i> Patient</a>
-                <a class="collapse-item" href="utilities-other.html"><i class="fas fa-ellipsis-h me-1"></i> Prescription</a>
-                <a class="collapse-item" href="/department"><i class="fas fa-ellipsis-h me-1"></i> Department</a>
-            </div>
+        <div id="collapseUtilities" class="collapse ml-10">
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/slot"><i class="fas fa-clock"></i> Schedule Slot</a><br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/appoinment"><i class="fas fa-calendar-plus"></i> Appointment</a><br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/viewAppoinment"><i class="fas fa-eye"></i> View Booking</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                href="/doctorpdf"><i class="fas fa-file-pdf"></i> PDF</a><br>
         </div>
     </li>
 
-    <hr class="sidebar-divider" style="border-color: rgba(255,255,255,0.2);">
+    <!-- Department -->
+    <li class="nav-item group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            data-toggle="collapse" href="#collapseDept">
+            <i class="fas fa-building text-indigo-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Department</span>
+        </a>
+        <div id="collapseDept" class="collapse ml-10">
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/department"><i class="fas fa-hospital-symbol"></i> Department</a>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/test"><i class="fas fa-vials"></i> Test</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/medicine"><i class="fas fa-pills"></i> Medicine</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/addpatient"><i class="fas fa-user-injured"></i> Patient</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/invoice"><i class="fas fa-file-invoice"></i> Invoice</a> <br>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Addons -->
-    <div class="sidebar-heading" style="color: #e5e7eb;">Addons</div> 
-
-    <!-- Pages -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" style="color: #fff;">
-            <i class="fas fa-copy" style="color: #facc15;"></i>
-            <span class="ms-2">Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse">
-            <div class="bg-light py-2 collapse-inner rounded">
-                <h6 class="collapse-header text-dark"><i class="fas fa-sign-in-alt me-1"></i> viewAppoinment</h6>
-                <a class="collapse-item" href="/viewAppoinment"><i class="fas fa-user-lock me-1"></i> viewAppoinment</a>
-                <a class="collapse-item" href="register.html"><i class="fas fa-user-plus me-1"></i> Register</a>
-                <a class="collapse-item" href="forgot-password.html"><i class="fas fa-unlock me-1"></i> Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header text-dark"><i class="fas fa-file me-1"></i> Other Pages</h6>
-                <a class="collapse-item" href="404.html"><i class="fas fa-exclamation-triangle me-1"></i> 404 Page</a>
-                <a class="collapse-item" href="blank.html"><i class="fas fa-file-alt me-1"></i> Blank Page</a>
-            </div>
-        </div>
-    </li>
+    <div class="sidebar-heading px-4 py-1 text-gray-300 uppercase">Addons</div>
 
     <!-- Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html" style="color: #fff;">
-            <i class="fas fa-chart-line" style="color: #60a5fa;"></i>
-            <span class="ms-2">Charts</span>
+    <li class="nav-item group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            href="charts.html">
+            <i class="fas fa-chart-line text-sky-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Charts</span>
         </a>
     </li>
 
     <!-- Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html" style="color: #fff;">
-            <i class="fas fa-table" style="color: #a78bfa;"></i>
-            <span class="ms-2">Tables</span>
+    <li class="nav-item group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            href="tables.html">
+            <i class="fas fa-table text-purple-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Tables</span>
         </a>
     </li>
-
-    <hr class="sidebar-divider d-none d-md-block" style="border-color: rgba(255,255,255,0.2);">
-
-    <!-- Toggler -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-
 </ul>

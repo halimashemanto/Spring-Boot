@@ -82,33 +82,7 @@ export class AddApooinment {
     }
   }
 
-  // onScheduleSlotChange() {
-  //   this.scheduleSlot = [];
-  //   this.selectedScheduleSlot = 0;
-
-  //   if (this.selectedScheduleSlot) {
-  //     this.appoinmentService.getScheduleSlotByDoctor(this.selectedScheduleSlot).subscribe(data => {
-  //       this.scheduleSlot = data;
-  //       this.cdr.markForCheck();
-  //     });
-  //   }
-  // }
-
-  // saveAppoinmrnt() {
-  //   const appoinment = {
-  //     patientName: this.patientName,
-  //     patientContact: this.patientContact,
-  //     reason: this.reason,
-  //     departments: { id: this.selectedDepartment },
-  //     doctors: { id: this.selectedDoctor },
-  //     scheduleSlot: { id: this.selectedScheduleSlot }
-  //   };
-
-  //   this.appoinmentService.saveAppoinment(appoinment).subscribe(() => {
-  //     this.cdr.markForCheck();
-  //     alert('Appointment saved successfully!');
-  //   });
-  // }
+  
 
 
 saveAppoinmrnt() {
