@@ -25,16 +25,16 @@ public class InvoiceMapper {
         dto.setStatus(invoice.getStatus());
         dto.setPreparedBy(invoice.getPreparedBy());
 
+        dto.setPatientName(invoice.getPatientName());
+        dto.setPatientContact(invoice.getPatientContact());
+
+
         if (invoice.getDoctor() != null) {
             dto.setDoctorId(invoice.getDoctor().getId());
             dto.setDoctorName(invoice.getDoctor().getName());
         }
 
-        if (invoice.getAppoinment() != null) {
-            dto.setAppoinmentId(invoice.getAppoinment().getId());
-            dto.setPatientName(invoice.getAppoinment().getPatientName());
-            dto.setPatientContact(invoice.getAppoinment().getPatientContact());
-        }
+
 
         if (invoice.getTests() != null) {
             dto.setTestIds(invoice.getTests().stream()

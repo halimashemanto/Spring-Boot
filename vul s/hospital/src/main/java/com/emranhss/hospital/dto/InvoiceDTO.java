@@ -28,7 +28,6 @@ public class InvoiceDTO {
     private String doctorName;
 
 
-    private Long appoinmentId;
     private String patientName;
     private String patientContact;
 
@@ -43,12 +42,7 @@ public class InvoiceDTO {
     public void setDoctorId(Long doctorId) {
         this.doctorId = doctorId;
     }
-    public Long getAppoinmentId() {
-        return appoinmentId;
-    }
-    public void setAppoinmentId(Long appoinmentId) {
-        this.appoinmentId = appoinmentId;
-    }
+
     public List<Long> getTestIds() {
         return testIds;
     }

@@ -17,6 +17,7 @@ import { AddInvoice } from './invoice/add-invoice/add-invoice';
 import { PublicNav } from './templet/public-nav/public-nav';
 import { DoctorIndivisualProfile } from './profile/doctor-indivisual-profile/doctor-indivisual-profile';
 import { ViewAllAppointment } from './Appoinment/view-all-appointment/view-all-appointment';
+import { IndivisualDoctorAppointment } from './Appoinment/indivisual-doctor-appointment/indivisual-doctor-appointment';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'allprofile', component: AllUserProfile },
   { path: 'doctorprofile', component: DoctorIndivisualProfile },
+  { path: 'doctorpdf', component: IndivisualDoctorAppointment },
 
 // prescription part
   {path:'test', component:AddTest},

@@ -12,6 +12,8 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String patientName;
+    private String patientContact;
     private Double amount;
     private Double discount;
     private Date invoiceDate;
@@ -31,35 +33,51 @@ public class Invoice {
     @JsonIgnore
     private Doctor doctor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appoinment_id", nullable = false)
-    @JsonIgnore
-    private Appoinment appoinment;
+
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "invoice_id")
     private List<Tests> tests;
 
 
+
+
     public void calculateTotal() {
 
+        // 1️⃣ Calculate total amount from tests
         this.amount = (tests != null) ? tests.stream()
                 .mapToDouble(t -> t.getTestPrice() != null ? t.getTestPrice() : 0.0)
                 .sum() : 0.0;
 
-        this.totalDiscount = (this.discount != null) ? this.discount : 0.0;
+        // 2️⃣ Calculate discount as percentage
+        if (this.discount != null && this.discount > 0) {
+            this.totalDiscount = this.amount * (this.discount / 100.0);
+        } else {
+            this.totalDiscount = 0.0;
+        }
+
+        // 3️⃣ Total after discount
         this.totalAmount = this.amount - this.totalDiscount;
+
+        // 4️⃣ Payable amount
         this.payable = this.totalAmount;
+
+        // 5️⃣ Due calculation
         double receivedAmount = (this.received != null) ? this.received : 0.0;
         this.due = this.payable - receivedAmount;
+
+        // 6️⃣ Status update
         this.status = this.due <= 0;
     }
+
 
     public Invoice() {
     }
 
-    public Invoice(Long id, Double amount, Double discount, Date invoiceDate, Date deliveryDate, Integer deliveryTime, Double totalAmount, Double totalDiscount, Double payable, Double received, Double due, Boolean status, String preparedBy, Appoinment appoinment, Doctor doctor, List<Tests> tests) {
+    public Invoice(Long id, String patientName, String patientContact, Double amount, Double discount, Date invoiceDate, Date deliveryDate, Integer deliveryTime, Double totalAmount, Double totalDiscount, Double payable, Double received, Double due, Boolean status, String preparedBy, Doctor doctor, List<Tests> tests) {
         this.id = id;
+        this.patientName = patientName;
+        this.patientContact = patientContact;
         this.amount = amount;
         this.discount = discount;
         this.invoiceDate = invoiceDate;
@@ -72,7 +90,6 @@ public class Invoice {
         this.due = due;
         this.status = status;
         this.preparedBy = preparedBy;
-        this.appoinment = appoinment;
         this.doctor = doctor;
         this.tests = tests;
     }
@@ -181,12 +198,20 @@ public class Invoice {
         this.preparedBy = preparedBy;
     }
 
-    public Appoinment getAppoinment() {
-        return appoinment;
+    public String getPatientContact() {
+        return patientContact;
     }
 
-    public void setAppoinment(Appoinment appoinment) {
-        this.appoinment = appoinment;
+    public void setPatientContact(String patientContact) {
+        this.patientContact = patientContact;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 
     public Doctor getDoctor() {

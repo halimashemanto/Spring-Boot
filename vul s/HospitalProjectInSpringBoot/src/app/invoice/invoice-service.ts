@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {   InvoiceDTO} from './model/invoice.model';
-import { Observable } from 'rxjs';
+import {   Invoice} from './model/invoice.model';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../environment/environment';
 ;
 
@@ -15,26 +15,19 @@ export class InvoiceService {
 
  constructor(private http: HttpClient) {}
 
-createInvoice(dto: InvoiceDTO): Observable<InvoiceDTO> {
-    return this.http.post<InvoiceDTO>(this.baseUrl, dto);
+ private invoices: Invoice[] = [];
+
+
+  saveInvoice(payload: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(this.baseUrl, payload, { headers });
   }
 
-  getAllInvoices(): Observable<InvoiceDTO[]> {
-    return this.http.get<InvoiceDTO[]>(this.baseUrl);
+  getAllInvoices(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl);
   }
 
-  // Doctors list
-  getAllDoctors(): Observable<any[]> {
-    return this.http.get<any[]>(environment.apiBaseUrl + '/api/doctor');
-  }
-
-  // Tests list
-  getAllTests(): Observable<any[]> {
-    return this.http.get<any[]>(environment.apiBaseUrl + '/api/test');
-  }
-
-  // Get appointment by doctor id (latest/active)
-  getAppointmentByDoctorId(doctorId: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/appointment/doctor/${doctorId}`);
+  getInvoiceById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 }

@@ -53,11 +53,7 @@ public class InvoiceService {
                 .orElseThrow(() -> new RuntimeException("Doctor must be provided!"));
 
 
-        Appoinment appoinment = null;
-        if (dto.getAppoinmentId() != null) {
-            appoinment = appoinmentRepository.findById(dto.getAppoinmentId())
-                    .orElseThrow(() -> new RuntimeException("Appointment not found!"));
-        }
+
 
 
         List<Tests> tests = testsRepository.findAllById(dto.getTestIds());
@@ -65,12 +61,19 @@ public class InvoiceService {
 
         Invoice invoice = new Invoice();
         invoice.setDoctor(doctor);
-        invoice.setAppoinment(appoinment);
         invoice.setTests(tests);
         invoice.setDiscount(dto.getDiscount());
         invoice.setInvoiceDate(dto.getInvoiceDate());
         invoice.setDeliveryDate(dto.getDeliveryDate());
         invoice.setDeliveryTime(dto.getDeliveryTime());
+        invoice.setPatientName(dto.getPatientName());
+        invoice.setPatientContact(dto.getPatientContact());
+        invoice.setPreparedBy(dto.getPreparedBy());
+        invoice.setDue(dto.getDue());
+
+
+
+
 
 
         invoice.calculateTotal();

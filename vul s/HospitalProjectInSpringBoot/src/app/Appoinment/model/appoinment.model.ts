@@ -14,7 +14,7 @@ export interface Appointment {
   reason: string;
 
 
-
+  doctorId:number;
   doctorName: string;
     departmentName: string;
     slotDate: string;
