@@ -1,52 +1,89 @@
-<div style="max-width:800px;margin:auto;padding:20px;font-family:Arial,sans-serif;">
-  <h2 style="text-align:center;color:#2c3e50;">Create Invoice</h2>
+<div style="max-width:900px;margin:auto;padding:25px;font-family:Arial,sans-serif;background:#f8f9fa;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+
+  <h2 style="text-align:center;color:#2c3e50;margin-bottom:20px;">🧾 Create Invoice</h2>
 
   <!-- Patient Info -->
-  <div style="background:#ecf0f1;padding:15px;border-radius:8px;margin-bottom:20px;">
-    <h3 style="color:#34495e;">Patient Information</h3>
-    <label>Patient Name:</label>
-    <input type="text" [(ngModel)]="invoice.patientName" (ngModelChange)="calculateTotal()" style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
-    <label>Patient Contact:</label>
-    <input type="text" [(ngModel)]="invoice.patientContact" (ngModelChange)="calculateTotal()" style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
+  <div style="background:white;padding:20px;border-radius:10px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+    <h3 style="color:#34495e;margin-bottom:15px;border-bottom:2px solid #eee;padding-bottom:5px;">👤 Patient Information</h3>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+      <div>
+        <label style="font-weight:bold;">Patient Name:</label>
+        <input type="text" [(ngModel)]="invoice.patientName" (ngModelChange)="calculateTotal()" 
+               style="width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px;">
+      </div>
+      <div>
+        <label style="font-weight:bold;">Patient Contact:</label>
+        <input type="text" [(ngModel)]="invoice.patientContact" (ngModelChange)="calculateTotal()" 
+               style="width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px;">
+      </div>
+    </div>
   </div>
 
   <!-- Doctor -->
-  <div style="background:#ecf0f1;padding:15px;border-radius:8px;margin-bottom:20px;">
-    <h3 style="color:#34495e;">Doctor</h3>
-    <select [(ngModel)]="invoice.doctorId" (ngModelChange)="calculateTotal()" style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
+  <div style="background:white;padding:20px;border-radius:10px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+    <h3 style="color:#34495e;margin-bottom:15px;border-bottom:2px solid #eee;padding-bottom:5px;">🩺 Doctor</h3>
+    <select [(ngModel)]="invoice.doctorId" (ngModelChange)="calculateTotal()" 
+            style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;">
       <option value="0" disabled>Select Doctor</option>
       <option *ngFor="let d of doctors" [value]="d.id">{{d.name}}</option>
     </select>
   </div>
 
   <!-- Tests -->
-  <div style="background:#ecf0f1;padding:15px;border-radius:8px;margin-bottom:20px;">
-    <h3 style="color:#34495e;">Tests</h3>
-    <div *ngFor="let t of invoice.testDetails; let i=index" style="display:flex;align-items:center;margin-bottom:10px;">
-      <select [(ngModel)]="t.testId" (ngModelChange)="onTestChange(t)" style="flex:1;padding:6px;border:1px solid #bdc3c7;border-radius:4px;">
+  <div style="background:white;padding:20px;border-radius:10px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+    <h3 style="color:#34495e;margin-bottom:15px;border-bottom:2px solid #eee;padding-bottom:5px;">🧪 Tests</h3>
+
+    <div *ngFor="let t of invoice.testDetails; let i=index" 
+         style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <select [(ngModel)]="t.id" (ngModelChange)="onTestChange(t)" 
+              style="flex:1;padding:10px;border:1px solid #ccc;border-radius:6px;">
         <option value="0" disabled>Select Test</option>
-        <option *ngFor="let test of tests" [value]="test.id">{{test.testName}} - {{test.testPrice}} BDT</option>
+        <option *ngFor="let test of tests" [value]="test.id">
+          {{test.testName}} - {{test.testPrice}} BDT
+        </option>
       </select>
-      <button type="button" (click)="removeTest(i)" style="margin-left:10px;padding:6px 12px;background:#e74c3c;color:white;border:none;border-radius:4px;">Remove</button>
+      <button type="button" (click)="removeTest(i)" 
+              style="padding:8px 14px;background:#e74c3c;color:white;border:none;border-radius:6px;cursor:pointer;">
+        ✖
+      </button>
     </div>
-    <button type="button" (click)="addTest()" style="padding:8px 16px;background:#27ae60;color:white;border:none;border-radius:4px;">Add Test</button>
+
+    <button type="button" (click)="addTest()" 
+            style="padding:10px 20px;background:#27ae60;color:white;border:none;border-radius:6px;cursor:pointer;">
+      ➕ Add Test
+    </button>
   </div>
 
   <!-- Payment -->
-  <div style="background:#ecf0f1;padding:15px;border-radius:8px;margin-bottom:20px;">
-    <h3 style="color:#34495e;">Payment Information</h3>
-    <label>Discount (%):</label>
-    <input type="number" [(ngModel)]="invoice.discount" (ngModelChange)="calculateTotal()" style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
-    <label>Received Amount:</label>
-    <input type="number" [(ngModel)]="invoice.received" (ngModelChange)="calculateTotal()" style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
+  <div style="background:white;padding:20px;border-radius:10px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+    <h3 style="color:#34495e;margin-bottom:15px;border-bottom:2px solid #eee;padding-bottom:5px;">💰 Payment</h3>
 
-    <label>Total Amount:</label>
-    <input type="number" [value]="invoice.totalAmount" readonly style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
-    <label>Due Amount:</label>
-    <input type="number" [value]="invoice.due" readonly style="width:100%;padding:6px;margin-bottom:10px;border:1px solid #bdc3c7;border-radius:4px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px;">
+      <div>
+        <label style="font-weight:bold;">Discount (%):</label>
+        <input type="number" [(ngModel)]="invoice.discount" (ngModelChange)="calculateTotal()" 
+               style="width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px;">
+      </div>
+      <div>
+        <label style="font-weight:bold;">Received:</label>
+        <input type="number" [(ngModel)]="invoice.received" (ngModelChange)="calculateTotal()" 
+               style="width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px;">
+      </div>
+    </div>
+
+    <div style="background:#f4f6f7;padding:15px;border-radius:8px;font-size:16px;line-height:1.8;">
+      <p><strong>Amount:</strong> {{ invoice.amount }} BDT</p>
+      <p><strong>Total Amount:</strong> {{ invoice.totalAmount }} BDT</p>
+      <p><strong>Due:</strong> {{ invoice.due }} BDT</p>
+    </div>
   </div>
 
+  <!-- Save Button -->
   <div style="text-align:center;">
-    <button type="button" (click)="saveInvoice()" style="padding:10px 20px;background:#2980b9;color:white;border:none;border-radius:6px;">Save & Generate PDF</button>
+    <button type="button" (click)="saveInvoice()" 
+            style="padding:12px 28px;background:#2980b9;color:white;font-size:16px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 3px 6px rgba(0,0,0,0.15);">
+      💾 Save & Generate PDF
+    </button>
   </div>
 </div>

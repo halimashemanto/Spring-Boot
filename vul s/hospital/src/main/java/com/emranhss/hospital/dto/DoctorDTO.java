@@ -29,10 +29,14 @@ public class DoctorDTO {
     private String departmentName;
     private String departmentDescription;
 
-    // Constructor
-    public DoctorDTO(Long id, String name, String email, String phone, String gender, String status,
-                     String study, String chamber, Date joinDate, String photo,
-                     Long departmentId, String departmentName, String departmentDescription) {
+//    // Department info
+//    private DepartmentResponseDTO departmentResponseDTO;
+
+    public DoctorDTO() {
+
+    }
+
+    public DoctorDTO(Long id, String name, String email, String phone, String gender, String status, String study, String chamber, Date joinDate, String photo, Long departmentId, String departmentName, String departmentDescription) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -46,10 +50,7 @@ public class DoctorDTO {
         this.departmentId = departmentId;
         this.departmentName = departmentName;
         this.departmentDescription = departmentDescription;
-    }
-
-    public DoctorDTO() {
-
+//        this.departmentResponseDTO = departmentResponseDTO;
     }
 
     // Getters and setters for all fields
@@ -90,5 +91,18 @@ public class DoctorDTO {
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
 
     public String getDepartmentDescription() { return departmentDescription; }
-    public void setDepartmentDescription(String departmentDescription) { this.departmentDescription = departmentDescription; }
+
+//    public DepartmentResponseDTO getDepartmentResponseDTO() {
+//        return departmentResponseDTO;
+//    }
+//
+//    public void setDepartmentResponseDTO(DepartmentResponseDTO departmentResponseDTO) {
+//        this.departmentResponseDTO = departmentResponseDTO;
+//    }
+
+    public void setDepartmentDescription(String departmentDescription) { this.departmentDescription = departmentDescription;
+
+
+
+    }
 }

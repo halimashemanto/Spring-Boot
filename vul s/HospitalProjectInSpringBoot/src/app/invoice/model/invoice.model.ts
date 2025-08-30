@@ -1,19 +1,14 @@
-export interface TestInvoice {
-  testId: number;
-  testName?: string;
-  price?: number;
-}
+import { Doctor } from "../../doctor/model/doctor.model";
+import { Test } from "../../test/model/test.model";
 
 export interface Invoice {
   id?: number;
   patientName: string;
   patientContact: string;
-  doctorId: number;
-  doctorName?: string;
-  department?: string;
-  testDetails: TestInvoice[];
+  doctor:Doctor;
+  testDetails: Test[];
   amount: number;
-  discount: number;  // %
+  discount: number; 
   totalAmount: number;
   received: number;
   due: number;

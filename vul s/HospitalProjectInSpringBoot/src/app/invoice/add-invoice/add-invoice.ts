@@ -6,15 +6,8 @@ import autoTable from 'jspdf-autotable';
 import { Test } from '../../test/model/test.model';
 import { DoctorService } from '../../doctor/doctor-service';
 import { TestService } from '../../test/test-service';
+import { Invoice } from '../model/invoice.model';
 
-
-
-
-interface TestInvoice {
-  testId: number;
-  testName?: string;
-  price?: number;
-}
 
 
 
@@ -33,7 +26,7 @@ export class AddInvoice implements OnInit {
     patientName: '',
     patientContact: '',
     doctorId: 0,
-    testDetails: [] as TestInvoice[],
+    testDetails: [] as Test[],
     discount: 0,
     received: 0,
     amount: 0,
@@ -47,7 +40,8 @@ export class AddInvoice implements OnInit {
   constructor(
     private doctorService: DoctorService,
     private testService: TestService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private cdr:ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -55,41 +49,48 @@ export class AddInvoice implements OnInit {
     this.testService.getAllTests().subscribe(t => this.tests = t);
   }
 
-  addTest() {
-    this.invoice.testDetails.push({ testId: 0 });
-  }
-
-  removeTest(i: number) {
+ addTest() {
+    this.invoice.testDetails.push({ id: 0, testName: '', testPrice: 0 });
+  
+ }
+ 
+ removeTest(i: number) {
     this.invoice.testDetails.splice(i, 1);
+    this.calculateTotal();
   }
 
-
-
- onTestChange(testInv: TestInvoice) {
-    const test = this.tests.find(t => t.id === testInv.testId);
-    if (test) {
-      testInv.testName = test.testName;
-      testInv.price = test.testPrice;
-    } else {
-      testInv.price = 0;
+onTestChange(t: any) {
+    const selectedTest = this.tests.find(test => test.id == t.id);
+    if (selectedTest) {
+      t.price = selectedTest.testPrice;  
     }
     this.calculateTotal();
   }
 
-  calculateTotal() {
-    const total = this.invoice.testDetails.reduce((sum, t) => sum + (t.price || 0), 0);
+ calculateTotal() {
+    
+    let total = 0;
+    this.invoice.testDetails.forEach((t: any) => {
+      total += Number(t.price) || 0;
+    });
+
     this.invoice.amount = total;
-    const discountAmount = (total * (this.invoice.discount || 0)) / 100;
+
+   
+    let discountAmount = (total * (this.invoice.discount || 0)) / 100;
     this.invoice.totalAmount = total - discountAmount;
+
+   
     this.invoice.due = this.invoice.totalAmount - (this.invoice.received || 0);
   }
+
 
   saveInvoice() {
     if (!this.invoice.patientName || !this.invoice.doctorId) {
       alert('Patient Name & Doctor required');
       return;
     }
-    if (!this.invoice.testDetails.length || this.invoice.testDetails.some(t => t.testId === 0)) {
+    if (!this.invoice.testDetails.length || this.invoice.testDetails.some(t => t.id === 0)) {
       alert('Select at least one test');
       return;
     }
@@ -98,7 +99,7 @@ export class AddInvoice implements OnInit {
       patientName: this.invoice.patientName,
       patientContact: this.invoice.patientContact,
       doctorId: this.invoice.doctorId,
-      testIds: this.invoice.testDetails.map(t => t.testId),
+      testIds: this.invoice.testDetails.map(t => t.id),
       discount: this.invoice.discount,
       received: this.invoice.received,
       amount: this.invoice.amount,
@@ -140,8 +141,22 @@ export class AddInvoice implements OnInit {
 
   generatePDF(inv: any) {
     const doc = new jsPDF();
-    doc.setFontSize(18);
+
+      doc.setFontSize(20);
+    doc.setTextColor(40, 116, 240);
+
+    doc.setFontSize(28);
     doc.text('Health Care of Bangladesh', 105, 15, { align: 'center' });
+
+    doc.setFontSize(22);
+    doc.setTextColor(80);
+    doc.text('“Trust, Hope & Healing — Your Health Our Priority”', 105, 22, { align: 'center' });
+    doc.text('Address: 123, Azimpur, Lalbagh-Road, Dhaka-1205, Bangladesh', 105, 28, { align: 'center' });
+
+    doc.setDrawColor(100, 149, 237);
+    doc.setLineWidth(0.5);
+    doc.line(20, 32, 190, 32);
+
 
     doc.setFontSize(12);
     doc.text(`Patient: ${inv.patientName}`, 14, 30);
@@ -151,19 +166,46 @@ export class AddInvoice implements OnInit {
     doc.text(`Delivery Date: ${new Date(inv.deliveryDate).toLocaleString()}`, 14, 58);
     doc.text(`Delivery Time: ${inv.deliveryTime} hrs`, 14, 65);
 
-    const tableData = inv.testNames?.map((name: string, i: number) => [name, inv.testPrices ? inv.testPrices[i] : '']) || [];
+    const testData = this.invoice.testDetails.map((t: any, index: number) => [
+      index + 1,
+      t.testName,
+      t.price + ' BDT'
+    ]); 
+
+
+
     autoTable(doc, {
-      startY: 75,
-      head: [['Test Name', 'Price (BDT)']],
-      body: tableData
+      startY: 65,
+      head: [['#', 'Test Name', 'Price']],
+      body: testData,
+      theme: 'grid',
+      styles: { halign: 'center', fontSize: 11 },
+      headStyles: { fillColor: [40, 116, 240], textColor: 255, fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [240, 248, 255] }
     });
 
-    let finalY = 75 + tableData.length * 10 + 10;
+    // const tableData = inv.testNames?.map((name: string, i: number) => [name, inv.testPrices ? inv.testPrices[i] : '']) || [];
+    // autoTable(doc, {
+    //   startY: 75,
+    //   head: [['Test Name', 'Price (BDT)']],
+    //   body: tableData
+    // });
+
+    let finalY = 75 + testData.length * 10 + 10;
     doc.text(`Amount: ${inv.amount} BDT`, 150, finalY);
     doc.text(`Discount: ${inv.discount} %`, 150, finalY + 7);
     doc.text(`Total Amount: ${inv.totalAmount} BDT`, 150, finalY + 14);
     doc.text(`Received: ${inv.received || 0} BDT`, 150, finalY + 21);
     doc.text(`Due: ${inv.due} BDT`, 150, finalY + 28);
+
+     doc.setFontSize(12);
+    doc.setTextColor(50);
+    doc.text('Prepared By: ______________________', 14, finalY + 50);
+    // doc.text('Signature: _________________________', 140, finalY + 50);
+
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text('Thank you for trusting Health Care of Bangladesh.', 105, 285, { align: 'center' });
 
     doc.save(`Invoice_${inv.patientName}_${new Date().getTime()}.pdf`);
   }
