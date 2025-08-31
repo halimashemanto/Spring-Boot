@@ -20,9 +20,13 @@ import { ViewAllAppointment } from './Appoinment/view-all-appointment/view-all-a
 import { IndivisualDoctorAppointment } from './Appoinment/indivisual-doctor-appointment/indivisual-doctor-appointment';
 import { AddPrescription } from './prescription/add-prescription/add-prescription';
 import { ViewPrescription } from './prescription/view-prescription/view-prescription';
+import { AddReport } from './report/add-report/add-report';
+import { NurseIndivisualProfile } from './profile/nurse-indivisual-profile/nurse-indivisual-profile';
+import { ReceptionistIndivisualProfile } from './profile/receptionist-indivisual-profile/receptionist-indivisual-profile';
+import { OfficeStaffIndivisualProfile } from './profile/office-staff-indivisual-profile/office-staff-indivisual-profile';
 
 const routes: Routes = [
-  { path: '', component: AddDoctor },
+  
   { path: 'viewdoc', component: ViewDoctor },
 
 
@@ -50,6 +54,12 @@ const routes: Routes = [
   {path:'invoice', component:AddInvoice},
   {path:'pres', component:AddPrescription},
   {path:'vpres', component:ViewPrescription},
+  {path:'report', component:AddReport},
+  {path:'Np', component:NurseIndivisualProfile},
+  {path:'rp', component:ReceptionistIndivisualProfile},
+  {path:'op', component:OfficeStaffIndivisualProfile},
+
+
   
 
 ];

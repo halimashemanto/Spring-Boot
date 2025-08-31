@@ -139,76 +139,71 @@ onTestChange(t: any) {
     };
   }
 
-  generatePDF(inv: any) {
+generatePDF(inv: any) {
     const doc = new jsPDF();
 
-      doc.setFontSize(20);
-    doc.setTextColor(40, 116, 240);
-
     doc.setFontSize(28);
+    doc.setTextColor(40, 116, 240);
     doc.text('Health Care of Bangladesh', 105, 15, { align: 'center' });
 
-    doc.setFontSize(22);
+    doc.setFontSize(12);
     doc.setTextColor(80);
     doc.text('“Trust, Hope & Healing — Your Health Our Priority”', 105, 22, { align: 'center' });
     doc.text('Address: 123, Azimpur, Lalbagh-Road, Dhaka-1205, Bangladesh', 105, 28, { align: 'center' });
 
     doc.setDrawColor(100, 149, 237);
-    doc.setLineWidth(0.5);
-    doc.line(20, 32, 190, 32);
-
+    doc.setLineWidth(2);
+    doc.line(70, 32, 190, 32);
 
     doc.setFontSize(12);
-    doc.text(`Patient: ${inv.patientName}`, 14, 30);
-    doc.text(`Contact: ${inv.patientContact}`, 14, 37);
-    doc.text(`Doctor: ${inv.doctorName || ''}`, 14, 44);
-    doc.text(`Invoice Date: ${new Date(inv.invoiceDate).toLocaleString()}`, 14, 51);
-    doc.text(`Delivery Date: ${new Date(inv.deliveryDate).toLocaleString()}`, 14, 58);
-    doc.text(`Delivery Time: ${inv.deliveryTime} hrs`, 14, 65);
+    doc.setTextColor(0);
+    doc.text(`Patient: ${inv.patientName}`, 14, 40);
+    doc.text(`Contact: ${inv.patientContact || ''}`, 14, 47);
+    doc.text(`Doctor: ${inv.doctorName || ''}`, 14, 54);
+    doc.text(`Invoice Date: ${new Date(inv.invoiceDate).toLocaleString()}`, 14, 61);
+    doc.text(`Delivery Date: ${new Date(inv.deliveryDate).toLocaleDateString()}`, 14, 68);
+    doc.text(`Delivery Time: ${inv.deliveryTime} hrs`, 14, 75);
 
-    const testData = this.invoice.testDetails.map((t: any, index: number) => [
-      index + 1,
-      t.testName,
-      t.price + ' BDT'
-    ]); 
-
-
+    // Table data
+    const testData = inv.testDetails?.map((t: any, index: number) => [
+        index + 1,
+        t.testName || 'N/A',
+        t.price + ' BDT'
+    ]) || [];
 
     autoTable(doc, {
-      startY: 65,
-      head: [['#', 'Test Name', 'Price']],
-      body: testData,
-      theme: 'grid',
-      styles: { halign: 'center', fontSize: 11 },
-      headStyles: { fillColor: [40, 116, 240], textColor: 255, fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [240, 248, 255] }
+        startY: 85,
+        head: [['#', 'Test Name', 'Price']],
+        body: testData,
+        theme: 'grid',
+        styles: { fontSize: 11, cellPadding: 2, valign: 'middle' },
+        headStyles: { fillColor: [40, 116, 240], textColor: 255, fontStyle: 'bold' },
+        columnStyles: {
+            0: { halign: 'center', cellWidth: 10 },
+            1: { halign: 'left' },   // Test Name left align
+            2: { halign: 'center', cellWidth: 30 }
+        },
+        alternateRowStyles: { fillColor: [240, 248, 255] }
     });
 
-    // const tableData = inv.testNames?.map((name: string, i: number) => [name, inv.testPrices ? inv.testPrices[i] : '']) || [];
-    // autoTable(doc, {
-    //   startY: 75,
-    //   head: [['Test Name', 'Price (BDT)']],
-    //   body: tableData
-    // });
+    const finalY = (doc as any).lastAutoTable.finalY + 10;
 
-    let finalY = 75 + testData.length * 10 + 10;
     doc.text(`Amount: ${inv.amount} BDT`, 150, finalY);
     doc.text(`Discount: ${inv.discount} %`, 150, finalY + 7);
     doc.text(`Total Amount: ${inv.totalAmount} BDT`, 150, finalY + 14);
     doc.text(`Received: ${inv.received || 0} BDT`, 150, finalY + 21);
     doc.text(`Due: ${inv.due} BDT`, 150, finalY + 28);
 
-     doc.setFontSize(12);
-    doc.setTextColor(50);
+    doc.setFontSize(12);
     doc.text('Prepared By: ______________________', 14, finalY + 50);
-    // doc.text('Signature: _________________________', 140, finalY + 50);
 
     doc.setFontSize(10);
     doc.setTextColor(150);
     doc.text('Thank you for trusting Health Care of Bangladesh.', 105, 285, { align: 'center' });
 
     doc.save(`Invoice_${inv.patientName}_${new Date().getTime()}.pdf`);
-  }
+}
+
 
 }
 

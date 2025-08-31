@@ -3,6 +3,7 @@ import { environment } from '../../environment/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Appointment } from './model/appoinment.model';
 import { Observable } from 'rxjs';
+import { AppoinmentDTO } from './model/appoinmentDTO';
 
 
 @Injectable({
@@ -66,6 +67,12 @@ export class AppoinmentService {
     return this.http.get<any []>(`${this.baseUrl}/doctor/${doctorId}`);
   }
 
+
+   getAppoinmentById(id: number): Observable<AppoinmentDTO> {
+    return this.http.get<AppoinmentDTO>(`${this.baseUrl}/${id}`);
+  }
+
+  
 
 
 

@@ -5,19 +5,28 @@
 
     <!-- Patient Info -->
     <div class="row mb-3">
+
+
+
       <div class="col-md-4">
-        <label>Patient Contact</label>
-        <input type="text" class="form-control" [(ngModel)]="prescription.patientContact"
-               (input)="onPatientContactChange()" name="patientContact" required>
+        <label>Appointment ID</label>
+        <input type="number" class="form-control" [(ngModel)]="selectedAppointmentId" (change)=" onAppointmentChange()"
+          name="appointmentId" required>
       </div>
+
       <div class="col-md-4">
         <label>Patient Name</label>
         <input type="text" class="form-control" [(ngModel)]="prescription.patientName" name="patientName" readonly>
       </div>
+
       <div class="col-md-4">
-        <label>Age</label>
-        <input type="number" class="form-control" [(ngModel)]="prescription.patientAge" name="patientAge" readonly>
+        <label>Patient Contact</label>
+        <input type="text" class="form-control" [(ngModel)]="prescription.patientContact" name="patientContact"
+          readonly>
       </div>
+
+
+
     </div>
 
     <!-- Doctor Info -->
@@ -59,15 +68,16 @@
       <label>Medicines</label>
       <div class="d-flex flex-wrap gap-2 mb-2">
         <div *ngFor="let med of selectedMedicines" class="badge bg-success p-2">
-          {{med.name}} - <input type="text" class="form-control form-control-sm d-inline w-auto" 
-                                [(ngModel)]="prescription.applyWay" placeholder="Apply Way">
-          <button type="button" class="btn-close btn-close-white ms-2" aria-label="Remove" (click)="removeMedicine(med)"></button>
+          {{med.medicineName}} - <input type="text" class="form-control form-control-sm d-inline w-auto"
+            [(ngModel)]="prescription.applyWay" placeholder="Apply Way">
+          <button type="button" class="btn-close btn-close-white ms-2" aria-label="Remove"
+            (click)="removeMedicine(med)"></button>
         </div>
       </div>
-   <select class="form-select" (change)="onMedicineSelect($event)">
-  <option value="">-- Add Medicine --</option>
-  <option *ngFor="let med of medicines" [value]="med.id">{{med.name}}</option>
-</select>
+      <select class="form-select" (change)="onMedicineSelect($event)">
+        <option value="">-- Add Medicine --</option>
+        <option *ngFor="let med of medicines" [value]="med.id">{{med.medicineName}}</option>
+      </select>
 
     </div>
 
@@ -76,14 +86,15 @@
       <label>Tests</label>
       <div class="d-flex flex-wrap gap-2 mb-2">
         <div *ngFor="let test of selectedTests" class="badge bg-info p-2 text-dark">
-          {{test.name}}
-          <button type="button" class="btn-close btn-close-white ms-2" aria-label="Remove" (click)="removeTest(test)"></button>
+          {{test.testName}}
+          <button type="button" class="btn-close btn-close-white ms-2" aria-label="Remove"
+            (click)="removeTest(test)"></button>
         </div>
       </div>
       <select class="form-select" (change)="onTestSelect($event)">
-  <option value="">-- Add Test --</option>
-  <option *ngFor="let test of tests" [value]="test.id">{{test.name}}</option>
-</select>
+        <option value="">-- Add Test --</option>
+        <option *ngFor="let test of tests" [value]="test.id">{{test.testName}}</option>
+      </select>
 
     </div>
 

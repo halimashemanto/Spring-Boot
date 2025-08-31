@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,6 +98,39 @@ public class AppoinmentService {
                 .stream()
                 .map(appointmentMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+
+    public AppoinmentDTO getAppoinmentById(Long id) {
+        Optional<Appoinment> optional = appointmentRepo.findById(id);
+        if (optional.isEmpty()) return null; // or throw exception
+
+        Appoinment appointment = optional.get();
+
+        AppoinmentDTO dto = new AppoinmentDTO();
+        dto.setId(appointment.getId());
+        dto.setPatientName(appointment.getPatientName());
+        dto.setPatientContact(appointment.getPatientContact());
+        dto.setReason(appointment.getReason());
+
+        if (appointment.getDoctor() != null) {
+            dto.setDoctorId(appointment.getDoctor().getId());
+            dto.setDoctorName(appointment.getDoctor().getName());
+        }
+
+        if (appointment.getDepartment() != null) {
+            dto.setDepartmentId(appointment.getDepartment().getId());
+            dto.setDepartmentName(appointment.getDepartment().getDepartmentName());
+        }
+
+        if (appointment.getScheduleSlot() != null) {
+            dto.setScheduleSlotId(appointment.getScheduleSlot().getId());
+            dto.setSlotDate(appointment.getScheduleSlot().getDate());
+            dto.setSlotStartTime(appointment.getScheduleSlot().getStartTime());
+            dto.setSlotEndTime(appointment.getScheduleSlot().getEndTime());
+        }
+
+        return dto;
     }
 
 

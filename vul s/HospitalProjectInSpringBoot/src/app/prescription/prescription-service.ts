@@ -18,8 +18,8 @@ export class PrescriptionService {
 
  constructor(private http: HttpClient) {}
 
-  create(dto: PrescriptionDTO): Observable<PrescriptionDTO> {
-    return this.http.post<PrescriptionDTO>(this.baseUrl, dto);
+  create(dto: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl, dto);
   }
 
   update(id: number, dto: PrescriptionDTO): Observable<PrescriptionDTO> {

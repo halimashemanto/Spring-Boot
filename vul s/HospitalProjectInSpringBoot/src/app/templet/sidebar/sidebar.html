@@ -85,27 +85,53 @@
         </div>
     </li>
 
+
+ <!-- profile -->
+    <li class="nav-item group">
+        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+            data-toggle="collapse" href="#collapseDept">
+            <i class="fas fa-building text-indigo-400 group-hover:rotate-12 transition-transform"></i>
+            <span>Profile</span>
+        </a>
+        <div id="collapseDept" class="collapse ml-10">
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/allprofile"><i class="fas fa-hospital-symbol"></i> All Role </a>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/viewdoctor"><i class="fas fa-vials"></i> All Doctors</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/doctorprofile"><i class="fas fa-pills"></i> Indivisule Doctor</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/Np"><i class="fas fa-user-injured"></i> Receptionists</a> <br>
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/Np"><i class="fas fa-file-invoice"></i> Indivisual Nurses</a> <br>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/op"><i class="fas fa-file-invoice"></i> Indivisual OfficeStaff</a> <br>
+        </div>
+    </li>
+
+
+
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Addons -->
-    <div class="sidebar-heading px-4 py-1 text-gray-300 uppercase">Addons</div>
+    <div class="sidebar-heading px-4 py-1 text-gray-300 uppercase">Prescription</div>
 
     <!-- Charts -->
     <li class="nav-item group">
         <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
-            href="charts.html">
+            href="/pres">
             <i class="fas fa-chart-line text-sky-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Charts</span>
+            <span>Prescriptions</span>
         </a>
     </li>
 
     <!-- Tables -->
     <li class="nav-item group">
         <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
-            href="tables.html">
+            href="/report">
             <i class="fas fa-table text-purple-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Tables</span>
+            <span>Report</span>
         </a>
     </li>
 </ul>

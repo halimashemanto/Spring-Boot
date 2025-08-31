@@ -15,34 +15,105 @@ public class PrescriptionDTO {
     private Date date;
     private String applyWay;
 
-    private Long doctorId;
-    private Long appoinmentId;
-    private List<Long> medicineIds;
-    private List<Long> testIds;
+    private DoctorDTO doctor;
+    private AppoinmentDTO appointment;
+    private List<MedicineDTO> medicines;
+    private List<TestDTO> tests;
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getNote() { return note; }
-    public void setNote(String note) { this.note = note; }
-    public String getAdvice() { return advice; }
-    public void setAdvice(String advice) { this.advice = advice; }
-    public String getHeight() { return height; }
-    public void setHeight(String height) { this.height = height; }
-    public String getWeight() { return weight; }
-    public void setWeight(String weight) { this.weight = weight; }
-    public String getBp() { return bp; }
-    public void setBp(String bp) { this.bp = bp; }
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
-    public String getApplyWay() { return applyWay; }
-    public void setApplyWay(String applyWay) { this.applyWay = applyWay; }
-    public Long getDoctorId() { return doctorId; }
-    public void setDoctorId(Long doctorId) { this.doctorId = doctorId; }
-    public Long getAppoinmentId() { return appoinmentId; }
-    public void setAppoinmentId(Long appoinmentId) { this.appoinmentId = appoinmentId; }
-    public List<Long> getMedicineIds() { return medicineIds; }
-    public void setMedicineIds(List<Long> medicineIds) { this.medicineIds = medicineIds; }
-    public List<Long> getTestIds() { return testIds; }
-    public void setTestIds(List<Long> testIds) { this.testIds = testIds; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getAdvice() {
+        return advice;
+    }
+
+    public void setAdvice(String advice) {
+        this.advice = advice;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getBp() {
+        return bp;
+    }
+
+    public void setBp(String bp) {
+        this.bp = bp;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getApplyWay() {
+        return applyWay;
+    }
+
+    public void setApplyWay(String applyWay) {
+        this.applyWay = applyWay;
+    }
+
+    public DoctorDTO getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(DoctorDTO doctor) {
+        this.doctor = doctor;
+    }
+
+    public AppoinmentDTO getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(AppoinmentDTO appointment) {
+        this.appointment = appointment;
+    }
+
+    public List<MedicineDTO> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<MedicineDTO> medicines) {
+        this.medicines = medicines;
+    }
+
+    public List<TestDTO> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<TestDTO> tests) {
+        this.tests = tests;
+    }
 }

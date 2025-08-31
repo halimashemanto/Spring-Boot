@@ -1,6 +1,7 @@
 package com.emranhss.hospital.restController;
 
 
+import com.emranhss.hospital.dto.MedicineDTO;
 import com.emranhss.hospital.entity.Medicine;
 import com.emranhss.hospital.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,8 @@ public class MedicineRestController {
     }
 
     @GetMapping("")
-    public List<Medicine> getAll() {
-
-        return medicineService.getAllMedicine();
+    public List<MedicineDTO> getAll() {
+        return medicineService.getAllMedicine();  // returns List<MedicineDTO>
     }
 
     @GetMapping("{id}")
