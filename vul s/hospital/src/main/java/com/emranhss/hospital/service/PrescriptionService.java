@@ -1,124 +1,132 @@
 package com.emranhss.hospital.service;
 
 
+import com.emranhss.hospital.dto.PrescriptionDTO;
 import com.emranhss.hospital.entity.*;
 import com.emranhss.hospital.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PrescriptionService {
 
-
+    @Autowired
+    private IPrescriptionRepo prescriptionRepo;
 
     @Autowired
-    private IPrescriptionRepo prescriptionRepository;
+    private IDoctorRepo doctorRepo;
 
     @Autowired
-    private ITestRepo testsRepository;
-    @Autowired
-    private IMedicineRepo medicineRepository;
-    @Autowired
-    private IDoctorRepo doctorRepository;
+    private IAppoinmentRepo appointmentRepo;
 
     @Autowired
-    private IAppoinmentRepo appoinmentRepo;
+    private IMedicineRepo medicineRepo;
 
+    @Autowired
+    private ITestRepo testRepo;
 
-//    public Prescription savePrescription(Prescription prescription, List<Long> medicineIds, List<Long> testIds, Long doctorId) {
-//
-//        // Medicines attach করা
-//        List<Medicine> medicines = new ArrayList<>();
-//        if (medicineIds != null) {
-//            for (Long medId : medicineIds) {
-//                medicineRepository.findById(medId).ifPresent(medicines::add);
-//            }
-//        }
-//        prescription.setMedicines(medicines);
-//
-//        // Tests attach করা
-//        List<Tests> tests = new ArrayList<>();
-//        if (testIds != null) {
-//            for (Long testId : testIds) {
-//                testsRepository.findById(testId).ifPresent(tests::add);
-//            }
-//        }
-//        prescription.setTests(tests);
-//
-//        // Doctor attach করা
-//        if (doctorId != null) {
-//            Doctor doctor = doctorRepository.findById(doctorId)
-//                    .orElseThrow(() -> new RuntimeException("Doctor not found with id " + doctorId));
-//            prescription.setDoctor(doctor);
-//        }
-//
-//        return prescriptionRepository.save(prescription);
-//    }
+    // Create or Update
+    public Prescription createOrUpdatePrescription(PrescriptionDTO dto) {
+        Prescription p = dto.getId() != null ?
+                prescriptionRepo.findById(dto.getId()).orElse(new Prescription()) :
+                new Prescription();
+        return mapAndSave(dto, p);
+    }
 
+    // Delete
+    public void deletePrescription(Long id) throws Exception {
+        Prescription p = prescriptionRepo.findById(id)
+                .orElseThrow(() -> new Exception("Prescription not found"));
+        prescriptionRepo.delete(p);
+    }
 
+    // GET all
+    @Transactional
+    public List<PrescriptionDTO> getAllPrescriptionsDTO() {
+        List<Prescription> list = prescriptionRepo.findAll();
+        List<PrescriptionDTO> dtoList = new ArrayList<>();
+        for(Prescription p : list){
+            dtoList.add(mapToDTO(p));
+        }
+        return dtoList;
+    }
 
+    // GET by ID
+    @Transactional
+    public PrescriptionDTO getPrescriptionDTOById(Long id) throws Exception {
+        Prescription p = prescriptionRepo.findById(id)
+                .orElseThrow(() -> new Exception("Prescription not found"));
+        return mapToDTO(p);
+    }
 
-    public Prescription savePrescription(Prescription prescription, List<Long> medicineIds, List<Long> testIds, Long doctorId, Long appoinmentId) {
+    // Private: map DTO → Entity
+    private Prescription mapAndSave(PrescriptionDTO dto, Prescription p){
+        p.setNote(dto.getNote());
+        p.setAdvice(dto.getAdvice());
+        p.setHeight(dto.getHeight());
+        p.setWeight(dto.getWeight());
+        p.setBp(dto.getBp());
+        p.setDate(dto.getDate() != null ? dto.getDate() : new Date());
+        p.setApplyWay(dto.getApplyWay());
 
-        // Attach medicines
-        List<Medicine> medicines = new ArrayList<>();
-        if (medicineIds != null) {
-            for (Long medId : medicineIds) {
-                medicineRepository.findById(medId).ifPresent(med -> {
-                    med.setPrescription(prescription);
-                    medicines.add(med);
-                });
+        // Doctor
+        doctorRepo.findById(dto.getDoctorId()).ifPresent(p::setDoctor);
+
+        // Appointment
+        appointmentRepo.findById(dto.getAppoinmentId()).ifPresent(p::setAppointment);
+
+        // Medicines
+        List<Medicine> meds = new ArrayList<>();
+        if(dto.getMedicineIds() != null){
+            for(Long id : dto.getMedicineIds()){
+                medicineRepo.findById(id).ifPresent(meds::add);
             }
         }
-        prescription.setMedicines(medicines);
+        p.setMedicines(meds);
 
-        // Attach tests
+        // Tests
         List<Tests> tests = new ArrayList<>();
-        if (testIds != null) {
-            for (Long testId : testIds) {
-                testsRepository.findById(testId).ifPresent(test -> {
-                    test.setPrescription(prescription);
-                    tests.add(test);
-                });
+        if(dto.getTestIds() != null){
+            for(Long id : dto.getTestIds()){
+                testRepo.findById(id).ifPresent(tests::add);
             }
         }
-        prescription.setTests(tests);
+        p.setTests(tests);
 
-        // Attach doctor
-        if (doctorId != null) {
-            Doctor doctor = doctorRepository.findById(doctorId)
-                    .orElseThrow(() -> new RuntimeException("Doctor not found with id " + doctorId));
-            prescription.setDoctor(doctor);
-        }
-
-        // Attach appointment
-        if (appoinmentId != null) {
-            Appoinment appointment = appoinmentRepo.findById(appoinmentId)
-                    .orElseThrow(() -> new RuntimeException("Appointment not found with id " + appoinmentId));
-            prescription.setAppointment(appointment);
-        } else {
-            throw new RuntimeException("Appointment id cannot be null");
-        }
-
-        return prescriptionRepository.save(prescription);
+        return prescriptionRepo.save(p);
     }
 
+    // Private: map Entity → DTO
+    private PrescriptionDTO mapToDTO(Prescription p){
+        PrescriptionDTO dto = new PrescriptionDTO();
+        dto.setId(p.getId());
+        dto.setNote(p.getNote());
+        dto.setAdvice(p.getAdvice());
+        dto.setHeight(p.getHeight());
+        dto.setWeight(p.getWeight());
+        dto.setBp(p.getBp());
+        dto.setDate(p.getDate());
+        dto.setApplyWay(p.getApplyWay());
+        dto.setDoctorId(p.getDoctor() != null ? p.getDoctor().getId() : null);
+        dto.setAppoinmentId(p.getAppointment() != null ? p.getAppointment().getId() : null);
 
+        List<Long> medIds = new ArrayList<>();
+        if(p.getMedicines() != null){
+            for(Medicine m : p.getMedicines()) medIds.add(m.getId());
+        }
+        dto.setMedicineIds(medIds);
 
-//    // অন্যান্য standard methods
-//    public List<Prescription> getAllPrescriptions() {
-//        return prescriptionRepository.findAll();
-//    }
+        List<Long> testIds = new ArrayList<>();
+        if(p.getTests() != null){
+            for(Tests t : p.getTests()) testIds.add(t.getId());
+        }
+        dto.setTestIds(testIds);
 
-    public Optional<Prescription> getPrescriptionById(Long id) {
-        return prescriptionRepository.findById(id);
-    }
-
-    public void deletePrescription(Long id) {
-        prescriptionRepository.deleteById(id);
+        return dto;
     }
 }

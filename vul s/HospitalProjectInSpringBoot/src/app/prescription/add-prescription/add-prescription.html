@@ -1,0 +1,96 @@
+<div class="container mt-4">
+  <h2 class="text-center text-primary mb-4">Add Prescription</h2>
+
+  <form (ngSubmit)="savePrescription()">
+
+    <!-- Patient Info -->
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Patient Contact</label>
+        <input type="text" class="form-control" [(ngModel)]="prescription.patientContact"
+               (input)="onPatientContactChange()" name="patientContact" required>
+      </div>
+      <div class="col-md-4">
+        <label>Patient Name</label>
+        <input type="text" class="form-control" [(ngModel)]="prescription.patientName" name="patientName" readonly>
+      </div>
+      <div class="col-md-4">
+        <label>Age</label>
+        <input type="number" class="form-control" [(ngModel)]="prescription.patientAge" name="patientAge" readonly>
+      </div>
+    </div>
+
+    <!-- Doctor Info -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Select Doctor</label>
+        <select class="form-select" [(ngModel)]="prescription.doctorId" name="doctorId" required>
+          <option *ngFor="let doc of doctors" [value]="doc.id">{{doc.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label>Height</label>
+        <input type="text" class="form-control" [(ngModel)]="prescription.height" name="height">
+      </div>
+      <div class="col-md-2">
+        <label>Weight</label>
+        <input type="text" class="form-control" [(ngModel)]="prescription.weight" name="weight">
+      </div>
+      <div class="col-md-2">
+        <label>BP</label>
+        <input type="text" class="form-control" [(ngModel)]="prescription.bp" name="bp">
+      </div>
+    </div>
+
+    <!-- Note & Advice -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Note</label>
+        <textarea class="form-control" [(ngModel)]="prescription.note" name="note"></textarea>
+      </div>
+      <div class="col-md-6">
+        <label>Advice</label>
+        <textarea class="form-control" [(ngModel)]="prescription.advice" name="advice"></textarea>
+      </div>
+    </div>
+
+    <!-- Medicines -->
+    <div class="mb-3">
+      <label>Medicines</label>
+      <div class="d-flex flex-wrap gap-2 mb-2">
+        <div *ngFor="let med of selectedMedicines" class="badge bg-success p-2">
+          {{med.name}} - <input type="text" class="form-control form-control-sm d-inline w-auto" 
+                                [(ngModel)]="prescription.applyWay" placeholder="Apply Way">
+          <button type="button" class="btn-close btn-close-white ms-2" aria-label="Remove" (click)="removeMedicine(med)"></button>
+        </div>
+      </div>
+   <select class="form-select" (change)="onMedicineSelect($event)">
+  <option value="">-- Add Medicine --</option>
+  <option *ngFor="let med of medicines" [value]="med.id">{{med.name}}</option>
+</select>
+
+    </div>
+
+    <!-- Tests -->
+    <div class="mb-3">
+      <label>Tests</label>
+      <div class="d-flex flex-wrap gap-2 mb-2">
+        <div *ngFor="let test of selectedTests" class="badge bg-info p-2 text-dark">
+          {{test.name}}
+          <button type="button" class="btn-close btn-close-white ms-2" aria-label="Remove" (click)="removeTest(test)"></button>
+        </div>
+      </div>
+      <select class="form-select" (change)="onTestSelect($event)">
+  <option value="">-- Add Test --</option>
+  <option *ngFor="let test of tests" [value]="test.id">{{test.name}}</option>
+</select>
+
+    </div>
+
+    <!-- Save Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg">Save & Generate PDF</button>
+    </div>
+
+  </form>
+</div>

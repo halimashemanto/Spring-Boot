@@ -1,0 +1,4 @@
+.container { max-width: 900px; }
+.badge input { margin-left: 5px; }
+select { cursor: pointer; }
+textarea { resize: none; }

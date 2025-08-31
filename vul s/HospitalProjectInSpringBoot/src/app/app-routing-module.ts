@@ -18,6 +18,8 @@ import { PublicNav } from './templet/public-nav/public-nav';
 import { DoctorIndivisualProfile } from './profile/doctor-indivisual-profile/doctor-indivisual-profile';
 import { ViewAllAppointment } from './Appoinment/view-all-appointment/view-all-appointment';
 import { IndivisualDoctorAppointment } from './Appoinment/indivisual-doctor-appointment/indivisual-doctor-appointment';
+import { AddPrescription } from './prescription/add-prescription/add-prescription';
+import { ViewPrescription } from './prescription/view-prescription/view-prescription';
 
 const routes: Routes = [
   { path: '', component: AddDoctor },
@@ -46,6 +48,8 @@ const routes: Routes = [
   {path:'appoinment', component:AddApooinment},
   {path:'viewAppoinment', component:ViewAllAppointment},
   {path:'invoice', component:AddInvoice},
+  {path:'pres', component:AddPrescription},
+  {path:'vpres', component:ViewPrescription},
   
 
 ];
