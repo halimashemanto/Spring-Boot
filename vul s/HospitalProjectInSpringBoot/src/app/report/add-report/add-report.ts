@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Doctor } from '../../doctor/model/doctor.model';
 import { ReportService } from '../report-service';
@@ -11,25 +11,12 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './add-report.html',
   styleUrl: './add-report.css'
 })
-export class AddReport {
+export class AddReport implements OnInit {
 
+  reports: any[] = [];
+  reportForm: FormGroup;
 
-
- 
-  doctors: Doctor[] = [];
-  reports: Report[] = [];
-
-    reportForm!: FormGroup;
-  isEditing: boolean = false;
-  selectedId?: number;
-
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private reportService: ReportService,
-    private doctorService: DoctorService,
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor(private fb: FormBuilder, private reportService: ReportService) {
     this.reportForm = this.fb.group({
       reportResult: [''],
       description: [''],
@@ -39,81 +26,35 @@ export class AddReport {
       testDate: [''],
       createDate: [''],
       deliveryDate: [''],
-      doctor: [null
-        
-      ]
+      doctorId: [null]
     });
   }
- ngOnInit(): void {
-    this.loadDoctors();
+
+  ngOnInit(): void {
     this.loadReports();
   }
 
+ loadReports() {
+  this.reportService.getAllReports().subscribe({
+    next: (data) => {
+      console.log('Reports from backend:', data);  // ✅ check backend response
+      this.reports = data;
+    },
+    error: (err) => console.error('Error loading reports:', err)
+  });
+}
 
-  loadDoctors(): void {
-    this.reportService.getAllDoctor().subscribe({
-      next: (data: Doctor[]) => {
-        this.doctors = data || [];
-        this.cdr.markForCheck();
-      },
-      error: (err) => console.error('Error loading doctors', err)
+  saveReport() {
+    const doctorId = this.reportForm.value.doctorId;
+    this.reportService.saveReport(this.reportForm.value, doctorId).subscribe(() => {
+      this.reportForm.reset();
+      this.loadReports();
     });
   }
 
-  loadReports(): void {
-    this.reportService.getAllReport().subscribe({
-      next: (data: any) => {
-    
-        let reportsArray: Report[] = [];
-        if (Array.isArray(data)) {
-          reportsArray = data;
-        } else if (data && Array.isArray(data.content)) {
-          reportsArray = data.content;
-        }
-
-       
-        this.cdr.markForCheck();
-      },
-      error: (err) => console.error('Error loading reports', err)
-    });
+  deleteReport(id: number) {
+    if(confirm('Are you sure?')) {
+      this.reportService.deleteReport(id).subscribe(() => this.loadReports());
+    }
   }
-
-  // onSubmit(): void {
-  //   if (this.reportForm.invalid) {
-     
-  //     return;
-  //   }
-
-  //   const selectedDoctor: Doctor = this.reportForm.value.doctor;
-  //   if (!selectedDoctor || !selectedDoctor.id) {
-      
-  //     return;
-  //   }
-
-  //   const report: Report = {
-  //     ...this.reportForm.value,
-  //     testDate: new Date(this.reportForm.value.testDate),
-  //     createDate: this.reportForm.value.createDate ? new Date(this.reportForm.value.createDate) : new Date(),
-  //     deliveryDate: this.reportForm.value.deliveryDate ? new Date(this.reportForm.value.deliveryDate) : undefined,
-  //     doctor: selectedDoctor
-  //   };
-
-  //   this.reportService.createReport(report , selectedDoctor.id).subscribe({
-  //     next: () => {
-  //       alert('Report saved successfully!');
-  //       this.resetForm();
-  //       this.loadReports();
-  //       this.cdr.markForCheck();
-  //     },
-  //     error: (err) => {
-  //       console.error('Error saving report', err);
-  //       alert('Failed to save report. ');
-  //     }
-  //   });
-  // }
-
-  
-  resetForm(): void {
-    this.reportForm.reset({ doctor: null });
-  }
-  }
+}

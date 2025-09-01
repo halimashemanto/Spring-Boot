@@ -192,7 +192,7 @@ public class PrescriptionService {
                 prescription.getMedicines().stream().map(m -> {
                     MedicineDTO md = new MedicineDTO();
                     md.setId(m.getId());
-                    md.setName(m.getMedicineName());
+                    md.setMedicineName(m.getMedicineName());
 
                     return md;
                 }).toList()

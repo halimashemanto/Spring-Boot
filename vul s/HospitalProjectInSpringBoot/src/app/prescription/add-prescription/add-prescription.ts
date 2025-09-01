@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PrescriptionService } from '../prescription-service';
 import { PrescriptionDTO } from '../model/prescription.model';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+
 import { HttpClient } from '@angular/common/http';
 import { AppoinmentDTO } from '../../Appoinment/model/appoinmentDTO';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -11,6 +10,8 @@ import { Test } from '../../test/model/test.model';
 import { MedicineModel } from '../../test/model/medicine.model';
 
 
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 
 interface Doctor {
@@ -167,14 +168,7 @@ export class AddPrescription implements OnInit {
     this.prescription.testIds = this.prescription.testIds.filter(id => id !== t.id);
   }
 
-  // savePrescription() {
-  //   console.log('Sending JSON:', JSON.stringify(this.prescription)); // <-- logs JSON
 
-  //   this.prescriptionService.create(this.prescription).subscribe(res => {
-  //     console.log('Saved:', res);
-  //     this.generatePDF();
-  //   });
-  // }
 
 
   savePrescription() {
@@ -208,48 +202,189 @@ export class AddPrescription implements OnInit {
   });
 }
 
-  
 
 generatePDF() {
-  const doc = new jsPDF();
+  const doc = new jsPDF('p', 'mm', 'a4');
 
-  doc.setFontSize(16);
-  doc.text('🏥 Health Care of Bangladesh', 105, 10, { align: 'center' });
-
+  // ---------- Header ----------
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.text('🏥 Health Care of Bangladesh', 105, 15, { align: 'center' });
   doc.setFontSize(12);
-  doc.text(`Patient Name: ${this.prescription.patientName}`, 14, 30);
-  doc.text(`Age: ${this.prescription.patientAge}`, 14, 37);
-  doc.text(`Contact: ${this.prescription.patientContact}`, 14, 44);
-  doc.text(
-    `Doctor: ${this.doctors.find(d => d.id === this.prescription.doctorId)?.name || ''}`,
-    14,
-    51
-  );
-  doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, 51);
+  doc.setFont('helvetica', 'normal');
+  doc.text('123 Main Street, Dhaka, Bangladesh', 105, 22, { align: 'center' });
+  doc.text('Phone: +880123456789', 105, 28, { align: 'center' });
+  doc.setLineWidth(0.5);
+  doc.line(14, 32, 196, 32);
 
-  // Medicines
-  const medicineRows = this.selectedMedicines.map(m => [m.medicineName, this.prescription.applyWay]);
-  (doc as any).autoTable({
-    startY: 60,
-    head: [['Medicine', 'Apply Way']],
-    body: medicineRows
-  });
+  // ---------- Patient Info ----------
+  const patient = this.prescription;
+  doc.setFont('helvetica', 'bold');
+  doc.text('Patient Information:', 14, 40);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Name: ${patient.patientName || ''}`, 14, 47);
+  doc.text(`Age: ${patient.patientAge || ''}`, 14, 54);
 
-  // Tests
-  const startY = 60 + (medicineRows.length + 1) * 10; // adjust spacing
-  const testRows = this.selectedTests.map(t => [t.testName]);
-  (doc as any).autoTable({
-    startY,
-    head: [['Tests']],
-    body: testRows
-  });
+  doc.text(`Contact: ${patient.patientContact || ''}`, 14, 68);
+  doc.text(`Doctor: ${this.doctors.find(d => d.id === patient.doctorId)?.name || ''}`, 105, 47);
+  doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 54);
 
-  // Advice
-  const adviceY = startY + (testRows.length + 1) * 10;
-  doc.text(`Advice: ${this.prescription.advice}`, 14, adviceY);
+  let currentY = 75;
 
-  doc.save(`Prescription_${this.prescription.patientName}_${Date.now()}.pdf`);
+  // ---------- Left Column: Tests ----------
+  if (this.selectedTests && this.selectedTests.length > 0) {
+    const testRows = this.selectedTests.map(t => [
+      t.testName || '',
+      
+    ]);
+
+    autoTable(doc, {
+      startY: currentY,
+     
+      head: [['Test']],
+      body: testRows,
+      theme: 'grid',
+      headStyles: { fillColor: [39, 174, 96], textColor: 255, fontStyle: 'bold' },
+      styles: { fontSize: 10, cellPadding: 2 },
+      tableWidth: 90
+    });
+  }
+
+  // ---------- Right Column: Medicines ----------
+  if (this.selectedMedicines && this.selectedMedicines.length > 0) {
+    const medicineRows = this.selectedMedicines.map(m => [
+      m.medicineName || '',
+      patient.applyWay || '',
+     
+    ]);
+
+    autoTable(doc, {
+      startY: currentY,
+     
+      head: [['Medicine', 'Apply Way']],
+      body: medicineRows,
+      theme: 'grid',
+      headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
+      styles: { fontSize: 10, cellPadding: 2 },
+      tableWidth: 90
+    });
+  }
+
+  // ---------- Advice ----------
+  let adviceY = (doc as any).lastAutoTable.finalY + 10;
+  doc.setFont('helvetica', 'bold');
+  doc.text('Doctor Advice:', 14, adviceY);
+  doc.setFont('helvetica', 'normal');
+  doc.text(patient.advice || '', 14, adviceY + 7, { maxWidth: 182 });
+
+  // ---------- Signature Line ----------
+  doc.setLineWidth(0.2);
+  doc.line(140, adviceY + 40, 190, adviceY + 40);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Doctor Signature', 150, adviceY + 45);
+
+  // ---------- Footer ----------
+  doc.setLineWidth(0.5);
+  doc.line(14, 280, 196, 280);
+  doc.setFontSize(10);
+  doc.text('This is a computer-generated prescription. Follow doctor instructions carefully.', 105, 286, { align: 'center' });
+
+  // ---------- Save PDF ----------
+  doc.save(`Prescription_${patient.patientName || 'Unknown'}_${Date.now()}.pdf`);
 }
+
+
+// generatePDF() {
+//   const doc = new jsPDF('p', 'mm', 'a4');
+
+//   // ---------- Header ----------
+//   doc.setFontSize(18);
+//   doc.setFont('helvetica', 'bold');
+//   doc.text('🏥 Health Care of Bangladesh', 105, 15, { align: 'center' });
+//   doc.setFontSize(12);
+//   doc.setFont('helvetica', 'normal');
+//   doc.text('Address: 123 Main Street, Dhaka, Bangladesh', 105, 22, { align: 'center' });
+//   doc.text('Phone: +880123456789', 105, 28, { align: 'center' });
+
+//   // Line under header
+//   doc.setLineWidth(0.5);
+//   doc.line(14, 32, 196, 32);
+
+//   // ---------- Patient Info ----------
+//   doc.setFont('helvetica', 'bold');
+//   doc.text('Patient Information:', 14, 40);
+//   doc.setFont('helvetica', 'normal');
+//   const patient = this.prescription;
+//   doc.text(`Name: ${patient.patientName || ''}`, 14, 47);
+//   doc.text(`Age: ${patient.patientAge || ''}`, 14, 54);
+//   doc.text(`Gender: ${patient.patientAge || ''}`, 14, 61);
+//   doc.text(`Contact: ${patient.patientContact || ''}`, 14, 68);
+//   doc.text(
+//     `Doctor: ${this.doctors.find(d => d.id === patient.doctorId)?.name || ''}`,
+//     105,
+//     47
+//   );
+//   doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 54);
+
+//   let currentY = 75;
+
+//   // ---------- Medicines Table ----------
+//   if (this.selectedMedicines && this.selectedMedicines.length > 0) {
+//     const medicineRows = this.selectedMedicines.map(m => [
+//       m.medicineName || '',
+//       patient.applyWay || '',
+     
+//     ]);
+
+//     autoTable(doc, {
+//       startY: currentY,
+//       head: [['Medicine', 'Apply Way', 'Dosage', 'Duration']],
+//       body: medicineRows,
+//       theme: 'grid',
+//       headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
+//       styles: { fontSize: 10 }
+//     });
+
+//     currentY = (doc as any).lastAutoTable.finalY + 10;
+//   }
+
+//   // ---------- Tests Table ----------
+//   if (this.selectedTests && this.selectedTests.length > 0) {
+//     const testRows = this.selectedTests.map(t => [
+//       t.testName || '',
+     
+//     ]);
+
+//     autoTable(doc, {
+//       startY: currentY,
+//       head: [['Test', 'Result', 'Remarks']],
+//       body: testRows,
+//       theme: 'grid',
+//       headStyles: { fillColor: [39, 174, 96], textColor: 255, fontStyle: 'bold' },
+//       styles: { fontSize: 10 }
+//     });
+
+//     currentY = (doc as any).lastAutoTable.finalY + 10;
+//   }
+
+//   // ---------- Advice ----------
+//   if (patient.advice) {
+//     doc.setFont('helvetica', 'bold');
+//     doc.text('Doctor Advice:', 14, currentY);
+//     doc.setFont('helvetica', 'normal');
+//     doc.text(patient.advice, 14, currentY + 7);
+//     currentY += 20;
+//   }
+
+//   // ---------- Footer ----------
+//   doc.setLineWidth(0.5);
+//   doc.line(14, 280, 196, 280);
+//   doc.setFontSize(10);
+//   doc.text('This is a computer-generated prescription. Please follow the doctor’s instructions.', 105, 286, { align: 'center' });
+
+//   // ---------- Save PDF ----------
+//   doc.save(`Prescription_${patient.patientName || 'Unknown'}_${Date.now()}.pdf`);
+// }
 
 
 

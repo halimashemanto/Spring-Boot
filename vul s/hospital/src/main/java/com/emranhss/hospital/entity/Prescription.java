@@ -32,12 +32,12 @@ public class Prescription {
     private List<Tests> tests;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "doctor_id")
     @JsonIgnoreProperties("prescriptions")
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id", nullable = false)
+    @JoinColumn(name = "appointment_id")
     @JsonIgnoreProperties("prescriptions")
     private Appoinment appointment;
 

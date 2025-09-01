@@ -46,10 +46,8 @@
     <div class="col-md-4" *ngFor="let slot of slots">
       <div style="background:white; border-radius:15px; padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.1); transition:transform 0.3s, box-shadow 0.3s;"
          >
-        
-       <h4 style="color:#17a2b8; margin-bottom:8px;">
-  <i class="bi bi-person-circle"></i> {{ slot.doctor?.name || 'Unknown' }}
-
+      <h4 style="color:#17a2b8; margin-bottom:8px;">
+  <i class="bi bi-person-circle"></i> {{ slot.doctorName || 'Unknown' }}
 </h4>
 
 

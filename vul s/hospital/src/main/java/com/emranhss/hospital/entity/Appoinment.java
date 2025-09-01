@@ -37,7 +37,7 @@ public class Appoinment {
     private ScheduleSlot scheduleSlot;
 
 
-    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("appointment")
     private List<Prescription> prescriptions;
 

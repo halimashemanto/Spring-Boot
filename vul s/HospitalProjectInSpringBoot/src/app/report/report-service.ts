@@ -10,25 +10,25 @@ import { Doctor } from '../doctor/model/doctor.model';
 })
 export class ReportService {
 
-    
- private baseUrl = environment.apiBaseUrl + '/api/report';
+   
+  private baseUrl = environment.apiBaseUrl + '/api/report';
 
   constructor(private http: HttpClient) {}
 
-
- 
-  getAllReport(): Observable<Report[]> {
+  getAllReports(): Observable<Report[]> {
     return this.http.get<Report[]>(this.baseUrl);
   }
 
-  getAllDoctor(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/');
+  saveReport(report: Report, doctorId: number): Observable<Report> {
+    return this.http.post<Report>(`${this.baseUrl}?doctor_id=${doctorId}`, report);
   }
 
- 
-  createReport(report: Report, doctorId: number): Observable<Report> {
-    const params = new HttpParams().set('doctor_id', doctorId.toString());
-    return this.http.post<Report>(this.baseUrl, report, { params });
+  deleteReport(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
+  }
+
+  getReportById(id: number): Observable<Report> {
+    return this.http.get<Report>(`${this.baseUrl}/${id}`);
   }
 }
 

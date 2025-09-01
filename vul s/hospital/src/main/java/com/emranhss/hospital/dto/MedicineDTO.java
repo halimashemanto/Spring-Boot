@@ -3,7 +3,7 @@ package com.emranhss.hospital.dto;
 public class MedicineDTO {
 
     private Long id;
-    private String name;
+    private String medicineName;
     private String dose;
 
 
@@ -15,12 +15,12 @@ public class MedicineDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getMedicineName() {
+        return medicineName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMedicineName(String name) {
+        this.medicineName = name;
     }
 
     public String getDose() {

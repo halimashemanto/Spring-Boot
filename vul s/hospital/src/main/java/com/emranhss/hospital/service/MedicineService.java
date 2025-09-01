@@ -24,7 +24,7 @@ public class MedicineService {
         return medicineRepo.findAll().stream().map(medicine -> {
             MedicineDTO dto = new MedicineDTO();
             dto.setId(medicine.getId());
-            dto.setName(medicine.getMedicineName());
+            dto.setMedicineName(medicine.getMedicineName());
 
             return dto;
         }).collect(Collectors.toList());

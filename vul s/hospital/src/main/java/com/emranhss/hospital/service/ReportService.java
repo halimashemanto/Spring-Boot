@@ -1,6 +1,7 @@
 package com.emranhss.hospital.service;
 
 
+import com.emranhss.hospital.dto.ReportDTO;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.Report;
 import com.emranhss.hospital.repository.IDoctorRepo;
@@ -29,9 +30,24 @@ public class ReportService {
     }
 
 
-    public List<Report> getAllReports() {
-        return reportRepository.findAll();
+    public List<ReportDTO> getAllReportsDTO() {
+        List<Report> reports = reportRepository.findAll();
+
+        return reports.stream().map(r -> new ReportDTO(
+                r.getId(),
+                r.getReportResult(),
+                r.getDescription(),
+                r.getSampleId(),
+                r.getInterpretation(),
+                r.getPatientName(),
+                r.getTestDate(),
+                r.getCreateDate(),
+                r.getDeliveryDate(),
+                r.getDoctor() != null ? r.getDoctor().getId() : null,
+                r.getDoctor() != null ? r.getDoctor().getName() : "Unknown"
+        )).toList();
     }
+
 
     public Optional<Report> getReportById(Long id) {
         return reportRepository.findById(id);

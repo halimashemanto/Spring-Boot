@@ -1,0 +1,33 @@
+<div class="container my-4">
+  <h2>Reports Management</h2>
+
+  <form [formGroup]="reportForm" (ngSubmit)="saveReport()" class="mb-4 p-3 border rounded">
+    <div class="row g-3">
+      <div class="col-md-4"><input type="text" formControlName="patientName" class="form-control" placeholder="Patient Name"></div>
+      <div class="col-md-4"><input type="text" formControlName="reportResult" class="form-control" placeholder="Report Result"></div>
+      <div class="col-md-4"><input type="text" formControlName="description" class="form-control" placeholder="Description"></div>
+      <div class="col-md-4"><input type="text" formControlName="sampleId" class="form-control" placeholder="Sample ID"></div>
+      <div class="col-md-4"><input type="text" formControlName="interpretation" class="form-control" placeholder="Interpretation"></div>
+      <div class="col-md-4"><input type="number" formControlName="doctorId" class="form-control" placeholder="Doctor ID"></div>
+      <div class="col-md-4"><input type="date" formControlName="testDate" class="form-control" placeholder="Test Date"></div>
+      <div class="col-md-4"><input type="date" formControlName="createDate" class="form-control" placeholder="Create Date"></div>
+      <div class="col-md-4"><input type="date" formControlName="deliveryDate" class="form-control" placeholder="Delivery Date"></div>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Save Report</button>
+  </form>
+
+  <div class="row g-4">
+    <div class="col-md-4" *ngFor="let report of reports">
+      <div class="p-3 border rounded shadow-sm">
+        <h5>{{ report.patientName }} (Doctor: {{ report.doctorName }})</h5>
+        <p><strong>Result:</strong> {{ report.reportResult }}</p>
+        <p><strong>Description:</strong> {{ report.description }}</p>
+        <p><strong>Sample ID:</strong> {{ report.sampleId }}</p>
+        <p><strong>Interpretation:</strong> {{ report.interpretation }}</p>
+        <p><strong>Test Date:</strong> {{ report.testDate | date }}</p>
+        <p><strong>Delivery Date:</strong> {{ report.deliveryDate | date }}</p>
+        <button class="btn btn-danger btn-sm" (click)="deleteReport(report.id!)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

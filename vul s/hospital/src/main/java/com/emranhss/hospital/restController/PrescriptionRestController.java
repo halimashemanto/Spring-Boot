@@ -18,18 +18,20 @@ public class PrescriptionRestController {
     private PrescriptionService prescriptionService;
 
 
-//    @PostMapping
-//    public Prescription createOrUpdate(@RequestBody PrescriptionDTO dto){
-//        return prescriptionService.createOrUpdatePrescription(dto);
-//    }
-
-
-
     @PostMapping
-    public ResponseEntity<Prescription> savePrescription(@RequestBody PrescriptionDTO dto) {
+    public ResponseEntity<PrescriptionDTO> savePrescription(@RequestBody PrescriptionDTO dto) {
         Prescription saved = prescriptionService.savePrescription(dto);
-        return ResponseEntity.ok(saved);
+        PrescriptionDTO responseDTO = prescriptionService.mapToResponseDTO(saved);
+        return ResponseEntity.ok(responseDTO);
     }
+
+
+
+//    @PostMapping
+//    public ResponseEntity<Prescription> savePrescription(@RequestBody PrescriptionDTO dto) {
+//        Prescription saved = prescriptionService.savePrescription(dto);
+//        return ResponseEntity.ok(saved);
+//    }
 
 
 

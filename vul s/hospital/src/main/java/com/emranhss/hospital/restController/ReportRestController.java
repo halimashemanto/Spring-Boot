@@ -1,6 +1,7 @@
 package com.emranhss.hospital.restController;
 
 
+import com.emranhss.hospital.dto.ReportDTO;
 import com.emranhss.hospital.entity.Report;
 import com.emranhss.hospital.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,9 @@ public class ReportRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Report>> getAllReports() {
-        return ResponseEntity.ok(reportService.getAllReports());
+    public ResponseEntity<List<ReportDTO>> getAllReports() {
+        return ResponseEntity.ok(reportService.getAllReportsDTO());
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Report> getReportById(@PathVariable Long id) {
