@@ -16,6 +16,9 @@ public class Report {
     private String sampleId;
     private String interpretation;
     private String patientName;
+    private String patientContact;
+    private String preparedBy;
+    private String gender;
 
     private Date testDate;
     private Date createDate;
@@ -30,13 +33,16 @@ public class Report {
     public Report() {
     }
 
-    public Report(Long id, String reportResult, String description, String sampleId, String interpretation, String patientName, Date testDate, Date createDate, Date deliveryDate, Doctor doctor) {
+    public Report(Long id, String reportResult, String description, String sampleId, String interpretation, String patientName, String patientContact, String preparedBy, String gender, Date testDate, Date createDate, Date deliveryDate, Doctor doctor) {
         this.id = id;
         this.reportResult = reportResult;
         this.description = description;
         this.sampleId = sampleId;
         this.interpretation = interpretation;
         this.patientName = patientName;
+        this.patientContact = patientContact;
+        this.preparedBy = preparedBy;
+        this.gender = gender;
         this.testDate = testDate;
         this.createDate = createDate;
         this.deliveryDate = deliveryDate;
@@ -89,6 +95,30 @@ public class Report {
 
     public void setPatientName(String patientName) {
         this.patientName = patientName;
+    }
+
+    public String getPatientContact() {
+        return patientContact;
+    }
+
+    public void setPatientContact(String patientContact) {
+        this.patientContact = patientContact;
+    }
+
+    public String getPreparedBy() {
+        return preparedBy;
+    }
+
+    public void setPreparedBy(String preparedBy) {
+        this.preparedBy = preparedBy;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Date getTestDate() {

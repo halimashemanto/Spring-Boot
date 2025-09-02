@@ -1,33 +1,76 @@
-<div class="container my-4">
-  <h2>Reports Management</h2>
-
-  <form [formGroup]="reportForm" (ngSubmit)="saveReport()" class="mb-4 p-3 border rounded">
-    <div class="row g-3">
-      <div class="col-md-4"><input type="text" formControlName="patientName" class="form-control" placeholder="Patient Name"></div>
-      <div class="col-md-4"><input type="text" formControlName="reportResult" class="form-control" placeholder="Report Result"></div>
-      <div class="col-md-4"><input type="text" formControlName="description" class="form-control" placeholder="Description"></div>
-      <div class="col-md-4"><input type="text" formControlName="sampleId" class="form-control" placeholder="Sample ID"></div>
-      <div class="col-md-4"><input type="text" formControlName="interpretation" class="form-control" placeholder="Interpretation"></div>
-      <div class="col-md-4"><input type="number" formControlName="doctorId" class="form-control" placeholder="Doctor ID"></div>
-      <div class="col-md-4"><input type="date" formControlName="testDate" class="form-control" placeholder="Test Date"></div>
-      <div class="col-md-4"><input type="date" formControlName="createDate" class="form-control" placeholder="Create Date"></div>
-      <div class="col-md-4"><input type="date" formControlName="deliveryDate" class="form-control" placeholder="Delivery Date"></div>
+<div class="container py-5">
+  <div class="card shadow-lg rounded-lg overflow-hidden">
+    <div class="card-header bg-primary text-white d-flex align-items-center">
+      <h4 class="mb-0"><i class="fas fa-file-medical-alt me-2"></i> Patient Report</h4>
     </div>
-    <button type="submit" class="btn btn-success mt-3">Save Report</button>
-  </form>
 
-  <div class="row g-4">
-    <div class="col-md-4" *ngFor="let report of reports">
-      <div class="p-3 border rounded shadow-sm">
-        <h5>{{ report.patientName }} (Doctor: {{ report.doctorName }})</h5>
-        <p><strong>Result:</strong> {{ report.reportResult }}</p>
-        <p><strong>Description:</strong> {{ report.description }}</p>
-        <p><strong>Sample ID:</strong> {{ report.sampleId }}</p>
-        <p><strong>Interpretation:</strong> {{ report.interpretation }}</p>
-        <p><strong>Test Date:</strong> {{ report.testDate | date }}</p>
-        <p><strong>Delivery Date:</strong> {{ report.deliveryDate | date }}</p>
-        <button class="btn btn-danger btn-sm" (click)="deleteReport(report.id!)">Delete</button>
-      </div>
+    <div class="card-body">
+      <form [formGroup]="reportForm" (ngSubmit)="saveReport()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Patient Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="patientName" placeholder="Enter patient name">
+            <div *ngIf="reportForm.get('patientName')?.touched && reportForm.get('patientName')?.invalid" class="text-danger small">Required</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Contact <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="patientContact" placeholder="e.g. 01XXXXXXXXX">
+            <div *ngIf="reportForm.get('patientContact')?.touched && reportForm.get('patientContact')?.invalid" class="text-danger small">Required</div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Gender <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="gender">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Prepared By <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="preparedBy" placeholder="Your name">
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Doctor <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="doctorId">
+              <option value="">Select Doctor</option>
+              <option *ngFor="let d of doctors" [value]="d.id">{{d.name}}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Test Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" formControlName="testDate">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Delivery Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" formControlName="deliveryDate">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Report Result <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="reportResult">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="4" formControlName="description"></textarea>
+          </div>
+
+          <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-success d-flex align-items-center" [disabled]="saving">
+              <i class="fas fa-save me-2"></i>
+              <span *ngIf="!saving">Save & Generate PDF</span>
+              <span *ngIf="saving">Saving...</span>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

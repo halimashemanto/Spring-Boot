@@ -22,32 +22,75 @@ public class ReportService {
     private IDoctorRepo doctorRepository;
 
 
-    public Report save(Report report, long doctor_id) {
-        Doctor doctor = doctorRepository.findById(doctor_id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found with id " + doctor_id));
-       report.setDoctor(doctor);
-        return reportRepository.save(report);
+    public ReportDTO save(ReportDTO dto) {
+        Doctor doctor = doctorRepository.findById(dto.getDoctorId())
+                .orElseThrow(() -> new RuntimeException("Doctor not found with id " + dto.getDoctorId()));
+
+        Report report = new Report();
+        report.setReportResult(dto.getReportResult());
+        report.setDescription(dto.getDescription());
+        report.setSampleId(dto.getSampleId());
+        report.setInterpretation(dto.getInterpretation());
+        report.setPatientName(dto.getPatientName());
+        report.setTestDate(dto.getTestDate());
+        report.setCreateDate(dto.getCreateDate());
+        report.setDeliveryDate(dto.getDeliveryDate());
+        report.setDoctor(doctor);
+        report.setPatientContact(dto.getPatientContact());
+        report.setGender(dto.getGender());
+        report.setPreparedBy(dto.getPreparedBy());
+
+        if(report.getSampleId() == null || report.getSampleId().isEmpty()) {
+            report.setSampleId("SMP-" + System.currentTimeMillis());
+        }
+
+        Report saved = reportRepository.save(report);
+
+        Doctor savedDoctor = saved.getDoctor();
+
+        return new ReportDTO(
+                saved.getId(),
+                saved.getReportResult(),
+                saved.getDescription(),
+                saved.getSampleId(),
+                saved.getInterpretation(),
+                saved.getPatientName(),
+                saved.getPatientContact(),
+                saved.getPreparedBy(),
+                saved.getGender(),
+                saved.getTestDate(),
+                saved.getCreateDate(),
+                saved.getDeliveryDate(),
+                savedDoctor != null ? savedDoctor.getId() : null,
+                savedDoctor != null ? savedDoctor.getName() : "Unknown"
+        );
     }
 
 
+    
     public List<ReportDTO> getAllReportsDTO() {
         List<Report> reports = reportRepository.findAll();
 
-        return reports.stream().map(r -> new ReportDTO(
-                r.getId(),
-                r.getReportResult(),
-                r.getDescription(),
-                r.getSampleId(),
-                r.getInterpretation(),
-                r.getPatientName(),
-                r.getTestDate(),
-                r.getCreateDate(),
-                r.getDeliveryDate(),
-                r.getDoctor() != null ? r.getDoctor().getId() : null,
-                r.getDoctor() != null ? r.getDoctor().getName() : "Unknown"
-        )).toList();
+        return reports.stream().map(r -> {
+            Doctor doc = r.getDoctor();
+            return new ReportDTO(
+                    r.getId(),
+                    r.getReportResult(),
+                    r.getDescription(),
+                    r.getSampleId(),
+                    r.getInterpretation(),
+                    r.getPatientName(),
+                    r.getPatientContact(),
+                    r.getPreparedBy(),
+                    r.getGender(),
+                    r.getTestDate(),
+                    r.getCreateDate(),
+                    r.getDeliveryDate(),
+                    doc != null ? doc.getId() : null,
+                    doc != null ? doc.getName() : "Unknown"
+            );
+        }).toList();
     }
-
 
     public Optional<Report> getReportById(Long id) {
         return reportRepository.findById(id);

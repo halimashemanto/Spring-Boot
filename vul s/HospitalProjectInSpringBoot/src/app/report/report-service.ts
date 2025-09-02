@@ -2,8 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
-import { Report } from './model/report.model';
-import { Doctor } from '../doctor/model/doctor.model';
+import { ReportDTO } from './model/report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,20 +14,16 @@ export class ReportService {
 
   constructor(private http: HttpClient) {}
 
-  getAllReports(): Observable<Report[]> {
-    return this.http.get<Report[]>(this.baseUrl);
+   saveReport(report: ReportDTO): Observable<ReportDTO> {
+    return this.http.post<ReportDTO>(this.baseUrl, report);
   }
 
-  saveReport(report: Report, doctorId: number): Observable<Report> {
-    return this.http.post<Report>(`${this.baseUrl}?doctor_id=${doctorId}`, report);
+  getAllReports(): Observable<ReportDTO[]> {
+    return this.http.get<ReportDTO[]>(this.baseUrl);
   }
 
-  deleteReport(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
-  }
-
-  getReportById(id: number): Observable<Report> {
-    return this.http.get<Report>(`${this.baseUrl}/${id}`);
+  getReportById(id: number) {
+    return this.http.get<ReportDTO>(`${this.baseUrl}/${id}`);
   }
 }
 

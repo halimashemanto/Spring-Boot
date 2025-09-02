@@ -23,9 +23,8 @@ public class ReportRestController {
     }
 
     @PostMapping("")
-    public Report saveReport(@RequestBody Report report,
-                                 @RequestParam long doctor_id) {
-        return reportService.save(report, doctor_id);
+    public ReportDTO createReport(@RequestBody ReportDTO dto) {
+        return reportService.save(dto);
     }
 
     @GetMapping
