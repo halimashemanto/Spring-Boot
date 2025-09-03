@@ -41,9 +41,17 @@ public class Doctor {
     @JsonBackReference
     private Department department;
 
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "department_id")
+//    @JsonBackReference
+//    private Department department;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+
 
 
     public Doctor() {

@@ -24,6 +24,7 @@ import { AddReport } from './report/add-report/add-report';
 import { NurseIndivisualProfile } from './profile/nurse-indivisual-profile/nurse-indivisual-profile';
 import { ReceptionistIndivisualProfile } from './profile/receptionist-indivisual-profile/receptionist-indivisual-profile';
 import { OfficeStaffIndivisualProfile } from './profile/office-staff-indivisual-profile/office-staff-indivisual-profile';
+import { AddEmergencyPatient } from './emergency/add-emergency-patient/add-emergency-patient';
 
 const routes: Routes = [
   
@@ -58,6 +59,7 @@ const routes: Routes = [
   {path:'Np', component:NurseIndivisualProfile},
   {path:'rp', component:ReceptionistIndivisualProfile},
   {path:'op', component:OfficeStaffIndivisualProfile},
+  {path:'emergency', component:AddEmergencyPatient},
 
 
   

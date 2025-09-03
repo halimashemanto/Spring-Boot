@@ -23,11 +23,11 @@ public class Prescription {
     private Date date;
     private String applyWay; // new field
 
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("prescription")
     private List<Medicine> medicines;
 
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("prescription")
     private List<Tests> tests;
 
