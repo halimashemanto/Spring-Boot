@@ -1,40 +1,53 @@
 <div style="max-width: 1000px; margin:auto; font-family: Arial, sans-serif;">
 
-  <h2 style="text-align:center; color: #2c3e50; margin-bottom: 20px;">Emergency Patients <i class="fa fa-ambulance" style="color:#e74c3c;"></i></h2>
+  <h2 style="text-align:center; color: #2c3e50; margin-bottom: 20px;">Emergency Patients <i class="fa fa-ambulance"
+      style="color:#e74c3c;"></i></h2>
 
   <!-- ===== Add / Create Form ===== -->
-  <div style="background: #f0f8ff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-bottom: 30px;">
+  <div
+    style="background: #f0f8ff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-bottom: 30px;">
     <h3 style="color: #2980b9;"><i class="fa fa-user-plus" style="color:#16a085;"></i> Add New Patient</h3>
 
     <div style="display:flex; flex-wrap: wrap; gap: 12px;">
-      <input [(ngModel)]="newPatient.patientName" placeholder="Patient Name" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      <input [(ngModel)]="newPatient.patientAge" type="number" placeholder="Age" style="width: 80px; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      
-     <select [(ngModel)]="newPatient.patientGender" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;" >
-  <option value="">Select Gender</option>
-  <option value="Male">Male</option>
-  <option value="Female">Female</option>
-  <option value="Other">Other</option>
-</select>
+      <input [(ngModel)]="newPatient.patientName" placeholder="Patient Name"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+      <input [(ngModel)]="newPatient.patientAge" type="number" placeholder="Age"
+        style="width: 80px; padding:8px; border-radius:5px; border:1px solid #ccc;">
+
+      <select [(ngModel)]="newPatient.patientGender"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
 
 
-      <input [(ngModel)]="newPatient.patientContact" placeholder="Contact" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      <input [(ngModel)]="newPatient.patientAddress" placeholder="Address" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      <input [(ngModel)]="newPatient.medicalHistory" placeholder="Medical History" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      
-      <input [(ngModel)]="newPatient.admissionDate" type="date" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      
-      <select [(ngModel)]="newPatient.conditionLevel" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+      <input [(ngModel)]="newPatient.patientContact" placeholder="Contact"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+      <input [(ngModel)]="newPatient.patientAddress" placeholder="Address"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+      <input [(ngModel)]="newPatient.medicalHistory" placeholder="Medical History"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+
+      <input [(ngModel)]="newPatient.admissionDate" type="date"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+
+      <select [(ngModel)]="newPatient.conditionLevel"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
         <option value="">Condition Level</option>
         <option value="Critical">Critical <i class="fa fa-exclamation-triangle" style="color:red;"></i></option>
         <option value="Serious">Serious <i class="fa fa-exclamation-circle" style="color:orange;"></i></option>
         <option value="Stable">Stable <i class="fa fa-check-circle" style="color:green;"></i></option>
       </select>
 
-      <input [(ngModel)]="newPatient.broughtBy" placeholder="Brought By" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      <input [(ngModel)]="newPatient.incidentDetails" placeholder="Incident Details" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      <input [(ngModel)]="newPatient.immediateTreatment" placeholder="Immediate Treatment" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-      
+      <input [(ngModel)]="newPatient.broughtBy" placeholder="Brought By"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+      <input [(ngModel)]="newPatient.incidentDetails" placeholder="Incident Details"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+      <input [(ngModel)]="newPatient.immediateTreatment" placeholder="Immediate Treatment"
+        style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
+
       <select [(ngModel)]="newPatient.status" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
         <option value="">Status</option>
         <option value="Active">Active <i class="fa fa-heartbeat" style="color:green;"></i></option>
@@ -42,11 +55,12 @@
       </select>
 
       <label style="display:flex; align-items:center; gap:5px;">
-        <input type="checkbox" [(ngModel)]="newPatient.admittedToWard"/>
+        <input type="checkbox" [(ngModel)]="newPatient.admittedToWard" />
         Admitted to Ward
       </label>
 
-      <button (click)="createPatient()" style="flex-basis: 100%; padding:10px; border:none; border-radius:8px; background: linear-gradient(45deg, #1abc9c, #16a085); color:white; font-weight:bold; cursor:pointer; transition: all 0.3s;">
+      <button (click)="createPatient()"
+        style="flex-basis: 100%; padding:10px; border:none; border-radius:8px; background: linear-gradient(45deg, #1abc9c, #16a085); color:white; font-weight:bold; cursor:pointer; transition: all 0.3s;">
         <i class="fa fa-plus-circle"></i> Add Patient
       </button>
     </div>
@@ -54,13 +68,14 @@
 
   <!-- ===== Patient Cards ===== -->
   <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-    <div *ngFor="let p of patients" style="flex: 1 1 300px; background: linear-gradient(135deg, #fef9c3, #fdd835); padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; transition: transform 0.3s;" 
-       >
+    <div *ngFor="let p of patients"
+      style="flex: 1 1 300px; background: linear-gradient(135deg, #fef9c3, #fdd835); padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; transition: transform 0.3s;">
 
       <h3 style="margin-top:0; color:#2c3e50;">
         <i class="fa fa-user-injured" style="color:#e74c3c; margin-right:5px;"></i>{{p.patientName}}
       </h3>
-      <p><i class="fa fa-birthday-cake" style="color:#f39c12;"></i> Age: {{p.patientAge}} | <i class="fa fa-venus-mars" style="color:#8e44ad;"></i> Gender: {{p.patientGender}}</p>
+      <p><i class="fa fa-birthday-cake" style="color:#f39c12;"></i> Age: {{p.patientAge}} | <i class="fa fa-venus-mars"
+          style="color:#8e44ad;"></i> Gender: {{p.patientGender}}</p>
       <p><i class="fa fa-phone" style="color:#16a085;"></i> Contact: {{p.patientContact}}</p>
       <p><i class="fa fa-calendar-alt" style="color:#3498db;"></i> Admission: {{p.admissionDate | date}}</p>
       <p>
@@ -79,13 +94,13 @@
       </p>
 
       <p *ngIf="p.admittedToWard" style="color:#c0392b; font-weight:bold;">
-  <i class="fa fa-procedures"></i> Admitted to Ward
-</p>
+        <i class="fa fa-procedures"></i> Admitted to Ward
+      </p>
 
 
       <div style="display:flex; gap:10px; margin-top:10px;">
-       <button (click)="updatePatient(p)">Update</button>
-<button (click)="deletePatient(p.id!)">Delete</button>
+        <button (click)="updatePatient(p)">Update</button>
+        <button (click)="deletePatient(p.id!)">Delete</button>
       </div>
 
     </div>

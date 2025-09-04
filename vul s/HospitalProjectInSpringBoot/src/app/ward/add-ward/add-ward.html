@@ -1,0 +1,52 @@
+<div *ngFor="let ward of wards" style="border:2px solid #2c3e50; border-radius:10px; padding:15px; margin:15px; background-color:#f0f8ff;">
+
+  <h2 style="color:#2c3e50; font-family:Arial, sans-serif;">
+    {{ ward.wardName }} ({{ ward.wardType }}) - 
+    <span style="color:#e74c3c;">Price: {{ ward.pricePerDay }}/day</span>
+  </h2>
+
+  <!-- Beds -->
+  <h3 style="color:#34495e; font-family:Arial, sans-serif;">Beds:</h3>
+  <ul style="list-style:none; padding-left:0;">
+    <li *ngFor="let bed of ward.beds" style="margin-bottom:8px; padding:5px; border-bottom:1px dashed #95a5a6;">
+      
+      <span style="font-weight:bold;">Bed {{ bed.bedNumber }}</span> - 
+      <span [style.color]="bed.isOccupied ? 'orange' : 'green'">
+        {{ bed.isOccupied ? 'Booked' : 'Available' }}
+      </span>
+      - Price: <span style="color:#2980b9;">{{ bed.pricePerDay }}/day</span>
+
+      <!-- Book button: Only for Available beds -->
+      <button *ngIf="!bed.isOccupied" 
+              (click)="bookBed(bed)" 
+              style="margin-left:10px; padding:2px 8px; border-radius:5px; border:none; background-color:#27ae60; color:white; cursor:pointer;">
+        Book
+      </button>
+
+      <!-- Disabled button for Booked beds -->
+      <button *ngIf="bed.isOccupied" disabled
+              style="margin-left:10px; padding:2px 8px; border-radius:5px; border:none; background-color:#c0392b; color:white; cursor:not-allowed;">
+        Booked
+      </button>
+
+    </li>
+  </ul>
+
+  <!-- Facilities -->
+  <h3 style="color:#34495e; font-family:Arial, sans-serif;">Facilities:</h3>
+  <ul style="list-style:none; padding-left:0;">
+    <li *ngFor="let f of ward.facilities" style="margin-bottom:5px;">
+      <span style="font-weight:bold;">{{ f.name }}</span> - 
+      <span [style.color]="f.isAvailable ? 'green' : 'red'">
+        {{ f.isAvailable ? '✅ Available' : '❌ Not Available' }}
+      </span>
+
+      <span *ngIf="ward.wardType==='CABIN' || ward.wardType==='ICU'" style="margin-left:10px; color:#2980b9;">
+        - Price: {{ ward.pricePerDay }}/day
+      </span>
+    </li>
+  </ul>
+
+  <hr style="border:1px solid #bdc3c7; margin-top:10px;">
+
+</div>

@@ -16,7 +16,7 @@ public class EmergencyPatient {
     private Long id;
 
     private Date admissionDate;
-    private String conditionLevel;    // Critical / Serious / Stable
+    private String conditionLevel;
     private String broughtBy;
     private String incidentDetails;
     private String immediateTreatment;

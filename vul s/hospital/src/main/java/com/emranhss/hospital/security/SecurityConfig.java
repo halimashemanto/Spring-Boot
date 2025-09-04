@@ -66,7 +66,9 @@ public class SecurityConfig {
                                         "/api/doctor/by-department/**",
                                         "/api/slot/doctor/**",
                                         "/api/emergency",
-                                        "/api/emergency/**"
+                                        "/api/emergency/**",
+                                        "/api/ward",
+                                        "/api/ward/**"
                                         )
 
                                 .permitAll()

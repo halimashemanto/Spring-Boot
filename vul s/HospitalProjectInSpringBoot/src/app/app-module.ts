@@ -36,6 +36,8 @@ import { IndivisualDoctorAppointment } from './Appoinment/indivisual-doctor-appo
 import { AddPrescription } from './prescription/add-prescription/add-prescription';
 import { ViewPrescription } from './prescription/view-prescription/view-prescription';
 import { AddEmergencyPatient } from './emergency/add-emergency-patient/add-emergency-patient';
+import { Word } from './word/word/word';
+import { AddWard } from './ward/add-ward/add-ward';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { AddEmergencyPatient } from './emergency/add-emergency-patient/add-emerg
         IndivisualDoctorAppointment,
         AddPrescription,
         ViewPrescription,
-        AddEmergencyPatient
+        AddEmergencyPatient,
+        Word,
+        AddWard
   ],
   imports: [
     BrowserModule,
