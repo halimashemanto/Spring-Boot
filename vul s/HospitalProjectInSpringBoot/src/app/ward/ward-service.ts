@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Bed, Facility, Ward } from './model/ward.model';
-import { BedBooking } from './model/bedBooking.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,28 +10,29 @@ import { environment } from '../../environment/environment';
 export class WardService {
 
 
-   private baseUrl =  environment.apiBaseUrl + '/api/ward';
+   private api =  environment.apiBaseUrl + '/api/ward';
 
   constructor(private http: HttpClient) {}
 
-  getAllWards(): Observable<Ward[]> {
-    return this.http.get<Ward[]>(this.baseUrl);
+ getAllWards(): Observable<any[]> {
+    return this.http.get<any[]>(this.api);
   }
 
-  getBeds(wardId: number) {
-    return this.http.get<Bed[]>(`${this.baseUrl}/${wardId}/beds`);
+  createWard(data: any): Observable<any> {
+    return this.http.post<any>(this.api, data);
   }
 
-  getFacilities(wardId: number) {
-    return this.http.get<Facility[]>(`${this.baseUrl}/${wardId}/facilities`);
+  createBed(wardId: number, bed: any): Observable<any> {
+    return this.http.post<any>(`${this.api}/${wardId}/beds`, bed);
   }
 
-  bookBed(bedId: number, booking: BedBooking) {
-    return this.http.post<BedBooking>(`${this.baseUrl}/beds/${bedId}/book`, booking);
+  bookBed(bedId: number, booking: any): Observable<any> {
+    return this.http.post<any>(`${this.api}/beds/${bedId}/book`, booking);
   }
 
-  releaseBed(bedId: number) {
-    return this.http.post<BedBooking>(`${this.baseUrl}/beds/${bedId}/release`, {});
+  releaseBed(bedId: number): Observable<any> {
+    return this.http.post<any>(`${this.api}/beds/${bedId}/release`, {});
   }
-  
 }
+  
+

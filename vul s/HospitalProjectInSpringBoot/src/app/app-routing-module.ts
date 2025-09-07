@@ -26,6 +26,7 @@ import { ReceptionistIndivisualProfile } from './profile/receptionist-indivisual
 import { OfficeStaffIndivisualProfile } from './profile/office-staff-indivisual-profile/office-staff-indivisual-profile';
 import { AddEmergencyPatient } from './emergency/add-emergency-patient/add-emergency-patient';
 import { AddWard } from './ward/add-ward/add-ward';
+import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed-booking-modal-component';
 
 const routes: Routes = [
   
@@ -62,6 +63,7 @@ const routes: Routes = [
   {path:'op', component:OfficeStaffIndivisualProfile},
   {path:'emergency', component:AddEmergencyPatient},
   {path:'ward', component:AddWard},
+  {path:'bb', component:BedBookingModalComponent},
 
 
   

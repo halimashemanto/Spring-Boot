@@ -1,0 +1,14 @@
+.wards-container{ display:flex; flex-wrap:wrap; gap:12px; }
+.ward-card{ background:#f0f8ff; padding:12px; border-radius:10px; width:300px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.beds{ margin-top:8px; }
+.bed{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:6px 8px; border-radius:8px; transition:0.3s; }
+.bed.available{ background:#d4edda; color:#155724; }
+.bed.occupied{ background:#f8d7da; color:#721c24; }
+.bed.booked{ background:#cce5ff; color:#004085; }
+.bed-number{ font-weight:500; }
+.btn{ padding:4px 10px; border-radius:6px; border:none; cursor:pointer; }
+.btn.primary{ background:#1976d2; color:#fff; }
+.btn.danger{ background:#d32f2f; color:#fff; }
+.filter{ margin-bottom:12px; }
+.filter button{ margin-right:6px; padding:4px 10px; border-radius:6px; border:none; cursor:pointer; }
+.filter button.active{ background:#1976d2; color:#fff; }

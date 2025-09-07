@@ -38,6 +38,7 @@ import { ViewPrescription } from './prescription/view-prescription/view-prescrip
 import { AddEmergencyPatient } from './emergency/add-emergency-patient/add-emergency-patient';
 import { Word } from './word/word/word';
 import { AddWard } from './ward/add-ward/add-ward';
+import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed-booking-modal-component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AddWard } from './ward/add-ward/add-ward';
         ViewPrescription,
         AddEmergencyPatient,
         Word,
-        AddWard
+        AddWard,
+        BedBookingModalComponent
   ],
   imports: [
     BrowserModule,
