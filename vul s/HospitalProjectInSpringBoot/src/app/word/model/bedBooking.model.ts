@@ -11,13 +11,12 @@ export interface WardDTO {
   wardType: string;
   pricePerDay: number;
   beds?: BedDTO[];
-  facilities?: FacilityDTO[];
-
 }
 
-export interface FacilityDTO {
-  id?: number;
-  name: string;
-  description: string;
-  isAvailable?: boolean;
+export interface BedBookingDTO {
+  bedId: number;
+  patientName: string;
+  admissionDate: Date;
+  dischargeDate?: Date | null;
+  totalCharge?: number;
 }

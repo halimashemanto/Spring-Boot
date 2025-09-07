@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
+import { BedDTO, FacilityDTO, WardDTO } from './model/bedBooking.model';
+import { BedBookingDTO } from '../word/model/bedBooking.model';
 
 
 @Injectable({
@@ -10,28 +12,53 @@ import { environment } from '../../environment/environment';
 export class WardService {
 
 
-   private api =  environment.apiBaseUrl + '/api/ward';
+   private apiUrl =  environment.apiBaseUrl + '/api/ward';
 
   constructor(private http: HttpClient) {}
-
- getAllWards(): Observable<any[]> {
-    return this.http.get<any[]>(this.api);
+// Add facility to a ward
+  addFacility(wardId: number, facility: FacilityDTO): Observable<FacilityDTO> {
+    return this.http.post<FacilityDTO>(`${this.apiUrl}/${wardId}/facilities`, facility);
   }
 
-  createWard(data: any): Observable<any> {
-    return this.http.post<any>(this.api, data);
+  // Get all facilities of a ward
+  getFacilities(wardId: number): Observable<FacilityDTO[]> {
+    return this.http.get<FacilityDTO[]>(`${this.apiUrl}/${wardId}/facilities`);
   }
 
-  createBed(wardId: number, bed: any): Observable<any> {
-    return this.http.post<any>(`${this.api}/${wardId}/beds`, bed);
+
+  //  // Ward
+  // getWards(): Observable<WardDTO[]> {
+  //   return this.http.get<WardDTO[]>(this.apiUrl);
+  // }
+
+  createWard(ward: WardDTO): Observable<WardDTO> {
+    return this.http.post<WardDTO>(this.apiUrl, ward);
   }
 
-  bookBed(bedId: number, booking: any): Observable<any> {
-    return this.http.post<any>(`${this.api}/beds/${bedId}/book`, booking);
+  // // Bed
+  // getBeds(wardId: number): Observable<BedDTO[]> {
+  //   return this.http.get<BedDTO[]>(`${this.apiUrl}/${wardId}/beds`);
+  // }
+
+  createBed(wardId: number, bed: BedDTO): Observable<BedDTO> {
+    return this.http.post<BedDTO>(`${this.apiUrl}/${wardId}/beds`, bed);
   }
 
-  releaseBed(bedId: number): Observable<any> {
-    return this.http.post<any>(`${this.api}/beds/${bedId}/release`, {});
+
+  getWards(): Observable<WardDTO[]> {
+    return this.http.get<WardDTO[]>(this.apiUrl);
+  }
+
+  getBeds(wardId: number): Observable<BedDTO[]> {
+    return this.http.get<BedDTO[]>(`${this.apiUrl}/${wardId}/beds`);
+  } 
+
+  bookBed(dto: BedBookingDTO): Observable<BedBookingDTO> {
+    return this.http.post<BedBookingDTO>(`${this.apiUrl}/beds/${dto.bedId}/book`, dto);
+  }
+
+  releaseBed(bedId: number): Observable<BedBookingDTO> {
+    return this.http.post<BedBookingDTO>(`${this.apiUrl}/beds/${bedId}/release`, {});
   }
 }
   

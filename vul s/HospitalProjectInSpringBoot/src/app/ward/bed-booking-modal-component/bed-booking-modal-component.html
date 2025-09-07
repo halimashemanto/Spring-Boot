@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Bed Management</h2>
+
+  <!-- Form -->
+  <form [formGroup]="bedForm" (ngSubmit)="onSubmit()" class="form-card">
+    <select formControlName="wardId">
+      <option [ngValue]="null" disabled>Select Ward</option>
+      <option *ngFor="let w of wards" [ngValue]="w.id">{{w.wardName}} ({{w.wardType}})</option>
+    </select>
+
+    <input formControlName="bedNumber" placeholder="Bed Number">
+    <input formControlName="pricePerDay" type="number" placeholder="Price per Day">
+
+    <button type="submit">Add Bed</button>
+  </form>
+
+  <!-- Bed List -->
+  <div class="bed-list" *ngIf="beds.length > 0">
+    <div *ngFor="let b of beds" class="card">
+      <h3>Bed {{b.bedNumber}}</h3>
+      <p>Price: {{b.pricePerDay}} / day</p>
+      <p>Status:
+        <span [style.color]="b.occupied ? 'red' : 'green'">
+          {{b.occupied ? 'Occupied' : 'Available'}}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>

@@ -21,15 +21,33 @@ public class WardMapper {
         dto.setWardType(ward.getWardType());
         dto.setPricePerDay(ward.getPricePerDay());
 
+//        if (ward.getBeds() != null) {
+//            dto.setBeds(
+//                    ward.getBeds().stream().map(WardMapper::toDTO).collect(Collectors.toList())
+//            );
+//        }
+//
+//        if (ward.getFacilities() != null) {
+//            dto.setFacilities(
+//                    ward.getFacilities().stream().map(WardMapper::toDTO ).collect(Collectors.toList())
+//            );
+//        }
+
+
+
         if (ward.getBeds() != null) {
             dto.setBeds(
-                    ward.getBeds().stream().map(WardMapper::toDTO).collect(Collectors.toList())
+                    ward.getBeds().stream()
+                            .map(bed -> toDTO(bed)) // explicitly
+                            .collect(Collectors.toList())
             );
         }
 
         if (ward.getFacilities() != null) {
             dto.setFacilities(
-                    ward.getFacilities().stream().map(WardMapper::toDTO ).collect(Collectors.toList())
+                    ward.getFacilities().stream()
+                            .map(fac -> toDTO(fac)) // explicitly
+                            .collect(Collectors.toList())
             );
         }
 

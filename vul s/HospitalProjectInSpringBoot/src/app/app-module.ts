@@ -39,6 +39,7 @@ import { AddEmergencyPatient } from './emergency/add-emergency-patient/add-emerg
 import { Word } from './word/word/word';
 import { AddWard } from './ward/add-ward/add-ward';
 import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed-booking-modal-component';
+import { BedBooking } from './word/bed-booking/bed-booking';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed
         AddEmergencyPatient,
         Word,
         AddWard,
-        BedBookingModalComponent
+        BedBookingModalComponent,
+        BedBooking
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,25 @@
+<div style="max-width:800px;margin:auto;padding:20px;font-family:Arial,sans-serif;">
+  <h2>🏥 Bed Booking</h2>
+
+ <select [(ngModel)]="selectedWardId" (ngModelChange)="selectWard($event)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:15px;">
+  <option [ngValue]="null" disabled>Select Ward</option>
+  <option *ngFor="let w of wards" [ngValue]="w.id">{{w.wardName}} ({{w.wardType}})</option>
+</select>
+
+
+  <div *ngIf="selectedWard">
+    <h3>Beds in {{selectedWard.wardName}}</h3>
+
+    <form [formGroup]="bookingForm" style="margin-bottom:15px; display:flex; gap:10px;">
+      <input formControlName="patientName" placeholder="Patient Name" style="flex:1;padding:8px;">
+      <input formControlName="admissionDate" type="date" style="padding:8px;">
+    </form>
+
+    <div *ngFor="let bed of beds" style="display:flex; justify-content:space-between; align-items:center; padding:8px; border:1px solid #ddd; margin-bottom:6px; border-radius:6px;">
+      <span>Bed {{bed.bedNumber}} - ₹{{bed.pricePerDay}}/day</span>
+
+      <button *ngIf="!bed.occupied" (click)="bookBed(bed)" style="padding:4px 10px;background:#059669;color:white;border:none;border-radius:6px;">Book</button>
+      <button *ngIf="bed.occupied" (click)="releaseBed(bed)" style="padding:4px 10px;background:#ef4444;color:white;border:none;border-radius:6px;">Booked / Release</button>
+    </div>
+  </div>
+</div>
