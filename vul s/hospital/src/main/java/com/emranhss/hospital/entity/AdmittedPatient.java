@@ -3,45 +3,73 @@ package com.emranhss.hospital.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "admittedPatients")
 public class AdmittedPatient {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+         @Id
+         @GeneratedValue(strategy = GenerationType.IDENTITY)
+         private Long id;
+
+        private Date admissionDate;
+        private Date dischargeDate;
+        private String wardNo;
+        private String bedNo;
+        private String status;
+        private String treatmentPlan;
+        private double wardChargePerDay;
+
+        @ManyToOne
+        @JoinColumn(name = "patient_id")
+        private Patient patient;
+
+        @ManyToOne
+        @JoinColumn(name = "doctor_id")
+        private Doctor doctor;
+
+        @ManyToOne
+        @JoinColumn(name = "department_id")
+        private Department department;
 
 
-    private Date admissionDate;
-    private Date dischargeDate;
-    private String wardNo;
-    private String bedNo;
-    private String status;
-    private String treatmentPlan;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "bill_id")
+        private Billing bill;
 
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private EmergencyPatient patient;
+         @ManyToOne
+         @JoinColumn(name = "ward_id")
+         private Ward ward;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+         @ManyToOne
+         @JoinColumn(name = "bed_id")
+         private Bed bed;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bill_id")
-    private Billing bill;
+        @OneToMany(mappedBy = "admittedPatient", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<Meal> meals = new ArrayList<>();
+
+        @OneToMany(mappedBy = "admittedPatient", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<MedicineAdmitedPatient> medicines = new ArrayList<>();
+
+        @OneToMany(mappedBy = "admittedPatient", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<TestAdmitedPatient> tests = new ArrayList<>();
+
+        @OneToMany(mappedBy = "admittedPatient", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<DoctorCharge> doctorCharges = new ArrayList<>();
+
+        @OneToMany(mappedBy = "admittedPatient", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<OthersCharge> otherCharges = new ArrayList<>();
 
 
     public AdmittedPatient() {
     }
 
-    public AdmittedPatient(Long id, Date admissionDate, Date dischargeDate, String wardNo, String bedNo, String status, String treatmentPlan, EmergencyPatient patient, Doctor doctor, Department department, Billing bill) {
+
+    public AdmittedPatient(Long id, Date admissionDate, Date dischargeDate, String wardNo, String bedNo, String status, String treatmentPlan, double wardChargePerDay, Patient patient, Doctor doctor, Department department, Billing bill, Ward ward, Bed bed, List<Meal> meals, List<MedicineAdmitedPatient> medicines, List<TestAdmitedPatient> tests, List<DoctorCharge> doctorCharges, List<OthersCharge> otherCharges) {
         this.id = id;
         this.admissionDate = admissionDate;
         this.dischargeDate = dischargeDate;
@@ -49,10 +77,18 @@ public class AdmittedPatient {
         this.bedNo = bedNo;
         this.status = status;
         this.treatmentPlan = treatmentPlan;
+        this.wardChargePerDay = wardChargePerDay;
         this.patient = patient;
         this.doctor = doctor;
         this.department = department;
         this.bill = bill;
+        this.ward = ward;
+        this.bed = bed;
+        this.meals = meals;
+        this.medicines = medicines;
+        this.tests = tests;
+        this.doctorCharges = doctorCharges;
+        this.otherCharges = otherCharges;
     }
 
     public Long getId() {
@@ -111,11 +147,19 @@ public class AdmittedPatient {
         this.treatmentPlan = treatmentPlan;
     }
 
-    public EmergencyPatient getPatient() {
+    public double getWardChargePerDay() {
+        return wardChargePerDay;
+    }
+
+    public void setWardChargePerDay(double wardChargePerDay) {
+        this.wardChargePerDay = wardChargePerDay;
+    }
+
+    public Patient getPatient() {
         return patient;
     }
 
-    public void setPatient(EmergencyPatient patient) {
+    public void setPatient(Patient patient) {
         this.patient = patient;
     }
 
@@ -141,5 +185,61 @@ public class AdmittedPatient {
 
     public void setBill(Billing bill) {
         this.bill = bill;
+    }
+
+    public Ward getWard() {
+        return ward;
+    }
+
+    public void setWard(Ward ward) {
+        this.ward = ward;
+    }
+
+    public Bed getBed() {
+        return bed;
+    }
+
+    public void setBed(Bed bed) {
+        this.bed = bed;
+    }
+
+    public List<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
+    }
+
+    public List<MedicineAdmitedPatient> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<MedicineAdmitedPatient> medicines) {
+        this.medicines = medicines;
+    }
+
+    public List<TestAdmitedPatient> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<TestAdmitedPatient> tests) {
+        this.tests = tests;
+    }
+
+    public List<DoctorCharge> getDoctorCharges() {
+        return doctorCharges;
+    }
+
+    public void setDoctorCharges(List<DoctorCharge> doctorCharges) {
+        this.doctorCharges = doctorCharges;
+    }
+
+    public List<OthersCharge> getOtherCharges() {
+        return otherCharges;
+    }
+
+    public void setOtherCharges(List<OthersCharge> otherCharges) {
+        this.otherCharges = otherCharges;
     }
 }

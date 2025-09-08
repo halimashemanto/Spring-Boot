@@ -1,18 +1,11 @@
-package com.emranhss.hospital.entity;
+package com.emranhss.hospital.dto;
+
+public class BillingDTO {
 
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "Billing")
-public class Billing {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-
     private double wardCost;
+
     private double mealCost;
     private double medicineCost;
     private double testCost;
@@ -20,18 +13,6 @@ public class Billing {
     private double otherCharge;
     private double totalCost;
 
-    public Billing() {}
-
-    public Billing(long id, double wardCost, double mealCost, double medicineCost, double testCost, double doctorCharge, double otherCharge, double totalCost) {
-        this.id = id;
-        this.wardCost = wardCost;
-        this.mealCost = mealCost;
-        this.medicineCost = medicineCost;
-        this.testCost = testCost;
-        this.doctorCharge = doctorCharge;
-        this.otherCharge = otherCharge;
-        this.totalCost = totalCost;
-    }
 
     public long getId() {
         return id;

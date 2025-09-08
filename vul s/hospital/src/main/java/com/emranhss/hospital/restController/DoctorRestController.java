@@ -79,7 +79,7 @@ public class DoctorRestController {
         List<Doctor> doctorList = doctorService.getAll();
 
         List<DoctorDTO> dtoList = doctorList.stream()
-                .map(this::toDTO)  // map each Doctor to DoctorDTO
+                .map(this::toDTO)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(dtoList);
@@ -92,6 +92,7 @@ public class DoctorRestController {
         dto.setName(doctor.getName());
         dto.setEmail(doctor.getEmail());
         dto.setPhone(doctor.getPhone());
+        System.out.println("phone : " + doctor.getPhone());
         dto.setGender(doctor.getGender());
         dto.setStatus(doctor.getStatus());
         dto.setStudy(doctor.getStudy());

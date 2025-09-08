@@ -12,10 +12,6 @@ import java.util.Optional;
 @Repository
 public interface IDoctorRepo extends JpaRepository<Doctor,Long> {
 
-
-//    List<Doctor> findByDepartmentId(long id);
-
-
     Optional<Doctor> findByUserId(long userId);
 
     List<Doctor> findByDepartmentId(Long departmentId);
