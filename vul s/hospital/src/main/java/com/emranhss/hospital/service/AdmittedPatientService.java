@@ -6,9 +6,9 @@ import com.emranhss.hospital.entity.*;
 import com.emranhss.hospital.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.TimeUnit;
+import java.util.Date;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AdmittedPatientService {
@@ -32,8 +32,22 @@ public class AdmittedPatientService {
     @Autowired
     private IBedRepo bedRepository;
 
-    public AdmittedPatient saveAdmittedPatient(AdmittedPatientDTO dto) {
+    public AdmittedPatientService(IAdmittedPatientRepo admittedPatientRepository,
+                                  IPatientRepo patientRepository,
+                                  IDoctorRepo doctorRepository,
+                                  IDepartmentRepository departmentRepository,
+                                  IWordRepo wardRepository,
+                                  IBedRepo bedRepository) {
+        this.admittedPatientRepository = admittedPatientRepository;
+        this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
+        this.departmentRepository = departmentRepository;
+        this.wardRepository = wardRepository;
+        this.bedRepository = bedRepository;
+    }
 
+    // ✅ Admit patient
+    public AdmittedPatient admitPatient(AdmittedPatientDTO dto) {
         AdmittedPatient admittedPatient = new AdmittedPatient();
 
         admittedPatient.setAdmissionDate(dto.getAdmissionDate());
@@ -44,106 +58,109 @@ public class AdmittedPatientService {
         admittedPatient.setTreatmentPlan(dto.getTreatmentPlan());
         admittedPatient.setWardChargePerDay(dto.getWardChargePerDay());
 
+        // Relations
+        admittedPatient.setPatient(patientRepository.findById(dto.getPatientId())
+                .orElseThrow(() -> new RuntimeException("Patient not found")));
+        admittedPatient.setDoctor(doctorRepository.findById(dto.getDoctorId())
+                .orElseThrow(() -> new RuntimeException("Doctor not found")));
+        admittedPatient.setDepartment(departmentRepository.findById(dto.getDepartmentId())
+                .orElseThrow(() -> new RuntimeException("Department not found")));
 
-        patientRepository.findById(dto.getPatientId())
-                .ifPresent(admittedPatient::setPatient);
-
-
-        doctorRepository.findById(dto.getDoctorId())
-                .ifPresent(admittedPatient::setDoctor);
-
-
-        departmentRepository.findById(dto.getDepartmentId())
-                .ifPresent(admittedPatient::setDepartment);
-
-
-        wardRepository.findById(dto.getWardId())
-                .ifPresent(admittedPatient::setWard);
-
-
-        bedRepository.findById(dto.getBedId())
-                .ifPresent(admittedPatient::setBed);
-
-
-        Billing billing = new Billing();
-        if (dto.getBill() != null) {
-            billing.setWardCost(dto.getBill().getWardCost());
-            billing.setMealCost(dto.getBill().getMealCost());
-            billing.setMedicineCost(dto.getBill().getMedicineCost());
-            billing.setTestCost(dto.getBill().getTestCost());
-            billing.setDoctorCharge(dto.getBill().getDoctorCharge());
-            billing.setOtherCharge(dto.getBill().getOtherCharge());
-            billing.setTotalCost(dto.getBill().getTotalCost());
-        }
-        admittedPatient.setBill(billing);
-
-        // Meals
-        if (dto.getMeals() != null) {
-            List<Meal> meals = new ArrayList<>();
-            for (MealDTO mealDTO : dto.getMeals()) {
-                Meal meal = new Meal();
-
-                meal.setMealCost(mealDTO.getMealCost());
-                meal.setAdmittedPatient(admittedPatient); // parent set
-                meals.add(meal);
-            }
-            admittedPatient.setMeals(meals);
-        }
-
-
-        // Medicines
-        if (dto.getMedicines() != null) {
-            List<MedicineAdmitedPatient> medicines = new ArrayList<>();
-            for (MedicineAdmitedPatientDTO medDTO : dto.getMedicines()) {
-                MedicineAdmitedPatient med = new MedicineAdmitedPatient();
-                med.setMedicineName(medDTO.getMedicineName());
-                med.setQuantity(medDTO.getQuantity());
-                med.setMedicineCost(medDTO.getMedicineCost());
-                med.setAdmittedPatient(admittedPatient);
-                medicines.add(med);
-            }
-            admittedPatient.setMedicines(medicines);
-        }
-
-        // Tests
-        if (dto.getTests() != null) {
-            List<TestAdmitedPatient> tests = new ArrayList<>();
-            for (TestAdmitedPatientDTO testDTO : dto.getTests()) {
-                TestAdmitedPatient test = new TestAdmitedPatient();
-                test.setTestName(testDTO.getTestName());
-                test.setTestCost(testDTO.getTestCost());
-                test.setAdmittedPatient(admittedPatient);
-                tests.add(test);
-            }
-            admittedPatient.setTests(tests);
-        }
-
-        // Doctor Charges
-        if (dto.getDoctorCharges() != null) {
-            List<DoctorCharge> doctorCharges = new ArrayList<>();
-            for (DoctorChargeDTO docDTO : dto.getDoctorCharges()) {
-                DoctorCharge docCharge = new DoctorCharge();
-                docCharge.setDescription(docDTO.getDescription());
-                docCharge.setAmount(docDTO.getAmount());
-                docCharge.setAdmittedPatient(admittedPatient);
-                doctorCharges.add(docCharge);
-            }
-            admittedPatient.setDoctorCharges(doctorCharges);
-        }
-
-        // Others Charges
-        if (dto.getOtherCharges() != null) {
-            List<OthersCharge> otherCharges = new ArrayList<>();
-            for (OthersChargeDTO otherDTO : dto.getOtherCharges()) {
-                OthersCharge otherCharge = new OthersCharge();
-                otherCharge.setDescription(otherDTO.getDescription());
-                otherCharge.setAmount(otherDTO.getAmount());
-                otherCharge.setAdmittedPatient(admittedPatient);
-                otherCharges.add(otherCharge);
-            }
-            admittedPatient.setOtherCharges(otherCharges);
-        }
+        wardRepository.findById(dto.getWardId()).ifPresent(admittedPatient::setWard);
+        bedRepository.findById(dto.getBedId()).ifPresent(admittedPatient::setBed);
 
         return admittedPatientRepository.save(admittedPatient);
+    }
+
+    // ✅ Add meal
+    public AdmittedPatient addMeal(Long admittedPatientId, MealDTO mealDTO) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+        Meal meal = new Meal();
+        meal.setMealCost(mealDTO.getMealCost());
+        meal.setAdmittedPatient(patient);
+        patient.getMeals().add(meal);
+        return admittedPatientRepository.save(patient);
+    }
+
+    // ✅ Add medicine
+    public AdmittedPatient addMedicine(Long admittedPatientId, MedicineAdmitedPatientDTO medDTO) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+        MedicineAdmitedPatient med = new MedicineAdmitedPatient();
+        med.setMedicineName(medDTO.getMedicineName());
+        med.setQuantity(medDTO.getQuantity());
+        med.setMedicineCost(medDTO.getMedicineCost());
+        med.setAdmittedPatient(patient);
+        patient.getMedicines().add(med);
+        return admittedPatientRepository.save(patient);
+    }
+
+    // ✅ Add test
+    public AdmittedPatient addTest(Long admittedPatientId, TestAdmitedPatientDTO testDTO) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+        TestAdmitedPatient test = new TestAdmitedPatient();
+        test.setTestName(testDTO.getTestName());
+        test.setTestCost(testDTO.getTestCost());
+        test.setAdmittedPatient(patient);
+        patient.getTests().add(test);
+        return admittedPatientRepository.save(patient);
+    }
+
+    // ✅ Add doctor charge
+    public AdmittedPatient addDoctorCharge(Long admittedPatientId, DoctorChargeDTO docDTO) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+        DoctorCharge charge = new DoctorCharge();
+        charge.setDescription(docDTO.getDescription());
+        charge.setAmount(docDTO.getAmount());
+        charge.setAdmittedPatient(patient);
+        patient.getDoctorCharges().add(charge);
+        return admittedPatientRepository.save(patient);
+    }
+
+    // ✅ Add other charge
+    public AdmittedPatient addOtherCharge(Long admittedPatientId, OthersChargeDTO otherDTO) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+        OthersCharge charge = new OthersCharge();
+        charge.setDescription(otherDTO.getDescription());
+        charge.setAmount(otherDTO.getAmount());
+        charge.setAdmittedPatient(patient);
+        patient.getOtherCharges().add(charge);
+        return admittedPatientRepository.save(patient);
+    }
+
+    // ✅ Discharge patient
+    public AdmittedPatient discharge(Long admittedPatientId, Date dischargeDate) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+        patient.setDischargeDate(dischargeDate);
+        patient.setStatus("DISCHARGED");
+        return admittedPatientRepository.save(patient);
+    }
+
+    public double calculateTotalBill(Long admittedPatientId) {
+        AdmittedPatient patient = getPatientById(admittedPatientId);
+
+        double mealCost = patient.getMeals().stream().mapToDouble(Meal::getMealCost).sum();
+        double medicineCost = patient.getMedicines().stream().mapToDouble(MedicineAdmitedPatient::getMedicineCost).sum();
+        double testCost = patient.getTests().stream().mapToDouble(TestAdmitedPatient::getTestCost).sum();
+        double doctorCost = patient.getDoctorCharges().stream().mapToDouble(DoctorCharge::getAmount).sum();
+        double otherCost = patient.getOtherCharges().stream().mapToDouble(OthersCharge::getAmount).sum();
+
+        Date admissionDate = patient.getAdmissionDate();
+        Date dischargeDate = (patient.getDischargeDate() != null) ? patient.getDischargeDate() : new Date();
+
+        long diffInMillis = dischargeDate.getTime() - admissionDate.getTime();
+        long days = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+
+        if (days <= 0) {
+            days = 1; // অন্তত ১ দিন ধরে বিল কাটা হবে
+        }
+
+        double wardCost = days * patient.getWardChargePerDay();
+
+        return mealCost + medicineCost + testCost + doctorCost + otherCost + wardCost;
+    }
+    // ✅ Get patient by ID helper
+    private AdmittedPatient getPatientById(Long id) {
+        return admittedPatientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admitted patient not found with id " + id));
     }
 }
