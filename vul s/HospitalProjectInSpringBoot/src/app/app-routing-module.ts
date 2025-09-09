@@ -29,6 +29,7 @@ import { AddWard } from './ward/add-ward/add-ward';
 import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed-booking-modal-component';
 import { Word } from './word/word/word';
 import { BedBooking } from './word/bed-booking/bed-booking';
+import { AddTestsAdmittedPatient } from './testAdmittedPatient/add-tests-admitted-patient/add-tests-admitted-patient';
 
 const routes: Routes = [
   
@@ -68,6 +69,7 @@ const routes: Routes = [
   {path:'bb', component:BedBookingModalComponent},
   {path:'facility', component:Word},
   {path:'bedbooked', component:BedBooking},
+  {path:'at', component:AddTestsAdmittedPatient},
 
 
   

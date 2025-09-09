@@ -22,6 +22,10 @@ export class BedBooking {
   ngOnInit(): void {
     this.bookingForm = this.fb.group({
       patientName: ['', Validators.required],
+      age: ['', Validators.required],
+      address: ['', Validators.required],
+      phone: ['', Validators.required],
+      broughtBy: ['', Validators.required],
       admissionDate: ['', Validators.required]
     });
 
@@ -48,6 +52,10 @@ selectWard(wardId: number) {
     const dto: BedBookingDTO = {
       bedId: bed.id!,
       patientName: this.bookingForm.value.patientName,
+      age:this.bookingForm.value.age,
+      phone:this.bookingForm.value.phone,
+      address:this.bookingForm.value.address,
+      broughtBy:this.bookingForm.value.broughtBy,
       admissionDate: new Date(this.bookingForm.value.admissionDate),
       dischargeDate: null
     };

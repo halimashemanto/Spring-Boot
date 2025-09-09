@@ -6,6 +6,10 @@ public class BedBookingDTO {
 
     private Long bedId;
     private String patientName;
+    private int age;
+    private String phone;
+    private String address;
+    private String broughtBy;
     private Date admissionDate;
     private Date dischargeDate;
     private double totalCharge;
@@ -26,4 +30,36 @@ public class BedBookingDTO {
 
     public double getTotalCharge() { return totalCharge; }
     public void setTotalCharge(double totalCharge) { this.totalCharge = totalCharge; }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getBroughtBy() {
+        return broughtBy;
+    }
+
+    public void setBroughtBy(String broughtBy) {
+        this.broughtBy = broughtBy;
+    }
 }

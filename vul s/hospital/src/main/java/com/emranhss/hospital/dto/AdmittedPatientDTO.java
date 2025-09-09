@@ -9,13 +9,11 @@ public class AdmittedPatientDTO {
     private Long id;
     private Date admissionDate;
     private Date dischargeDate;
-    private String wardNo;
-    private String bedNo;
     private String status;
     private String treatmentPlan;
-    private double wardChargePerDay;
 
-    private Long patientId;
+
+    private Long bedBookingId;
     private Long doctorId;
     private Long departmentId;
     private Long wardId;
@@ -54,21 +52,6 @@ public class AdmittedPatientDTO {
         this.dischargeDate = dischargeDate;
     }
 
-    public String getWardNo() {
-        return wardNo;
-    }
-
-    public void setWardNo(String wardNo) {
-        this.wardNo = wardNo;
-    }
-
-    public String getBedNo() {
-        return bedNo;
-    }
-
-    public void setBedNo(String bedNo) {
-        this.bedNo = bedNo;
-    }
 
     public String getStatus() {
         return status;
@@ -86,21 +69,7 @@ public class AdmittedPatientDTO {
         this.treatmentPlan = treatmentPlan;
     }
 
-    public double getWardChargePerDay() {
-        return wardChargePerDay;
-    }
 
-    public void setWardChargePerDay(double wardChargePerDay) {
-        this.wardChargePerDay = wardChargePerDay;
-    }
-
-    public Long getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
 
     public Long getDoctorId() {
         return doctorId;
@@ -180,5 +149,13 @@ public class AdmittedPatientDTO {
 
     public void setOtherCharges(List<OthersChargeDTO> otherCharges) {
         this.otherCharges = otherCharges;
+    }
+
+    public Long getBedBookingId() {
+        return bedBookingId;
+    }
+
+    public void setBedBookingId(Long bedBookingId) {
+        this.bedBookingId = bedBookingId;
     }
 }

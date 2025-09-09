@@ -16,7 +16,12 @@ export interface WardDTO {
 export interface BedBookingDTO {
   bedId: number;
   patientName: string;
+  age: number;
+  phone: string;
+  address: string;
+  broughtBy: string;
   admissionDate: Date;
   dischargeDate?: Date | null;
   totalCharge?: number;
 }
+

@@ -17,15 +17,13 @@ public class AdmittedPatient {
 
         private Date admissionDate;
         private Date dischargeDate;
-        private String wardNo;
-        private String bedNo;
         private String status;
         private String treatmentPlan;
-        private double wardChargePerDay;
+
 
         @ManyToOne
-        @JoinColumn(name = "patient_id")
-        private Patient patient;
+        @JoinColumn(name = "bedBooking_id")
+        private BedBooking bedBooking;
 
         @ManyToOne
         @JoinColumn(name = "doctor_id")
@@ -69,16 +67,13 @@ public class AdmittedPatient {
     }
 
 
-    public AdmittedPatient(Long id, Date admissionDate, Date dischargeDate, String wardNo, String bedNo, String status, String treatmentPlan, double wardChargePerDay, Patient patient, Doctor doctor, Department department, Billing bill, Ward ward, Bed bed, List<Meal> meals, List<MedicineAdmitedPatient> medicines, List<TestAdmitedPatient> tests, List<DoctorCharge> doctorCharges, List<OthersCharge> otherCharges) {
+    public AdmittedPatient(Long id, Date admissionDate, Date dischargeDate, String status, String treatmentPlan, BedBooking bedBooking ,Doctor doctor, Department department, Billing bill, Ward ward, Bed bed, List<Meal> meals, List<MedicineAdmitedPatient> medicines, List<TestAdmitedPatient> tests, List<DoctorCharge> doctorCharges, List<OthersCharge> otherCharges) {
         this.id = id;
         this.admissionDate = admissionDate;
         this.dischargeDate = dischargeDate;
-        this.wardNo = wardNo;
-        this.bedNo = bedNo;
+        this.bedBooking = bedBooking;
         this.status = status;
         this.treatmentPlan = treatmentPlan;
-        this.wardChargePerDay = wardChargePerDay;
-        this.patient = patient;
         this.doctor = doctor;
         this.department = department;
         this.bill = bill;
@@ -115,21 +110,7 @@ public class AdmittedPatient {
         this.dischargeDate = dischargeDate;
     }
 
-    public String getWardNo() {
-        return wardNo;
-    }
 
-    public void setWardNo(String wardNo) {
-        this.wardNo = wardNo;
-    }
-
-    public String getBedNo() {
-        return bedNo;
-    }
-
-    public void setBedNo(String bedNo) {
-        this.bedNo = bedNo;
-    }
 
     public String getStatus() {
         return status;
@@ -147,21 +128,7 @@ public class AdmittedPatient {
         this.treatmentPlan = treatmentPlan;
     }
 
-    public double getWardChargePerDay() {
-        return wardChargePerDay;
-    }
 
-    public void setWardChargePerDay(double wardChargePerDay) {
-        this.wardChargePerDay = wardChargePerDay;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
 
     public Doctor getDoctor() {
         return doctor;
@@ -241,5 +208,13 @@ public class AdmittedPatient {
 
     public void setOtherCharges(List<OthersCharge> otherCharges) {
         this.otherCharges = otherCharges;
+    }
+
+    public BedBooking getBedBooking() {
+        return bedBooking;
+    }
+
+    public void setBedBooking(BedBooking bedBooking) {
+        this.bedBooking = bedBooking;
     }
 }

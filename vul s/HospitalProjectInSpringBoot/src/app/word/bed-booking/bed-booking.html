@@ -1,25 +1,58 @@
-<div style="max-width:800px;margin:auto;padding:20px;font-family:Arial,sans-serif;">
-  <h2>🏥 Bed Booking</h2>
+<div style="max-width:800px;margin:auto;padding:20px;font-family:Arial,sans-serif;background:linear-gradient(135deg,#f0f9ff,#e0f7fa);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
 
- <select [(ngModel)]="selectedWardId" (ngModelChange)="selectWard($event)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:15px;">
-  <option [ngValue]="null" disabled>Select Ward</option>
-  <option *ngFor="let w of wards" [ngValue]="w.id">{{w.wardName}} ({{w.wardType}})</option>
-</select>
+  <h2 style="text-align:center;color:#0f766e;margin-bottom:20px;font-size:24px;letter-spacing:1px;animation:fadeIn 1s ease-in-out;">
+    🏥 Admission & Bed Booking
+  </h2>
 
+  <!-- Ward Selection -->
+  <select [(ngModel)]="selectedWardId" (ngModelChange)="selectWard($event)"
+    style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ea5e9;margin-bottom:20px;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,0.1);transition:all .3s;">
+    <option [ngValue]="null" disabled>✨ Select Ward</option>
+    <option *ngFor="let w of wards" [ngValue]="w.id">🏨 {{w.wardName}} ({{w.wardType}})</option>
+  </select>
 
-  <div *ngIf="selectedWard">
-    <h3>Beds in {{selectedWard.wardName}}</h3>
+  <div *ngIf="selectedWard" style="animation:slideDown .6s ease;">
+    <h3 style="color:#0369a1;margin-bottom:15px;">🛏️ Beds in {{selectedWard.wardName}}</h3>
 
-    <form [formGroup]="bookingForm" style="margin-bottom:15px; display:flex; gap:10px;">
-      <input formControlName="patientName" placeholder="Patient Name" style="flex:1;padding:8px;">
-      <input formControlName="admissionDate" type="date" style="padding:8px;">
+    <!-- Booking Form -->
+    <form [formGroup]="bookingForm" style="margin-bottom:20px; display:flex; flex-wrap:wrap; gap:10px; background:#ffffff;border-radius:10px;padding:15px;box-shadow:0 3px 8px rgba(0,0,0,0.08);">
+      <input formControlName="patientName" placeholder="👤 Patient Name" style="flex:1;padding:10px;border-radius:8px;border:1px solid #94a3b8;">
+      <input formControlName="age" type="number" placeholder="🎂 Age" style="width:120px;padding:10px;border-radius:8px;border:1px solid #94a3b8;">
+      <input formControlName="phone" type="text" placeholder="📞 Phone (11 digits)" style="flex:1;padding:10px;border-radius:8px;border:1px solid #94a3b8;">
+      <input formControlName="address" placeholder="🏠 Address" style="flex:1;padding:10px;border-radius:8px;border:1px solid #94a3b8;">
+      <input formControlName="broughtBy" placeholder="🚑 Brought By" style="flex:1;padding:10px;border-radius:8px;border:1px solid #94a3b8;">
+      <input formControlName="admissionDate" type="date" style="padding:10px;border-radius:8px;border:1px solid #94a3b8;">
     </form>
 
-    <div *ngFor="let bed of beds" style="display:flex; justify-content:space-between; align-items:center; padding:8px; border:1px solid #ddd; margin-bottom:6px; border-radius:6px;">
-      <span>Bed {{bed.bedNumber}} - ₹{{bed.pricePerDay}}/day</span>
+    <!-- Bed List -->
+    <div *ngFor="let bed of beds"
+      style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #cbd5e1; margin-bottom:8px; border-radius:10px; background:#f9fafb; transition:transform .2s, box-shadow .2s;"
+      onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
+      onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
+      
+      <span style="font-size:15px;color:#1e293b;">🛏️ Bed <b>{{bed.bedNumber}}</b> - 💰 ₹{{bed.pricePerDay}}/day</span>
 
-      <button *ngIf="!bed.occupied" (click)="bookBed(bed)" style="padding:4px 10px;background:#059669;color:white;border:none;border-radius:6px;">Book</button>
-      <button *ngIf="bed.occupied" (click)="releaseBed(bed)" style="padding:4px 10px;background:#ef4444;color:white;border:none;border-radius:6px;">Booked / Release</button>
+      <button *ngIf="!bed.occupied" (click)="bookBed(bed)"
+        style="padding:8px 14px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-weight:bold;border:none;border-radius:8px;cursor:pointer;transition:all .3s;">
+        ✅ Book
+      </button>
+
+      <button *ngIf="bed.occupied" (click)="releaseBed(bed)"
+        style="padding:8px 14px;background:linear-gradient(135deg,#f87171,#dc2626);color:white;font-weight:bold;border:none;border-radius:8px;cursor:pointer;transition:all .3s;">
+        🔒 Booked / Release
+      </button>
     </div>
   </div>
 </div>
+
+<!-- Inline Animations -->
+<style>
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(-10px);}
+  to {opacity:1; transform:translateY(0);}
+}
+@keyframes slideDown {
+  from {opacity:0; transform:translateY(-20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+</style>

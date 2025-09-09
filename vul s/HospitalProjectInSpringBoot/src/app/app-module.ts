@@ -40,6 +40,7 @@ import { Word } from './word/word/word';
 import { AddWard } from './ward/add-ward/add-ward';
 import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed-booking-modal-component';
 import { BedBooking } from './word/bed-booking/bed-booking';
+import { AddTestsAdmittedPatient } from './testAdmittedPatient/add-tests-admitted-patient/add-tests-admitted-patient';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { BedBooking } from './word/bed-booking/bed-booking';
         Word,
         AddWard,
         BedBookingModalComponent,
-        BedBooking
+        BedBooking,
+        AddTestsAdmittedPatient
   ],
   imports: [
     BrowserModule,

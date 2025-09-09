@@ -70,7 +70,9 @@ public class SecurityConfig {
                                         "/api/ward",
                                         "/api/ward/**",
                                         "/api/admittedPatient",
-                                        "/api/admittedPatient/**"
+                                        "/api/admittedPatient/**",
+                                        "/api/testss",
+                                        "/api/testss/**"
                                         )
 
                                 .permitAll()

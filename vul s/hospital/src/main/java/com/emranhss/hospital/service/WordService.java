@@ -32,9 +32,6 @@ public class WordService {
     @Autowired
     private IBedBookingRepo bookingRepo;
 
-
-
-
     @Autowired
         public WordService(IWordRepo wardRepo, IBedRepo bedRepo, IFacilityRepo facilityRepo) {
             this.wordRepo = wardRepo;
@@ -135,6 +132,10 @@ public class WordService {
         BedBooking booking = new BedBooking();
         booking.setBed(bed);
         booking.setPatientName(dto.getPatientName());
+        booking.setAddress(dto.getAddress());
+        booking.setAge(dto.getAge());
+        booking.setBroughtBy(dto.getBroughtBy());
+        booking.setPhone(dto.getPhone());
         booking.setAdmissionDate(dto.getAdmissionDate());
         booking.setDischargeDate(dto.getDischargeDate());
 
@@ -166,6 +167,10 @@ public class WordService {
         if(booking != null) {
             dto.setBedId(bedId);
             dto.setPatientName(booking.getPatientName());
+            dto.setAddress(booking.getAddress());
+            dto.setAge(booking.getAge());
+            dto.setBroughtBy(booking.getBroughtBy());
+            dto.setPhone(booking.getPhone());
             dto.setAdmissionDate(booking.getAdmissionDate());
             dto.setDischargeDate(booking.getDischargeDate());
             dto.setTotalCharge(booking.getTotalCharge());

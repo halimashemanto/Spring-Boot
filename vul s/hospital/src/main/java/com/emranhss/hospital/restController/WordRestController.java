@@ -16,10 +16,8 @@ import java.util.Map;
 @RequestMapping("/api/ward")
 public class WordRestController {
 
-        @Autowired
-        private WordService service;
-
-
+    @Autowired
+    private WordService service;
 
     @Autowired
     public WordRestController(WordService service) {

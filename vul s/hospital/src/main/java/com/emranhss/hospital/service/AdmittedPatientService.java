@@ -18,7 +18,7 @@ public class AdmittedPatientService {
     private IAdmittedPatientRepo admittedPatientRepository;
 
     @Autowired
-    private IPatientRepo patientRepository;
+    private IBedBookingRepo bedBookingRepository;
 
     @Autowired
     private IDoctorRepo doctorRepository;
@@ -33,13 +33,13 @@ public class AdmittedPatientService {
     private IBedRepo bedRepository;
 
     public AdmittedPatientService(IAdmittedPatientRepo admittedPatientRepository,
-                                  IPatientRepo patientRepository,
+                                  IBedBookingRepo bedBookingRepository,
                                   IDoctorRepo doctorRepository,
                                   IDepartmentRepository departmentRepository,
                                   IWordRepo wardRepository,
                                   IBedRepo bedRepository) {
         this.admittedPatientRepository = admittedPatientRepository;
-        this.patientRepository = patientRepository;
+        this.bedBookingRepository = bedBookingRepository;
         this.doctorRepository = doctorRepository;
         this.departmentRepository = departmentRepository;
         this.wardRepository = wardRepository;
@@ -52,14 +52,12 @@ public class AdmittedPatientService {
 
         admittedPatient.setAdmissionDate(dto.getAdmissionDate());
         admittedPatient.setDischargeDate(dto.getDischargeDate());
-        admittedPatient.setWardNo(dto.getWardNo());
-        admittedPatient.setBedNo(dto.getBedNo());
         admittedPatient.setStatus(dto.getStatus());
         admittedPatient.setTreatmentPlan(dto.getTreatmentPlan());
-        admittedPatient.setWardChargePerDay(dto.getWardChargePerDay());
+
 
         // Relations
-        admittedPatient.setPatient(patientRepository.findById(dto.getPatientId())
+        admittedPatient.setBedBooking(bedBookingRepository.findById(dto.getBedBookingId())
                 .orElseThrow(() -> new RuntimeException("Patient not found")));
         admittedPatient.setDoctor(doctorRepository.findById(dto.getDoctorId())
                 .orElseThrow(() -> new RuntimeException("Doctor not found")));
@@ -151,12 +149,12 @@ public class AdmittedPatientService {
         long days = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
 
         if (days <= 0) {
-            days = 1; // অন্তত ১ দিন ধরে বিল কাটা হবে
+            days = 1;
         }
 
-        double wardCost = days * patient.getWardChargePerDay();
 
-        return mealCost + medicineCost + testCost + doctorCost + otherCost + wardCost;
+
+        return mealCost + medicineCost + testCost + doctorCost + otherCost ;
     }
     // ✅ Get patient by ID helper
     private AdmittedPatient getPatientById(Long id) {
