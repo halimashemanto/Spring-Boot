@@ -41,7 +41,41 @@ public class PurchaseService {
         return purchaseRepository.findById(id).map(this::convertToDto).orElse(null);
     }
 
+//    public PurchaseDto savePurchase(PurchaseDto dto) {
+//        Purchase purchase = new Purchase();
+//        purchase.setId(dto.getId());
+//        Supplier sup = supplierRepository.findById(dto.getSupplierId()).orElse(null);
+//        purchase.setSupplier(sup);
+//        purchase.setInvoiceNo(dto.getInvoiceNo());
+//        purchase.setPurchaseDate(dto.getPurchaseDate());
+//        purchase.setTotalAmount(dto.getTotalAmount());
+//        purchase.setCreatedAt(dto.getCreatedAt());
+//        // Save purchase first
+//        Purchase savedPurchase = purchaseRepository.save(purchase);
+//
+//        // Save purchase items
+//        if (dto.getItems() != null) {
+//            List<PurchaseItem> items = dto.getItems().stream().map(itemDto -> {
+//                PurchaseItem item = new PurchaseItem();
+//                item.setPurchase(savedPurchase);
+//                MedicineStock stock = stockRepository.findById(itemDto.getMedicineStockId()).orElse(null);
+//                item.setMedicineStock(stock);
+//                item.setQuantity(itemDto.getQuantity());
+//                item.setUnitPrice(itemDto.getUnitPrice());
+//                item.setSubtotal(itemDto.getSubtotal());
+//                return itemRepository.save(item);
+//            }).collect(Collectors.toList());
+//        }
+//
+//        return convertToDto(savedPurchase);
+//    }
+
+
+
+
+
     public PurchaseDto savePurchase(PurchaseDto dto) {
+        // 1. Create or update Purchase entity
         Purchase purchase = new Purchase();
         purchase.setId(dto.getId());
         Supplier sup = supplierRepository.findById(dto.getSupplierId()).orElse(null);
@@ -50,25 +84,48 @@ public class PurchaseService {
         purchase.setPurchaseDate(dto.getPurchaseDate());
         purchase.setTotalAmount(dto.getTotalAmount());
         purchase.setCreatedAt(dto.getCreatedAt());
+
         // Save purchase first
         Purchase savedPurchase = purchaseRepository.save(purchase);
 
-        // Save purchase items
+        // 2. Save purchase items and update stock
         if (dto.getItems() != null) {
-            List<PurchaseItem> items = dto.getItems().stream().map(itemDto -> {
+            dto.getItems().forEach(itemDto -> {
+                MedicineStock stock = stockRepository.findById(itemDto.getMedicineStockId()).orElse(null);
+                if (stock != null) {
+                    // Update stock quantity
+                    stock.setQuantity(stock.getQuantity() + itemDto.getQuantity());
+                    stockRepository.save(stock);
+                }
+
                 PurchaseItem item = new PurchaseItem();
                 item.setPurchase(savedPurchase);
-                MedicineStock stock = stockRepository.findById(itemDto.getMedicineStockId()).orElse(null);
                 item.setMedicineStock(stock);
                 item.setQuantity(itemDto.getQuantity());
                 item.setUnitPrice(itemDto.getUnitPrice());
                 item.setSubtotal(itemDto.getSubtotal());
-                return itemRepository.save(item);
-            }).collect(Collectors.toList());
+                itemRepository.save(item);
+            });
         }
 
+        // 3. Convert saved purchase to DTO and return
         return convertToDto(savedPurchase);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void deletePurchase(Long id) {
         purchaseRepository.deleteById(id);

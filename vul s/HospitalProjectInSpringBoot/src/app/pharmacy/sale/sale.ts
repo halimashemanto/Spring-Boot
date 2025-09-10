@@ -19,7 +19,7 @@ export class Sale {
 
 
 
-  @ViewChild('invoice', { static: false }) invoice!: ElementRef;
+ @ViewChild('invoice', { static: false }) invoice!: ElementRef;
 
   sales: SaleModel[] = [];
   stocks: MedicineStockModel[] = [];
@@ -28,6 +28,8 @@ export class Sale {
   form: FormGroup;
   editMode = false;
   editId?: number;
+
+   selectedSale: any = null; 
 
   constructor(
     private fb: FormBuilder,
@@ -55,24 +57,14 @@ export class Sale {
   addItem(): void {
     const item = this.fb.group({
       medicineStockId: [null, Validators.required],
-      quantity: [0, Validators.required],
-      unitPrice: [0, Validators.required],
-      subtotal: [{ value: 0, disabled: true }]
+      quantity: [0, [Validators.required, Validators.min(1)]],
+      unitPrice: [0, [Validators.required, Validators.min(0)]],
+      subtotal: [{ value: 0, disabled: false }] // use disabled:false
     });
 
-    item.get('quantity')?.valueChanges.subscribe(qty => {
-      const quantity = Number(qty) || 0;
-      const unitPrice = Number(item.get('unitPrice')?.value) || 0;
-      item.get('subtotal')?.setValue(quantity * unitPrice, { emitEvent: false });
-      this.cdr.markForCheck();
-    });
-
-    item.get('unitPrice')?.valueChanges.subscribe(price => {
-      const unitPrice = Number(price) || 0;
-      const quantity = Number(item.get('quantity')?.value) || 0;
-      item.get('subtotal')?.setValue(quantity * unitPrice, { emitEvent: false });
-      this.cdr.markForCheck();
-    });
+    // Auto calculate subtotal
+    item.get('quantity')?.valueChanges.subscribe(qty => this.calculateItemSubtotal(item));
+    item.get('unitPrice')?.valueChanges.subscribe(price => this.calculateItemSubtotal(item));
 
     this.items.push(item);
   }
@@ -81,25 +73,34 @@ export class Sale {
     this.items.removeAt(index);
   }
 
+  private calculateItemSubtotal(item: FormGroup) {
+    const qty = Number(item.get('quantity')?.value) || 0;
+    const price = Number(item.get('unitPrice')?.value) || 0;
+    item.get('subtotal')?.setValue(qty * price, { emitEvent: false });
+    this.cdr.markForCheck();
+  }
+
+  get totalAmount(): number {
+    return this.items.controls.reduce((sum, item) => sum + (item.get('subtotal')?.value || 0), 0);
+  }
+
+  // ====== Load Data ======
   loadSales(): void {
-    this.service.getSales().subscribe(data => {
-      this.sales = data;
-      this.cdr.markForCheck();
-    });
+    this.service.getSales().subscribe(data => { 
+      this.sales = data; 
+      this.cdr.markForCheck(); });
   }
 
   loadStocks(): void {
-    this.service.getStocks().subscribe(data => {
+    this.service.getStocks().subscribe(data => { 
       this.stocks = data;
-      this.cdr.markForCheck();
-    });
+       this.cdr.markForCheck(); });
   }
 
   loadMedicines(): void {
-    this.service.getMedicines().subscribe(data => {
+    this.service.getMedicines().subscribe(data => { 
       this.medicines = data;
-      this.cdr.markForCheck();
-    });
+       this.cdr.markForCheck(); });
   }
 
   getStockName(stockId: number): string {
@@ -109,30 +110,50 @@ export class Sale {
     return med ? med.name : 'N/A';
   }
 
-  get totalAmount(): number {
-    return this.items.controls.reduce((sum, item) => sum + (item.get('subtotal')?.value || 0), 0);
+
+private setSelectedSale(sale: SaleModel) {
+  this.selectedSale = {
+    invoiceNo: sale.invoiceNo,
+    saleDate: sale.saleDate,
+    patientName: sale.patientName,
+    items: sale.items,
+    totalAmount: sale.totalAmount
+  };
+}
+
+
+
+
+
+
+  // ====== Save Sale ======
+saveSale(): void {
+  if (this.form.invalid) return;
+
+  const sale: SaleModel = {
+    ...this.form.value,
+    totalAmount: this.totalAmount
+  };
+
+  // stock reduce logic as it is ...
+
+  if (this.editMode && this.editId) {
+    this.service.updateSale(this.editId, sale).subscribe(() => {
+      this.loadSales();
+      this.loadStocks();
+      this.setSelectedSale(sale); // ✅ set selectedSale
+      this.resetForm();
+    });
+  } else {
+    this.service.createSale(sale).subscribe(() => {
+      this.loadSales();
+      this.loadStocks();
+      this.setSelectedSale(sale); 
+      this.resetForm();
+    });
   }
+}
 
-  saveSale(): void {
-    if (this.form.invalid) return;
-
-    const sale: SaleModel = {
-      ...this.form.value,
-      totalAmount: this.totalAmount
-    };
-
-    if (this.editMode && this.editId) {
-      this.service.updateSale(this.editId, sale).subscribe(() => {
-        this.loadSales();
-        this.resetForm();
-      });
-    } else {
-      this.service.createSale(sale).subscribe(() => {
-        this.loadSales();
-        this.resetForm();
-      });
-    }
-  }
 
   editSale(sale: SaleModel): void {
     this.editMode = true;
@@ -148,24 +169,13 @@ export class Sale {
     sale.items?.forEach((i: SaleItem) => {
       const item = this.fb.group({
         medicineStockId: [i.medicineStockId, Validators.required],
-        quantity: [i.quantity, Validators.required],
-        unitPrice: [i.unitPrice, Validators.required],
-        subtotal: [{ value: i.subtotal, disabled: true }]
+        quantity: [i.quantity, [Validators.required, Validators.min(1)]],
+        unitPrice: [i.unitPrice, [Validators.required, Validators.min(0)]],
+        subtotal: [{ value: i.subtotal, disabled: false }]
       });
 
-      item.get('quantity')?.valueChanges.subscribe(qty => {
-        const quantity = Number(qty) || 0;
-        const unitPrice = Number(item.get('unitPrice')?.value) || 0;
-        item.get('subtotal')?.setValue(quantity * unitPrice, { emitEvent: false });
-        this.cdr.markForCheck();
-      });
-
-      item.get('unitPrice')?.valueChanges.subscribe(price => {
-        const unitPrice = Number(price) || 0;
-        const quantity = Number(item.get('quantity')?.value) || 0;
-        item.get('subtotal')?.setValue(quantity * unitPrice, { emitEvent: false });
-        this.cdr.markForCheck();
-      });
+      item.get('quantity')?.valueChanges.subscribe(qty => this.calculateItemSubtotal(item));
+      item.get('unitPrice')?.valueChanges.subscribe(price => this.calculateItemSubtotal(item));
 
       this.items.push(item);
     });
@@ -183,25 +193,65 @@ export class Sale {
     this.editId = undefined;
   }
 
-  // ======= PDF generate =======
-  generatePDF(): void {
-    if (!this.invoice) return;
-
-    const DATA: any = this.invoice.nativeElement;
-
-    html2canvas(DATA, { scale: 2 }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pageWidth - 20; // 10mm margin left/right
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      let position = 10; // top margin
-      pdf.addImage(imgData, 'PNG', 10, position, pdfWidth, pdfHeight);
-      pdf.save(`${this.form.value.invoiceNo || 'invoice'}.pdf`);
-    });
-  }
+  onGeneratePDF(sale: SaleModel) {
+  this.setSelectedSale(sale);
+  this.generatePDF();
 }
+
+
+  
+// ======= PDF generate =======
+async generatePDF(): Promise<void> {
+  if (!this.invoice) return;
+
+  const invoiceEl = this.invoice.nativeElement as HTMLElement;
+
+  // temporarily show invoice off-screen but visible
+  invoiceEl.style.visibility = 'visible';
+  invoiceEl.style.position = 'absolute';
+  invoiceEl.style.left = '-9999px';
+  invoiceEl.style.top = '0';
+
+  // force Angular to render the latest data
+  this.cdr.detectChanges();
+
+  // wait a little for DOM to paint
+  await new Promise(r => setTimeout(r, 200));
+
+  const canvas = await html2canvas(invoiceEl, { scale: 2 });
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfWidth = pageWidth - 20;
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  let position = 10;
+  let heightLeft = pdfHeight;
+
+  // handle multiple pages
+  pdf.addImage(imgData, 'PNG', 10, position, pdfWidth, pdfHeight);
+  heightLeft -= pageHeight;
+
+  while (heightLeft > 0) {
+    position = heightLeft - pdfHeight + 10;
+    pdf.addPage();
+    pdf.addImage(imgData, 'PNG', 10, position, pdfWidth, pdfHeight);
+    heightLeft -= pageHeight;
+  }
+
+  pdf.save(`${this.form.value.invoiceNo || 'invoice'}.pdf`);
+
+  // hide again
+  invoiceEl.style.visibility = 'hidden';
+  invoiceEl.style.position = 'absolute';
+  invoiceEl.style.left = '-9999px';
+  invoiceEl.style.top = '0';
+}
+
+
+}
+
+

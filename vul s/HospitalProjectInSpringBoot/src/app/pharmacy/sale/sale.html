@@ -1,57 +1,153 @@
-<div #invoice id="invoice" style="padding:20px; font-family:Arial, sans-serif; background:white; color:black; border:1px solid #ccc; border-radius:8px;">
+<div class="container" style="max-width:800px; margin:auto; font-family:Arial, sans-serif; font-size:13px;">
 
-  <!-- Header -->
-  <div style="text-align:center; margin-bottom:15px;">
-    <h1 style="margin:0; color:#2c3e50;">My Pharmacy</h1>
-    <p style="margin:0;">123 Hospital Road, City</p>
-    <p style="margin:0;">Phone: +880123456789</p>
-    <hr style="margin-top:10px; border-color:#d35400;" />
+  <!-- ===== Sale Form ===== -->
+  <div class="card" style="padding:20px; margin-bottom:30px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <h2 style="color:#2c3e50; margin-bottom:15px;">{{ editMode ? 'Edit Sale' : 'Add Sale' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="saveSale()">
+
+      <!-- Invoice & Date -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <div style="flex:1;">
+          <label>Invoice No</label>
+          <input type="text" formControlName="invoiceNo"
+            style="width:100%; padding:6px; border-radius:5px; border:1px solid #cbd5e1; font-size:13px;">
+        </div>
+
+        <div style="flex:1;">
+          <label>Sale Date</label>
+          <input type="date" formControlName="saleDate"
+            style="width:100%; padding:6px; border-radius:5px; border:1px solid #cbd5e1; font-size:13px;">
+        </div>
+
+        <div style="flex:1;">
+          <label>Patient Name</label>
+          <input type="text" formControlName="patientName"
+            style="width:100%; padding:6px; border-radius:5px; border:1px solid #cbd5e1; font-size:13px;">
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div formArrayName="items" style="margin-top:15px;">
+        <div *ngFor="let item of items.controls; let i=index" [formGroupName]="i"
+          style="display:flex; gap:10px; margin-bottom:10px; align-items:center; font-size:13px;">
+
+          <select formControlName="medicineStockId" style="flex:2; padding:5px; font-size:13px;">
+            <option [ngValue]="null">Select Medicine</option>
+            <option *ngFor="let st of stocks" [ngValue]="st.id">{{ getStockName(st.id!) }} (Stock: {{st.quantity}})
+            </option>
+          </select>
+
+          <input type="number" formControlName="quantity" placeholder="Qty" style="flex:1; padding:5px; font-size:13px;">
+          <input type="number" formControlName="unitPrice" placeholder="Unit Price" style="flex:1; padding:5px; font-size:13px;">
+          <input type="number" [value]="item.get('subtotal')?.value" readonly
+            style="flex:1; padding:5px; background:#eee; font-size:13px;">
+
+          <button type="button" (click)="removeItem(i)"
+            style="flex:0.3; padding:5px; background:#e74c3c; color:white; border:none; border-radius:5px; cursor:pointer; font-size:12px;">
+            X
+          </button>
+        </div>
+      </div>
+
+      <button type="button" (click)="addItem()"
+        style="padding:6px 12px; background:#27ae60; color:white; border:none; border-radius:5px; margin-bottom:10px; font-size:13px;">
+        + Add Item
+      </button>
+
+      <!-- Total -->
+      <h3 style="text-align:right; margin-top:10px; font-size:14px;">Total: {{ totalAmount | number:'1.2-2' }}</h3>
+
+      <!-- Buttons -->
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px;">
+        <button type="submit"
+          style="padding:8px 15px; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer; font-size:13px;">
+          {{ editMode ? 'Update Sale' : 'Save Sale' }}
+        </button>
+        <button type="button" (click)="resetForm()"
+          style="padding:8px 15px; background:#e74c3c; color:white; border:none; border-radius:5px; cursor:pointer; font-size:13px;">
+          Reset
+        </button>
+      </div>
+    </form>
   </div>
 
-  <!-- Sale info -->
-  <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-    <div>
-      <p><strong>Invoice:</strong> {{ form.value.invoiceNo }}</p>
-      <p><strong>Date:</strong> {{ form.value.saleDate }}</p>
+  <!-- ===== Sales Records ===== -->
+  <div class="card" style="padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:30px;">
+    <h2 style="color:#2c3e50; margin-bottom:15px;">Sales Records</h2>
+
+    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+      <thead style="background:#2c3e50; color:white;">
+        <tr>
+          <th style="padding:6px; border:1px solid #ccc;">Invoice</th>
+          <th style="padding:6px; border:1px solid #ccc;">Patient</th>
+          <th style="padding:6px; border:1px solid #ccc;">Date</th>
+          <th style="padding:6px; border:1px solid #ccc;">Total</th>
+          <th style="padding:6px; border:1px solid #ccc;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sale of sales">
+          <td style="padding:6px; border:1px solid #ccc;">{{ sale.invoiceNo }}</td>
+          <td style="padding:6px; border:1px solid #ccc;">{{ sale.patientName }}</td>
+          <td style="padding:6px; border:1px solid #ccc;">{{ sale.saleDate }}</td>
+          <td style="padding:6px; border:1px solid #ccc;">{{ sale.totalAmount | number:'1.2-2' }}</td>
+          <td style="padding:6px; border:1px solid #ccc;">
+            <button (click)="editSale(sale)" style="padding:4px 8px; margin-right:5px; font-size:12px;">Edit</button>
+            <button (click)="deleteSale(sale.id)" style="padding:4px 8px; margin-right:5px; font-size:12px;">Delete</button>
+           <button (click)="onGeneratePDF(sale)" style="padding:4px 8px; font-size:12px;">PDF</button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== Hidden Invoice for PDF ===== -->
+  <div #invoice id="invoice" 
+      style="padding:20px; font-family:Arial, sans-serif; background:white; color:black;
+            border:1px solid #ccc; border-radius:8px;
+            visibility:hidden; position:absolute; left:-9999px; top:0; font-size:12px;">
+
+    <div style="text-align:center; margin-bottom:10px;" *ngIf="selectedSale">
+      <h2 style="margin:0; color:#2c3e50;">HCBPharmacy</h2>
+      <p style="margin:0;">123 Hospital Road, City</p>
+      <p style="margin:0;">Phone: +880123456789</p>
+      <hr style="margin-top:5px; border-color:#d35400;" />
     </div>
-    <div>
-      <p><strong>Patient:</strong> {{ form.value.patientName }}</p>
+
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px;" *ngIf="selectedSale">
+      <div>
+        <p><strong>Invoice:</strong> {{ selectedSale.invoiceNo }}</p>
+        <p><strong>Date:</strong> {{ selectedSale.saleDate }}</p>
+      </div>
+      <div>
+        <p><strong>Patient:</strong> {{ selectedSale.patientName }}</p>
+      </div>
+    </div>
+
+    <table style="width:100%; border-collapse:collapse; font-size:12px;" *ngIf="selectedSale">
+      <thead style="background:#d35400; color:white;">
+        <tr>
+          <th style="padding:4px; border:1px solid #ccc;">Medicine</th>
+          <th style="padding:4px; border:1px solid #ccc;">Quantity</th>
+          <th style="padding:4px; border:1px solid #ccc;">Unit Price</th>
+          <th style="padding:4px; border:1px solid #ccc;">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of selectedSale.items">
+          <td style="padding:4px; border:1px solid #ccc;">{{ getStockName(item.medicineStockId) }}</td>
+          <td style="padding:4px; border:1px solid #ccc; text-align:center;">{{ item.quantity }}</td>
+          <td style="padding:4px; border:1px solid #ccc; text-align:right;">{{ item.unitPrice }}</td>
+          <td style="padding:4px; border:1px solid #ccc; text-align:right;">{{ item.subtotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="text-align:right; margin-top:8px; font-weight:bold; font-size:13px;" *ngIf="selectedSale">
+      Total: {{ selectedSale.totalAmount }}
     </div>
   </div>
 
-  <!-- Items table -->
-  <table style="width:100%; border-collapse:collapse;">
-    <thead style="background:#d35400; color:white;">
-      <tr>
-        <th style="padding:6px; border:1px solid #ccc;">Medicine</th>
-        <th style="padding:6px; border:1px solid #ccc;">Qty</th>
-        <th style="padding:6px; border:1px solid #ccc;">Unit Price</th>
-        <th style="padding:6px; border:1px solid #ccc;">Subtotal</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of items.controls">
-        <td style="padding:6px; border:1px solid #ccc;">{{ getStockName(item.value.medicineStockId) }}</td>
-        <td style="padding:6px; border:1px solid #ccc; text-align:center;">{{ item.value.quantity }}</td>
-        <td style="padding:6px; border:1px solid #ccc; text-align:right;">{{ item.value.unitPrice | number:'1.2-2' }}</td>
-        <td style="padding:6px; border:1px solid #ccc; text-align:right;">{{ item.value.subtotal | number:'1.2-2' }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Total -->
-  <div style="text-align:right; margin-top:10px; font-weight:bold; font-size:16px;">
-    Total: {{ totalAmount | number:'1.2-2' }}
-  </div>
-
-  <!-- Footer -->
-  <div style="text-align:center; margin-top:15px; font-size:12px; color:#7f8c8d;">
-    Thank you for choosing My Pharmacy!<br>
-    Get well soon.
-  </div>
 </div>
-
-<button type="button" (click)="generatePDF()" 
-        style="background:#27ae60; color:white; padding:8px 15px; border:none; border-radius:5px; cursor:pointer; margin-top:10px;">
-  Generate PDF
-</button>

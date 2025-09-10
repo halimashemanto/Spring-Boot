@@ -9,7 +9,7 @@ import { AppoinmentService } from '../../Appoinment/appoinment-service';
 })
 export class PublicNav {
 
- appoinments: any[] = [];
+appoinments: any[] = [];
   doctors: any[] = [];
   scheduleSlot: any[] = [];
   departments: any[] = [];
@@ -113,15 +113,51 @@ saveAppoinmrnt() {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+// saveAppoinmrnt() {
+//   const appointment = {
+//     patientName: this.patientName,
+//     contact: this.patientContact,   // backend যদি 'contact' নামে রাখে
+//     reason: this.reason,
+//     department: { id: this.selectedDepartment }, // plural নয়
+//     doctor: { id: this.selectedDoctor },         // plural নয়
+//     scheduleSlot: { id: this.selectedScheduleSlot }
+//   };
+
+//   this.appoinmentService.saveAppoinment(appointment).subscribe({
+//     next: () => {
+//       this.cdr.markForCheck();
+//       alert('✅ Appointment saved successfully!');
+//     },
+//     error: err => {
+//       console.error("❌ Appointment save error:", err);
+//       alert('Failed to save appointment!');
+//     }
+//   });
+// }
+
+
+
+// AddApooinment.ts
 onFocus(event: any) {
-  event.target.style.borderColor = '#0ea5e9';
-  event.target.style.boxShadow = '0 0 0 3px rgba(14,165,233,0.25)';
+  event.target.style.borderColor = '#26a69a';
+  event.target.style.boxShadow = '0 0 8px #26a69a';
 }
 
 onBlur(event: any) {
   event.target.style.borderColor = '#ccc';
   event.target.style.boxShadow = 'none';
 }
+
 
 
 }

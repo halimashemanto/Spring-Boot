@@ -35,7 +35,9 @@ public class SaleService {
         return saleRepository.findById(id).map(this::convertToDto).orElse(null);
     }
 
+
     public SaleDto saveSale(SaleDto dto) {
+        // 1. Create or update Sale entity
         Sale sale = new Sale();
         sale.setId(dto.getId());
         sale.setInvoiceNo(dto.getInvoiceNo());
@@ -44,23 +46,57 @@ public class SaleService {
         sale.setTotalAmount(dto.getTotalAmount());
         sale.setCreatedAt(dto.getCreatedAt());
 
+        // Save sale first
         Sale savedSale = saleRepository.save(sale);
 
+        // 2. Save sale items and decrease stock
         if (dto.getItems() != null) {
-            List<SaleItem> items = dto.getItems().stream().map(itemDto -> {
+            dto.getItems().forEach(itemDto -> {
+                MedicineStock stock = stockRepository.findById(itemDto.getMedicineStockId()).orElse(null);
+                if (stock != null) {
+                    // Check stock availability
+                    if (stock.getQuantity() >= itemDto.getQuantity()) {
+                        stock.setQuantity(stock.getQuantity() - itemDto.getQuantity());
+                        stockRepository.save(stock);
+                    } else {
+                        throw new RuntimeException(
+                                "Not enough stock for medicine ID: " + stock.getId() +
+                                        ". Available: " + stock.getQuantity() +
+                                        ", Requested: " + itemDto.getQuantity()
+                        );
+                    }
+                }
+
                 SaleItem item = new SaleItem();
                 item.setSale(savedSale);
-                MedicineStock stock = stockRepository.findById(itemDto.getMedicineStockId()).orElse(null);
                 item.setMedicineStock(stock);
                 item.setQuantity(itemDto.getQuantity());
                 item.setUnitPrice(itemDto.getUnitPrice());
                 item.setSubtotal(itemDto.getSubtotal());
-                return itemRepository.save(item);
-            }).collect(Collectors.toList());
+                itemRepository.save(item);
+            });
         }
 
+        // 3. Convert saved sale to DTO and return
         return convertToDto(savedSale);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void deleteSale(Long id) {
         saleRepository.deleteById(id);

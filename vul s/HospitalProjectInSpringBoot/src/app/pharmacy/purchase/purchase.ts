@@ -17,6 +17,10 @@ import html2canvas from 'html2canvas';
 })
 export class Purchase {
 
+
+
+  
+
   @ViewChild('invoice', { static: false }) invoice!: ElementRef;
 
   purchases: PurchaseModel[] = [];
@@ -27,6 +31,8 @@ export class Purchase {
   form: FormGroup;
   editMode = false;
   editId?: number;
+
+    selectedPurchase: PurchaseModel | null = null;
 
   constructor(private service: PharmacyMedicineService,
               private cdr: ChangeDetectorRef,
