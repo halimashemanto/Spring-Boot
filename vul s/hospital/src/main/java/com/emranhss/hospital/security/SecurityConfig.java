@@ -82,7 +82,11 @@ public class SecurityConfig {
                                         "/api/purchases",
                                         "/api/purchases/**",
                                         "/api/sales",
-                                        "/api/sales/**"
+                                        "/api/sales/**",
+                                        "/api/test-master",
+                                        "/api/test-master/**",
+                                        "/api/patient-tests",
+                                        "/api/patient-tests/**"
                                         )
 
                                 .permitAll()

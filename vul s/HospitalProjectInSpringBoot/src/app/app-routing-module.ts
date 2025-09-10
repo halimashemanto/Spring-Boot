@@ -35,6 +35,7 @@ import { Supplier } from './pharmacy/supplier/supplier';
 import { Purchase } from './pharmacy/purchase/purchase';
 import { Sale } from './pharmacy/sale/sale';
 import { MedicineStock } from './pharmacy/medicine-stock/medicine-stock';
+import { AddTestMaster } from './testMaster/add-test-master/add-test-master';
 
 const routes: Routes = [
   
@@ -80,6 +81,7 @@ const routes: Routes = [
   {path:'p', component:Purchase},
   {path:'s', component:Sale},
   {path:'ms', component:MedicineStock},
+  {path:'atm', component:AddTestMaster},
 
 
 

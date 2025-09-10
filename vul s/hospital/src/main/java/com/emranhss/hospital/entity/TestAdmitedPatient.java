@@ -3,6 +3,8 @@ package com.emranhss.hospital.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "testAdmitedPatient")
 public class TestAdmitedPatient {
@@ -10,23 +12,35 @@ public class TestAdmitedPatient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String testName;
-    private double testPrice;
+
     private double testCost;
+
+    @ManyToOne
+    @JoinColumn(name = "bed_booking_id")
+    private BedBooking bedBooking;
 
     @ManyToOne
     @JoinColumn(name = "admitted_patient_id")
     private AdmittedPatient admittedPatient;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "patient_selected_tests",
+            joinColumns = @JoinColumn(name = "patient_test_id"),
+            inverseJoinColumns = @JoinColumn(name = "test_master_id")
+    )
+    private List<TestMaster> selectedTests;
+
     public TestAdmitedPatient() {
     }
 
-    public TestAdmitedPatient(Long id, String testName, double testPrice, double testCost, AdmittedPatient admittedPatient) {
+    public TestAdmitedPatient(Long id, double testCost, BedBooking bedBooking, AdmittedPatient admittedPatient, List<TestMaster> selectedTests) {
         this.id = id;
-        this.testName = testName;
-        this.testPrice = testPrice;
         this.testCost = testCost;
+        this.bedBooking = bedBooking;
         this.admittedPatient = admittedPatient;
+        this.selectedTests = selectedTests;
     }
 
     public Long getId() {
@@ -37,22 +51,6 @@ public class TestAdmitedPatient {
         this.id = id;
     }
 
-    public String getTestName() {
-        return testName;
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
-    }
-
-    public double getTestPrice() {
-        return testPrice;
-    }
-
-    public void setTestPrice(double testPrice) {
-        this.testPrice = testPrice;
-    }
-
     public double getTestCost() {
         return testCost;
     }
@@ -61,11 +59,27 @@ public class TestAdmitedPatient {
         this.testCost = testCost;
     }
 
+    public BedBooking getBedBooking() {
+        return bedBooking;
+    }
+
+    public void setBedBooking(BedBooking bedBooking) {
+        this.bedBooking = bedBooking;
+    }
+
     public AdmittedPatient getAdmittedPatient() {
         return admittedPatient;
     }
 
     public void setAdmittedPatient(AdmittedPatient admittedPatient) {
         this.admittedPatient = admittedPatient;
+    }
+
+    public List<TestMaster> getSelectedTests() {
+        return selectedTests;
+    }
+
+    public void setSelectedTests(List<TestMaster> selectedTests) {
+        this.selectedTests = selectedTests;
     }
 }

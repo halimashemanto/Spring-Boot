@@ -1,0 +1,64 @@
+<div style="max-width:900px; margin:auto; padding:20px; font-family:sans-serif;">
+
+  <!-- Heading -->
+  <h2 style="font-size:28px; font-weight:bold; color:#4f46e5; text-align:center; margin-bottom:20px;">
+    🧪 Test Master CRUD
+  </h2>
+
+  <!-- Form Card -->
+  <div style="background:#f3f4f6; border-radius:12px; padding:20px; margin-bottom:25px; box-shadow:0 4px 12px rgba(0,0,0,0.1); border:1px solid #e5e7eb;">
+    <h3 style="font-size:20px; font-weight:600; color:#1e40af; margin-bottom:15px; display:flex; align-items:center;">
+      <span class="material-icons" style="margin-right:8px; color:#4f46e5;">add_circle</span>
+      Add / Update Test
+    </h3>
+
+    <form [formGroup]="form" (ngSubmit)="saveTest()" style="display:flex; flex-direction:column; gap:15px;">
+      <div>
+        <label style="display:block; font-weight:500; color:#374151; margin-bottom:5px;">Test Name</label>
+        <input type="text" formControlName="testName" 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #d1d5db; outline:none;"/>
+      </div>
+
+      <div>
+        <label style="display:block; font-weight:500; color:#374151; margin-bottom:5px;">Test Price</label>
+        <input type="number" formControlName="testPrice" 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #d1d5db; outline:none;"/>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button type="submit" style="display:flex; align-items:center; background:#4f46e5; color:white; padding:10px 20px; border-radius:8px; font-weight:600;">
+          <span class="material-icons" style="margin-right:5px;">save</span>
+          {{ editMode ? 'Update Test' : 'Add Test' }}
+        </button>
+        <button type="button" (click)="resetForm()" style="display:flex; align-items:center; background:#6b7280; color:white; padding:10px 20px; border-radius:8px; font-weight:600;">
+          <span class="material-icons" style="margin-right:5px;">restart_alt</span>
+          Reset
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tests Card -->
+  <div style="display:flex; flex-wrap:wrap; gap:15px;">
+    <div *ngFor="let test of tests" style="background:white; padding:15px; border-radius:12px; flex:1 1 250px; border:1px solid #e5e7eb; box-shadow:0 3px 8px rgba(0,0,0,0.08);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="font-weight:600; font-size:18px; color:#1e40af;">
+          {{ test.testName }}
+        </h4>
+        <span style="font-weight:500; color:#16a34a;">৳ {{ test.testPrice }}</span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button (click)="editTest(test)" style="flex:1; display:flex; align-items:center; justify-content:center; background:#facc15; color:white; padding:6px 0; border-radius:6px; font-weight:600;">
+          <span class="material-icons" style="margin-right:3px;">edit</span>Edit
+        </button>
+        <button (click)="deleteTest(test.id!)" style="flex:1; display:flex; align-items:center; justify-content:center; background:#ef4444; color:white; padding:6px 0; border-radius:6px; font-weight:600;">
+          <span class="material-icons" style="margin-right:3px;">delete</span>Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Material Icons Link -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

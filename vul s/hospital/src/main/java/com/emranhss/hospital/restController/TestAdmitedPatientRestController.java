@@ -9,29 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/testss")
+@RequestMapping("/api/patient-tests")
 public class TestAdmitedPatientRestController {
 
     @Autowired
     private TestAdmitedPatientService testService;
 
-    @GetMapping("/bedBooking/{bedBookingId}")
-    public List<TestAdmitedPatientDTO> getTestsByBedBooking(@PathVariable Long bedBookingId) {
+
+    @PostMapping("/assign")
+    public TestAdmitedPatientDTO assignTests(@RequestBody TestAdmitedPatientDTO dto) {
+        return testService.saveTestsForPatient(dto);
+    }
+
+    @GetMapping("/by-bed/{bedBookingId}")
+    public TestAdmitedPatientDTO getTestsByBed(@PathVariable Long bedBookingId) {
         return testService.getTestsByBedBooking(bedBookingId);
     }
 
-    @PostMapping("/bedBooking/{bedBookingId}")
-    public TestAdmitedPatientDTO addTest(@PathVariable Long bedBookingId, @RequestBody TestAdmitedPatientDTO dto) {
-        return testService.addTest(bedBookingId, dto);
-    }
-
-    @PutMapping("/{id}")
-    public TestAdmitedPatientDTO updateTest(@PathVariable Long id, @RequestBody TestAdmitedPatientDTO dto) {
-        return testService.updateTest(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteTest(@PathVariable Long id) {
-        testService.deleteTest(id);
-    }
 }

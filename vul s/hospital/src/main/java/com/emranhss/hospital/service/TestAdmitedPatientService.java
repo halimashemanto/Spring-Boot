@@ -5,9 +5,11 @@ import com.emranhss.hospital.dto.TestAdmitedPatientDTO;
 import com.emranhss.hospital.entity.AdmittedPatient;
 import com.emranhss.hospital.entity.BedBooking;
 import com.emranhss.hospital.entity.TestAdmitedPatient;
+import com.emranhss.hospital.entity.TestMaster;
 import com.emranhss.hospital.repository.IAdmittedPatientRepo;
 import com.emranhss.hospital.repository.IBedBookingRepo;
 import com.emranhss.hospital.repository.ITestAdmitedPatientRepo;
+import com.emranhss.hospital.repository.ITestMasterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,73 +20,78 @@ import java.util.stream.Collectors;
 public class TestAdmitedPatientService {
 
 
-    @Autowired
-    private ITestAdmitedPatientRepo testRepo;
 
     @Autowired
-    private IAdmittedPatientRepo patientRepo;
+    private ITestAdmitedPatientRepo testPatientRepo;
 
     @Autowired
     private IBedBookingRepo bedBookingRepo;
 
+    @Autowired
+    private ITestMasterRepo testMasterRepo;
 
+    public TestAdmitedPatientDTO saveTestsForPatient(TestAdmitedPatientDTO dto) {
 
-
-    public TestAdmitedPatientDTO addTest(Long bedBookingId, TestAdmitedPatientDTO dto) {
-        BedBooking bedBooking = bedBookingRepo.findById(bedBookingId)
+        BedBooking bedBooking = bedBookingRepo.findById(dto.getBedBookingId())
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
 
-        AdmittedPatient patient = bedBooking.getAdmittedPatient();
+        List<TestMaster> selectedTests = testMasterRepo.findAllById(dto.getTestIds());
 
-        TestAdmitedPatient test = new TestAdmitedPatient();
-        test.setTestName(dto.getTestName());
-        test.setTestPrice(dto.getTestPrice());
-        test.setTestCost(dto.getTestCost());
-        test.setAdmittedPatient(patient);
+        double totalCost = selectedTests.stream()
+                .mapToDouble(TestMaster::getTestPrice)
+                .sum();
 
-        testRepo.save(test);
+        TestAdmitedPatient tap = new TestAdmitedPatient();
+        tap.setBedBooking(bedBooking);
+        tap.setAdmittedPatient(bedBooking.getAdmittedPatient());
+        tap.setSelectedTests(selectedTests);
+        tap.setTestCost(totalCost);
 
-        dto.setId(test.getId());
+        testPatientRepo.save(tap);
+
+        dto.setId(tap.getId());
+        dto.setPatientName(bedBooking.getPatientName());
+        dto.setAge(bedBooking.getAge());
+        dto.setPhone(bedBooking.getPhone());
+        dto.setAddress(bedBooking.getAddress());
+        dto.setAdmittedPatientId(bedBooking.getAdmittedPatient().getId());
+        dto.setTestCost(totalCost);
+        dto.setSelectedTests(selectedTests.stream()
+                .map(t -> new TestAdmitedPatientDTO.TestInfoDTO(t.getId(), t.getTestName(), t.getTestPrice()))
+                .collect(Collectors.toList()));
+
         return dto;
     }
 
+    // Get tests by bedBookingId
+    public TestAdmitedPatientDTO getTestsByBedBooking(Long bedBookingId) {
 
-    public List<TestAdmitedPatientDTO> getTestsByBedBooking(Long bedBookingId) {
         BedBooking bedBooking = bedBookingRepo.findById(bedBookingId)
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
 
-        AdmittedPatient patient = bedBooking.getAdmittedPatient();
+        List<TestAdmitedPatient> patientTests = testPatientRepo.findByBedBooking_Id(bedBookingId);
 
-        return testRepo.findByAdmittedPatientId(patient.getId())
-                .stream()
-                .map(t -> {
-                    TestAdmitedPatientDTO dto = new TestAdmitedPatientDTO();
-                    dto.setId(t.getId());
-                    dto.setTestName(t.getTestName());
-                    dto.setTestPrice(t.getTestPrice());
-                    dto.setTestCost(t.getTestCost());
-                    return dto;
-                })
+        double totalCost = patientTests.stream()
+                .flatMap(t -> t.getSelectedTests().stream())
+                .mapToDouble(TestMaster::getTestPrice)
+                .sum();
+
+        List<TestAdmitedPatientDTO.TestInfoDTO> testInfoList = patientTests.stream()
+                .flatMap(t -> t.getSelectedTests().stream())
+                .map(t -> new TestAdmitedPatientDTO.TestInfoDTO(t.getId(), t.getTestName(), t.getTestPrice()))
                 .collect(Collectors.toList());
-    }
 
+        TestAdmitedPatientDTO dto = new TestAdmitedPatientDTO();
+        dto.setBedBookingId(bedBookingId);
+        dto.setAdmittedPatientId(bedBooking.getAdmittedPatient().getId());
+        dto.setPatientName(bedBooking.getPatientName());
+        dto.setAge(bedBooking.getAge());
+        dto.setPhone(bedBooking.getPhone());
+        dto.setAddress(bedBooking.getAddress());
+        dto.setTestCost(totalCost);
+        dto.setSelectedTests(testInfoList);
 
-    public TestAdmitedPatientDTO updateTest(Long id, TestAdmitedPatientDTO dto) {
-        TestAdmitedPatient test = testRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Test not found"));
-
-        test.setTestName(dto.getTestName());
-        test.setTestPrice(dto.getTestPrice());
-        test.setTestCost(dto.getTestCost());
-
-        testRepo.save(test);
-        dto.setId(test.getId());
         return dto;
-    }
-
-
-    public void deleteTest(Long id) {
-        testRepo.deleteById(id);
     }
 
 

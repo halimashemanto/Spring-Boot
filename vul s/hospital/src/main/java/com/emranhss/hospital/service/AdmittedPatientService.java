@@ -92,16 +92,6 @@ public class AdmittedPatientService {
         return admittedPatientRepository.save(patient);
     }
 
-    // ✅ Add test
-    public AdmittedPatient addTest(Long admittedPatientId, TestAdmitedPatientDTO testDTO) {
-        AdmittedPatient patient = getPatientById(admittedPatientId);
-        TestAdmitedPatient test = new TestAdmitedPatient();
-        test.setTestName(testDTO.getTestName());
-        test.setTestCost(testDTO.getTestCost());
-        test.setAdmittedPatient(patient);
-        patient.getTests().add(test);
-        return admittedPatientRepository.save(patient);
-    }
 
     // ✅ Add doctor charge
     public AdmittedPatient addDoctorCharge(Long admittedPatientId, DoctorChargeDTO docDTO) {

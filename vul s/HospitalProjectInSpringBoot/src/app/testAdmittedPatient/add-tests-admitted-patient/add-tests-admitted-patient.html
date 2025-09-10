@@ -1,1 +1,49 @@
-<p>add-tests-admitted-patient works!</p>
+<div style="max-width:800px; margin:auto; padding:20px; border-radius:10px; background:#fef9f0; border:1px solid #fcd34d;">
+  <h2 style="text-align:center; color:#b45309; font-weight:bold;">Assign Tests to Patient</h2>
+
+  <form [formGroup]="form" (ngSubmit)="saveTests()" style="margin-top:15px;">
+
+    <label>BedBooking ID</label>
+    <input type="number" formControlName="bedBookingId" placeholder="Enter BedBooking ID"
+           style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #fbbf24;">
+
+    <!-- Patient Info Auto-load -->
+    <div *ngIf="patientInfoLoaded" style="margin-bottom:15px; padding:10px; border-radius:8px; background:#fff7ed; border:1px solid #fcd34d;">
+      <p><strong>Patient Name:</strong> {{assignedTest?.patientName}}</p>
+      <p><strong>Age:</strong> {{assignedTest?.age}}</p>
+      <p><strong>Phone:</strong> {{assignedTest?.phone}}</p>
+      <p><strong>Address:</strong> {{assignedTest?.address}}</p>
+    </div>
+
+    <!-- Test Selection -->
+    <label>Select Tests</label>
+    <select formControlName="testIds" multiple
+            style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #60a5fa; background:#eff6ff;">
+      <option *ngFor="let test of allTests" [ngValue]="test.id">
+        {{test.testName}} — {{test.testPrice | currency:'BDT':'symbol'}}
+      </option>
+    </select>
+
+    <div style="display:flex; gap:10px;">
+      <button type="submit"
+              style="flex:1; background:#3b82f6; color:white; padding:10px; border-radius:8px; border:none; cursor:pointer;">
+        Assign Tests
+      </button>
+      <button type="button" (click)="resetForm()"
+              style="flex:1; background:#9ca3af; color:white; padding:10px; border-radius:8px; border:none; cursor:pointer;">
+        Reset
+      </button>
+    </div>
+  </form>
+
+  <!-- Assigned Tests Card -->
+  <div *ngIf="assignedTest" style="margin-top:20px; padding:15px; border-radius:10px; background:#dbeafe; border:1px solid #60a5fa;">
+    <h3 style="color:#1e40af; font-weight:bold;">Assigned Tests 🧪</h3>
+    <ul>
+      <li *ngFor="let t of assignedTest.selectedTests">
+        {{t.testName}} — {{t.testPrice | currency:'BDT':'symbol'}}
+      </li>
+    </ul>
+    <p><strong>Total Cost:</strong> {{assignedTest.testCost | currency:'BDT':'symbol'}}</p>
+  </div>
+</div>

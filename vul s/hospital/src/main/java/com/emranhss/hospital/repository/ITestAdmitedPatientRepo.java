@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface ITestAdmitedPatientRepo extends JpaRepository<TestAdmitedPatient, Long> {
 
-    List<TestAdmitedPatient> findByAdmittedPatientId(Long patientId);
+    List<TestAdmitedPatient> findByBedBooking_Id(Long bedBookingId);
+
 }

@@ -12,7 +12,7 @@ import { environment } from '../../environment/environment';
 export class PatientService {
 
 
-  private apiUrl = environment.apiBaseUrl + '/api/patient/';; 
+  private apiUrl = environment.apiBaseUrl + '/api/patient/'; 
 
   constructor(private http: HttpClient) { }
 
