@@ -1,0 +1,74 @@
+
+<div style="max-width:800px; margin:auto; font-family: Arial, sans-serif;">
+  <h2 style="text-align:center; color:#2c3e50;">
+    Medicines <i class="fa fa-pills" style="color:#e74c3c;"></i>
+  </h2>
+
+  <!-- ===== Form ===== -->
+  <form [formGroup]="form" (ngSubmit)="saveMedicine()" 
+        style="background:#f0f8ff; padding:15px; border-radius:8px; margin-bottom:20px;">
+    
+    <input formControlName="name" placeholder="Medicine Name" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="genericName" placeholder="Generic Name" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="strength" placeholder="Strength" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="unit" placeholder="Unit" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="sku" placeholder="SKU" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input type="number" formControlName="sellingPrice" placeholder="Selling Price" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+
+    <button type="submit" 
+            style="background:#3498db; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">
+      {{ editMode ? 'Update' : 'Add' }}
+    </button>
+
+    <button type="button" (click)="resetForm()" 
+            style="background:#95a5a6; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">
+      Reset
+    </button>
+  </form>
+
+  <!-- ===== Table ===== -->
+  <table style="width:100%; border-collapse:collapse;">
+    <thead style="background:#3498db; color:white;">
+      <tr>
+        <th style="padding:8px; border:1px solid #ddd;">Name</th>
+        <th>Generic</th>
+        <th>Strength</th>
+        <th>Unit</th>
+        <th>SKU</th>
+        <th>Selling Price</th>
+        <th style="width:120px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let med of medicines" style="border-bottom:1px solid #ddd;">
+        <td style="padding:8px;">{{ med.name }}</td>
+        <td>{{ med.genericName }}</td>
+        <td>{{ med.strength }}</td>
+        <td>{{ med.unit }}</td>
+        <td>{{ med.sku }}</td>
+        <td>{{ med.sellingPrice | number:'1.2-2' }}</td>
+        <td style="text-align:center;">
+          <button (click)="editMedicine(med)" 
+                  style="background:#f39c12; color:white; border:none; border-radius:4px; padding:5px 8px; cursor:pointer; margin-right:4px;">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button (click)="deleteMedicine(med.id)" 
+                  style="background:#e74c3c; color:white; border:none; border-radius:4px; padding:5px 8px; cursor:pointer;">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

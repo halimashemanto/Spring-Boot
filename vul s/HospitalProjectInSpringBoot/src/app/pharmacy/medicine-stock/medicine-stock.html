@@ -1,0 +1,91 @@
+<div class="container">
+
+  <!-- ====== Add / Edit Stock Form ====== -->
+  <div class="card" style="padding: 20px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+    <h2 style="margin-bottom: 15px; color:#2c3e50;">{{ editMode ? 'Edit Stock' : 'Add Stock' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="saveStock()">
+
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <div style="flex: 1;">
+          <label>Medicine</label>
+          <select formControlName="medicineId" style="width: 100%; padding:8px; border-radius:5px; border:1px solid #cbd5e1;">
+            <option [ngValue]="null" disabled>Select Medicine</option>
+            <option *ngFor="let med of medicines" [ngValue]="med.id">{{ med.name }}</option>
+          </select>
+        </div>
+
+        <div style="flex: 1;">
+          <label>Batch No</label>
+          <input type="text" formControlName="batchNo" style="width: 100%; padding:8px; border-radius:5px; border:1px solid #cbd5e1;">
+        </div>
+
+        <div style="flex: 1;">
+          <label>Expiry Date</label>
+          <input type="date" formControlName="expiryDate" style="width: 100%; padding:8px; border-radius:5px; border:1px solid #cbd5e1;">
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+        <div style="flex: 1;">
+          <label>Quantity</label>
+          <input type="number" formControlName="quantity" min="0" style="width: 100%; padding:8px; border-radius:5px; border:1px solid #cbd5e1;">
+        </div>
+
+        <div style="flex: 1;">
+          <label>Purchase Price</label>
+          <input type="number" formControlName="purchasePrice" min="0" style="width: 100%; padding:8px; border-radius:5px; border:1px solid #cbd5e1;">
+        </div>
+
+        <div style="flex: 1;">
+          <label>Subtotal</label>
+          <input type="number" formControlName="subtotal"  style="width: 100%; padding:8px; border-radius:5px; border:1px solid #cbd5e1; background-color:#f0f0f0;">
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button type="submit" [disabled]="form.invalid" style="padding:10px 20px; background-color:#2ecc71; color:white; border:none; border-radius:8px; cursor:pointer;">
+          {{ editMode ? 'Update Stock' : 'Add Stock' }}
+        </button>
+        <button type="button" (click)="resetForm()" style="padding:10px 20px; background-color:#e74c3c; color:white; border:none; border-radius:8px; cursor:pointer; margin-left:10px;">
+          Reset
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ====== Stock List Table ====== -->
+  <div class="card" style="padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+    <h2 style="margin-bottom: 15px; color:#2c3e50;">Medicine Stocks</h2>
+
+    <table style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background-color:#f7f7f7; text-align:left;">
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Medicine</th>
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Batch No</th>
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Expiry Date</th>
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Quantity</th>
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Purchase Price</th>
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Subtotal</th>
+          <th style="padding:10px; border-bottom:1px solid #ddd;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stock of stocks" style="border-bottom:1px solid #ddd;">
+          <td style="padding:8px;">{{ getMedicineName(stock.medicineId) }}</td>
+          <td style="padding:8px;">{{ stock.batchNo }}</td>
+          <td style="padding:8px;">{{ stock.expiryDate }}</td>
+          <td style="padding:8px;">{{ stock.quantity }}</td>
+          <td style="padding:8px;">{{ stock.purchasePrice }}</td>
+          <td style="padding:8px;">{{ stock.quantity * stock.purchasePrice }}</td>
+          <td style="padding:8px;">
+            <button (click)="editStock(stock)" style="padding:5px 10px; background-color:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">Edit</button>
+            <button (click)="deleteStock(stock.id)" style="padding:5px 10px; background-color:#e74c3c; color:white; border:none; border-radius:5px; cursor:pointer; margin-left:5px;">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,118 @@
+<!-- ====== Purchase Form ====== -->
+<div style="max-width: 800px; margin:auto; padding:20px; border:1px solid #ccc; border-radius:10px;">
+  <h2 style="text-align:center; color:#2c3e50;">Purchase Entry</h2>
+
+  <form [formGroup]="form" (ngSubmit)="savePurchase()">
+
+    <!-- Supplier -->
+    <label>Supplier</label>
+    <select formControlName="supplierId" style="width:100%; padding:8px; margin-bottom:10px;">
+      <option [ngValue]="null">Select Supplier</option>
+      <option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.name }}</option>
+    </select>
+
+    <!-- Invoice & Date -->
+    <input formControlName="invoiceNo" placeholder="Invoice No" style="width:100%; padding:8px; margin-bottom:10px;">
+    <input type="date" formControlName="purchaseDate" style="width:100%; padding:8px; margin-bottom:10px;">
+
+    <!-- Items -->
+    <div formArrayName="items">
+      <div *ngFor="let item of items.controls; let i=index" [formGroupName]="i"
+           style="display:flex; gap:10px; margin-bottom:10px;">
+        <select formControlName="medicineStockId" style="flex:2; padding:6px;">
+          <option [ngValue]="null">Select Medicine</option>
+          <option *ngFor="let st of stocks" [ngValue]="st.id">{{ getStockName(st.id!) }}</option>
+        </select>
+        <input type="number" formControlName="quantity" placeholder="Qty" style="flex:1; padding:6px;">
+        <input type="number" formControlName="unitPrice" placeholder="Price" style="flex:1; padding:6px;">
+        <input type="number" [value]="item.get('subtotal')?.value" readonly style="flex:1; padding:6px; background:#eee;">
+        <button type="button" (click)="removeItem(i)" style="background:red; color:#fff; border:none; padding:6px;">X</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addItem()" style="padding:6px 12px; background:#27ae60; color:#fff; border:none; margin-bottom:10px;">
+      + Add Item
+    </button>
+
+    <h3 style="text-align:right;">Total: {{ totalAmount | number:'1.2-2' }}</h3>
+
+    <button type="submit" style="padding:10px 20px; background:#3498db; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+      Save Purchase
+    </button>
+  </form>
+</div>
+
+<!-- ====== Invoice Preview (PDF Source) ====== -->
+<div #invoice style="max-width: 800px; margin:auto; font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #fdfdfd; margin-top:20px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h1 style="color: #2c3e50;">Pharmacy Purchase Invoice</h1>
+    <p style="color: #555;">Your Pharmacy Name | Address | Contact</p>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <div>
+      <strong>Supplier:</strong> {{ selectedSupplier?.name || 'N/A' }} <br>
+      <strong>Contact:</strong> {{ selectedSupplier?.contactPerson || 'N/A' }}
+    </div>
+    <div>
+      <strong>Invoice No:</strong> {{ form.value?.invoiceNo || 'N/A' }} <br>
+      <strong>Date:</strong> {{ form.value?.purchaseDate || 'N/A' }}
+    </div>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #3498db; color: #fff; text-align: left;">
+        <th style="padding: 8px; border: 1px solid #ddd;">Medicine</th>
+        <th style="padding: 8px; border: 1px solid #ddd;">Quantity</th>
+        <th style="padding: 8px; border: 1px solid #ddd;">Unit Price</th>
+        <th style="padding: 8px; border: 1px solid #ddd;">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items.controls">
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ getStockName(item.value.medicineStockId) }}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ item.value.quantity }}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ item.value.unitPrice | number:'1.2-2' }}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ item.value.subtotal | number:'1.2-2' }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" style="padding: 8px; border: 1px solid #ddd; text-align: right; font-weight: bold;">Total</td>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">{{ totalAmount | number:'1.2-2' }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<!-- ====== Purchase Records ====== -->
+<div style="max-width: 1000px; margin:auto; margin-top:30px;">
+  <h2 style="text-align:center; color:#2c3e50;">Purchase Records</h2>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+    <thead>
+      <tr style="background:#2c3e50; color:#fff;">
+        <th style="padding:8px; border:1px solid #ccc;">Invoice</th>
+        <th style="padding:8px; border:1px solid #ccc;">Supplier</th>
+        <th style="padding:8px; border:1px solid #ccc;">Date</th>
+        <th style="padding:8px; border:1px solid #ccc;">Total</th>
+        <th style="padding:8px; border:1px solid #ccc;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pur of purchases">
+        <td style="padding:8px; border:1px solid #ccc;">{{ pur.invoiceNo }}</td>
+        <td style="padding:8px; border:1px solid #ccc;">{{ getSupplierName(pur.supplierId) }}</td>
+        <td style="padding:8px; border:1px solid #ccc;">{{ pur.purchaseDate }}</td>
+        <td style="padding:8px; border:1px solid #ccc;">{{ pur.totalAmount | number:'1.2-2' }}</td>
+        <td style="padding:8px; border:1px solid #ccc;">
+          <button (click)="editPurchase(pur)" style="margin-right:5px;">Edit</button>
+          <button (click)="deletePurchase(pur.id)" style="margin-right:5px;">Delete</button>
+          <button (click)="generatePDF()" style="margin-right:5px;">PDF</button>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

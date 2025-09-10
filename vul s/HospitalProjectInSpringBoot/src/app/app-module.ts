@@ -41,6 +41,11 @@ import { AddWard } from './ward/add-ward/add-ward';
 import { BedBookingModalComponent } from './ward/bed-booking-modal-component/bed-booking-modal-component';
 import { BedBooking } from './word/bed-booking/bed-booking';
 import { AddTestsAdmittedPatient } from './testAdmittedPatient/add-tests-admitted-patient/add-tests-admitted-patient';
+import { PharmacyMedicine } from './pharmacy/pharmacy-medicine/pharmacy-medicine';
+import { Sale } from './pharmacy/sale/sale';
+import { Supplier } from './pharmacy/supplier/supplier';
+import { Purchase } from './pharmacy/purchase/purchase';
+import { MedicineStock } from './pharmacy/medicine-stock/medicine-stock';
 
 @NgModule({
   declarations: [
@@ -79,7 +84,12 @@ import { AddTestsAdmittedPatient } from './testAdmittedPatient/add-tests-admitte
         AddWard,
         BedBookingModalComponent,
         BedBooking,
-        AddTestsAdmittedPatient
+        AddTestsAdmittedPatient,
+        PharmacyMedicine,
+        Sale,
+        Supplier,
+        Purchase,
+        MedicineStock
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,68 @@
+<div style="max-width:800px; margin:auto; font-family: Arial, sans-serif;">
+  <h2 style="text-align:center; color:#2c3e50;">
+    Suppliers <i class="fa fa-truck" style="color:#8e44ad;"></i>
+  </h2>
+
+  <!-- ===== Form ===== -->
+  <form [formGroup]="form" (ngSubmit)="saveSupplier()" 
+        style="background:#f0f8ff; padding:15px; border-radius:8px; margin-bottom:20px;">
+    
+    <input formControlName="name" placeholder="Supplier Name" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="contactPerson" placeholder="Contact Person" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="phone" placeholder="Phone" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="email" placeholder="Email" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+    
+    <input formControlName="address" placeholder="Address" 
+           style="width:100%; padding:8px; margin-bottom:8px; border-radius:4px;" />
+
+    <button type="submit" 
+            style="background:#8e44ad; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">
+      {{ editMode ? 'Update' : 'Add' }}
+    </button>
+
+    <button type="button" (click)="resetForm()" 
+            style="background:#95a5a6; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">
+      Reset
+    </button>
+  </form>
+
+  <!-- ===== Table ===== -->
+  <table style="width:100%; border-collapse:collapse;">
+    <thead style="background:#8e44ad; color:white;">
+      <tr>
+        <th style="padding:8px; border:1px solid #ddd;">Name</th>
+        <th>Contact Person</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th style="width:120px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sup of suppliers" style="border-bottom:1px solid #ddd;">
+        <td style="padding:8px;">{{ sup.name }}</td>
+        <td>{{ sup.contactPerson }}</td>
+        <td>{{ sup.phone }}</td>
+        <td>{{ sup.email }}</td>
+        <td>{{ sup.address }}</td>
+        <td style="text-align:center;">
+          <button (click)="editSupplier(sup)" 
+                  style="background:#f39c12; color:white; border:none; border-radius:4px; padding:5px 8px; cursor:pointer; margin-right:4px;">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button (click)="deleteSupplier(sup.id)" 
+                  style="background:#e74c3c; color:white; border:none; border-radius:4px; padding:5px 8px; cursor:pointer;">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

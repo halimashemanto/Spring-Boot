@@ -1,0 +1,57 @@
+<div #invoice id="invoice" style="padding:20px; font-family:Arial, sans-serif; background:white; color:black; border:1px solid #ccc; border-radius:8px;">
+
+  <!-- Header -->
+  <div style="text-align:center; margin-bottom:15px;">
+    <h1 style="margin:0; color:#2c3e50;">My Pharmacy</h1>
+    <p style="margin:0;">123 Hospital Road, City</p>
+    <p style="margin:0;">Phone: +880123456789</p>
+    <hr style="margin-top:10px; border-color:#d35400;" />
+  </div>
+
+  <!-- Sale info -->
+  <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+    <div>
+      <p><strong>Invoice:</strong> {{ form.value.invoiceNo }}</p>
+      <p><strong>Date:</strong> {{ form.value.saleDate }}</p>
+    </div>
+    <div>
+      <p><strong>Patient:</strong> {{ form.value.patientName }}</p>
+    </div>
+  </div>
+
+  <!-- Items table -->
+  <table style="width:100%; border-collapse:collapse;">
+    <thead style="background:#d35400; color:white;">
+      <tr>
+        <th style="padding:6px; border:1px solid #ccc;">Medicine</th>
+        <th style="padding:6px; border:1px solid #ccc;">Qty</th>
+        <th style="padding:6px; border:1px solid #ccc;">Unit Price</th>
+        <th style="padding:6px; border:1px solid #ccc;">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items.controls">
+        <td style="padding:6px; border:1px solid #ccc;">{{ getStockName(item.value.medicineStockId) }}</td>
+        <td style="padding:6px; border:1px solid #ccc; text-align:center;">{{ item.value.quantity }}</td>
+        <td style="padding:6px; border:1px solid #ccc; text-align:right;">{{ item.value.unitPrice | number:'1.2-2' }}</td>
+        <td style="padding:6px; border:1px solid #ccc; text-align:right;">{{ item.value.subtotal | number:'1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Total -->
+  <div style="text-align:right; margin-top:10px; font-weight:bold; font-size:16px;">
+    Total: {{ totalAmount | number:'1.2-2' }}
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center; margin-top:15px; font-size:12px; color:#7f8c8d;">
+    Thank you for choosing My Pharmacy!<br>
+    Get well soon.
+  </div>
+</div>
+
+<button type="button" (click)="generatePDF()" 
+        style="background:#27ae60; color:white; padding:8px 15px; border:none; border-radius:5px; cursor:pointer; margin-top:10px;">
+  Generate PDF
+</button>
