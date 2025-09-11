@@ -86,7 +86,11 @@ public class SecurityConfig {
                                         "/api/test-master",
                                         "/api/test-master/**",
                                         "/api/patient-tests",
-                                        "/api/patient-tests/**"
+                                        "/api/patient-tests/**",
+                                        "/api/meal-masters",
+                                        "/api/meal-masters/**",
+                                        "/api/meals",
+                                        "/api/meals/**"
                                         )
 
                                 .permitAll()

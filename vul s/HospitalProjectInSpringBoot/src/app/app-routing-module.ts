@@ -36,13 +36,15 @@ import { Purchase } from './pharmacy/purchase/purchase';
 import { Sale } from './pharmacy/sale/sale';
 import { MedicineStock } from './pharmacy/medicine-stock/medicine-stock';
 import { AddTestMaster } from './testMaster/add-test-master/add-test-master';
+import { AddMealMaster } from './mealMaster/add-meal-master/add-meal-master';
+import { AddMeal } from './mealMaster/add-meal/add-meal';
 
 const routes: Routes = [
-  
-  { path: 'viewdoc', component: ViewDoctor },
 
 
-  {path:'', component:PublicNav},
+
+
+  { path: '', component: PublicNav },
 
   // Registration Part
   { path: 'doc', component: AddDoctor },
@@ -50,42 +52,74 @@ const routes: Routes = [
   { path: 'or', component: OfficeStaffRegistration },
   { path: 'rr', component: ReceptionistRegistration },
   { path: 'login', component: Login },
-  { path: 'allprofile', component: AllUserProfile },
-  { path: 'doctorprofile', component: DoctorIndivisualProfile },
+
+
+  // prescription part
+  { path: 'test', component: AddTest },
+  { path: 'medicine', component: Medicine },
+  { path: 'pres', component: AddPrescription },
+  { path: 'vpres', component: ViewPrescription },
+
+
+
+  //Appointment Part
+  { path: 'slot', component: ScheduleSlot },
+  { path: 'department', component: Department },
+  { path: 'appoinment', component: AddApooinment },
+  { path: 'viewAppoinment', component: ViewAllAppointment },
   { path: 'doctorpdf', component: IndivisualDoctorAppointment },
 
-// prescription part
-  {path:'test', component:AddTest},
-  {path:'medicine', component:Medicine},
-  {path:'department', component:Department},
-  {path:'slot', component:ScheduleSlot},
-  {path:'viewdoctor', component:ViewDoctor},
-  {path:'addpatient', component:AddPatient},
-  {path:'appoinment', component:AddApooinment},
-  {path:'viewAppoinment', component:ViewAllAppointment},
-  {path:'invoice', component:AddInvoice},
-  {path:'pres', component:AddPrescription},
-  {path:'vpres', component:ViewPrescription},
-  {path:'report', component:AddReport},
-  {path:'Np', component:NurseIndivisualProfile},
-  {path:'rp', component:ReceptionistIndivisualProfile},
-  {path:'op', component:OfficeStaffIndivisualProfile},
-  {path:'emergency', component:AddEmergencyPatient},
-  {path:'ward', component:AddWard},
-  {path:'bb', component:BedBookingModalComponent},
-  {path:'facility', component:Word},
-  {path:'bedbooked', component:BedBooking},
-  {path:'at', component:AddTestsAdmittedPatient},
-  {path:'pm', component:PharmacyMedicine},
-  {path:'sp', component:Supplier},
-  {path:'p', component:Purchase},
-  {path:'s', component:Sale},
-  {path:'ms', component:MedicineStock},
-  {path:'atm', component:AddTestMaster},
+
+
+  //Emergency part
+  { path: 'emergency', component: AddEmergencyPatient },
+  { path: 'addpatient', component: AddPatient },
 
 
 
-  
+  //Invoice-Report part
+  { path: 'invoice', component: AddInvoice },
+  { path: 'report', component: AddReport },
+
+
+  //profile part
+  { path: 'Np', component: NurseIndivisualProfile },
+  { path: 'rp', component: ReceptionistIndivisualProfile },
+  { path: 'op', component: OfficeStaffIndivisualProfile },
+  { path: 'allprofile', component: AllUserProfile },
+  { path: 'doctorprofile', component: DoctorIndivisualProfile },
+  { path: 'viewdoctor', component: ViewDoctor },
+  { path: 'viewdoc', component: ViewDoctor },
+
+
+
+
+  //ward-bedbooking part
+  { path: 'ward', component: AddWard },
+  { path: 'bb', component: BedBookingModalComponent },
+  { path: 'facility', component: Word },
+  { path: 'bedbooked', component: BedBooking },
+
+
+
+
+  //Pharmacy part
+  { path: 'pm', component: PharmacyMedicine },
+  { path: 'sp', component: Supplier },
+  { path: 'p', component: Purchase },
+  { path: 's', component: Sale },
+  { path: 'ms', component: MedicineStock },
+
+
+  //Admitted-Patient Part
+  { path: 'at', component: AddTestsAdmittedPatient },
+  { path: 'atm', component: AddTestMaster },
+  { path: 'mm', component: AddMealMaster },
+  { path: 'mmm', component: AddMeal },
+
+
+
+
 
 ];
 

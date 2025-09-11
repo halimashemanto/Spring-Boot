@@ -1,0 +1,49 @@
+<div class="container" style="max-width: 900px; margin:auto; font-family: Arial, sans-serif; padding:20px;">
+  <h2 style="text-align:center; color:#2c3e50; margin-bottom: 20px;">🍽️ Meal Management</h2>
+
+  <!-- Form -->
+  <div style="background:#f7f9fc; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-bottom:30px;">
+    <form [formGroup]="form" (ngSubmit)="submit()" style="display:flex; flex-direction:column; gap:15px;">
+      <div>
+        <label>Meal Master ID</label>
+        <input type="number" formControlName="mealMasterId" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+      </div>
+
+      <div>
+        <label>Bed Booking ID</label>
+        <input type="number" formControlName="bedBookingId" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+      </div>
+
+      <div>
+        <label>Served At</label>
+        <input type="datetime-local" formControlName="servedAt" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+      </div>
+
+      <button type="submit" style="padding:12px; border:none; border-radius:8px; background:#4f46e5; color:white; cursor:pointer;">
+        {{ editMode ? 'Update ✏️' : 'Add ➕' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Meal Info -->
+  <div *ngIf="mealDTO">
+    <h3>Patient: {{ mealDTO.patientName }} | Phone: {{ mealDTO.phone }} | Age: {{ mealDTO.age }}</h3>
+    <p>Address: {{ mealDTO.address }}</p>
+    <p>Total Cost: {{ mealDTO.totalCost | currency:'BDT' }}</p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:20px;">
+      <div *ngFor="let meal of mealDTO.meals" style="flex:1 1 250px; background:#fef3c7; padding:15px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); position:relative;">
+        <h4>{{ meal.mealName }} 🍛</h4>
+        <p>Category: {{ meal.mealCategory }}</p>
+        <p>Type: {{ meal.mealType }}</p>
+        <p>Price: {{ meal.mealCost | currency:'BDT' }}</p>
+        <p>Served At: {{ meal.servedAt | date:'short' }}</p>
+
+        <div style="margin-top:10px; display:flex; gap:5px;">
+          <button (click)="editMeal(meal)" style="padding:6px 10px; background:#fbbf24; border:none; border-radius:6px; cursor:pointer;">✏️</button>
+          <button (click)="deleteMeal(meal.mealId, form.value.bedBookingId)" style="padding:6px 10px; background:#ef4444; border:none; border-radius:6px; cursor:pointer;">🗑️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

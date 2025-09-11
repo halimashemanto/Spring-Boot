@@ -10,32 +10,40 @@ import java.util.Date;
 
 public class Meal {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-
-        private String mealType;
-        private double mealCost;
-        private Date servedAt;
-
-        @ManyToOne
-        @JoinColumn(name = "bed_booking_id")
-        private BedBooking bedBooking;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
 
-        @ManyToOne
-        @JoinColumn(name = "admitted_patient_id")
-        private AdmittedPatient admittedPatient;
+    private double mealCost;
+    private Date servedAt;
 
-        public Meal() {}
 
-        public Meal(AdmittedPatient admittedPatient,BedBooking  bedBooking, Date servedAt, double mealCost, String mealType, Long id) {
-        this.admittedPatient = admittedPatient;
-        this.bedBooking = bedBooking;
-        this.servedAt = servedAt;
-        this.mealCost = mealCost;
-        this.mealType = mealType;
+    @ManyToOne
+    @JoinColumn(name = "meal_master_id", nullable = false)
+    private MealMaster mealMaster;
+
+
+    @ManyToOne
+    @JoinColumn(name = "bed_booking_id")
+    private BedBooking bedBooking;
+
+
+    @ManyToOne
+    @JoinColumn(name = "admitted_patient_id")
+    private AdmittedPatient admittedPatient;
+
+    public Meal() {
+    }
+
+
+    public Meal(Long id, double mealCost, Date servedAt, MealMaster mealMaster, BedBooking bedBooking, AdmittedPatient admittedPatient) {
         this.id = id;
+        this.mealCost = mealCost;
+        this.servedAt = servedAt;
+        this.mealMaster = mealMaster;
+        this.bedBooking = bedBooking;
+        this.admittedPatient = admittedPatient;
     }
 
     public Long getId() {
@@ -44,14 +52,6 @@ public class Meal {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getMealType() {
-        return mealType;
-    }
-
-    public void setMealType(String mealType) {
-        this.mealType = mealType;
     }
 
     public double getMealCost() {
@@ -70,8 +70,12 @@ public class Meal {
         this.servedAt = servedAt;
     }
 
-    public AdmittedPatient getAdmittedPatient() {
-        return admittedPatient;
+    public MealMaster getMealMaster() {
+        return mealMaster;
+    }
+
+    public void setMealMaster(MealMaster mealMaster) {
+        this.mealMaster = mealMaster;
     }
 
     public BedBooking getBedBooking() {
@@ -82,8 +86,14 @@ public class Meal {
         this.bedBooking = bedBooking;
     }
 
+    public AdmittedPatient getAdmittedPatient() {
+        return admittedPatient;
+    }
+
     public void setAdmittedPatient(AdmittedPatient admittedPatient) {
         this.admittedPatient = admittedPatient;
     }
 }
+
+
 

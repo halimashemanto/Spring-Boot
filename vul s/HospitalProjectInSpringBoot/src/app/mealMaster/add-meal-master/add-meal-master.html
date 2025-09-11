@@ -1,0 +1,77 @@
+<div class="container" style="max-width: 900px; margin:auto; font-family: Arial, sans-serif; padding:20px;">
+  <h2 style="text-align:center; color:#2c3e50; margin-bottom: 20px; font-size:28px;">🍽️ Meal Master Management</h2>
+
+  <!-- Form Card -->
+  <div style="background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); padding: 25px; border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); margin-bottom: 30px; transition: transform 0.3s ease;">
+    <form [formGroup]="form" (ngSubmit)="submit()" style="display: flex; flex-direction: column; gap: 18px;">
+
+      <div style="display:flex; gap:12px; flex-wrap: wrap;">
+        <div style="flex:1">
+          <label style="font-weight:bold; color:#374151;">Category</label>
+          <select formControlName="category" style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; transition: all 0.3s ease; cursor:pointer;">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Snack">Snack</option>
+          </select>
+        </div>
+
+        <div style="flex:1">
+          <label style="font-weight:bold; color:#374151;">Type</label>
+          <select formControlName="type" style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; transition: all 0.3s ease; cursor:pointer;">
+            <option value="Set1">Set1</option>
+            <option value="Set2">Set2</option>
+            <option value="Set3">Set3</option>
+            <option value="Special">Special</option>
+            <option value="Diet">Diet</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-weight:bold; color:#374151;">Name</label>
+        <input formControlName="name" type="text" placeholder="Enter meal name" style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; transition: all 0.3s ease;" />
+      </div>
+
+      <div>
+        <label style="font-weight:bold; color:#374151;">Details</label>
+        <textarea formControlName="details" placeholder="Enter meal details" style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; min-height:70px; transition: all 0.3s ease;"></textarea>
+      </div>
+
+      <div>
+        <label style="font-weight:bold; color:#374151;">Price</label>
+        <input formControlName="price" type="number" placeholder="Enter price" style="width:100%; padding:12px; border-radius:10px; border:1px solid #cbd5e1; transition: all 0.3s ease;" />
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <button type="submit" style="flex:1; padding:14px; border:none; border-radius:10px; background:linear-gradient(90deg, #6366f1 0%, #4f46e5 100%); color:white; font-weight:bold; cursor:pointer; transition: all 0.4s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" 
+                [style.background]="editMode ? 'linear-gradient(90deg,#fbbf24,#f59e0b)' : 'linear-gradient(90deg, #6366f1, #4f46e5)'">
+          {{ editMode ? 'Update ✏️' : 'Add ➕' }}
+        </button>
+        <button *ngIf="editMode" type="button" (click)="cancelEdit()" style="flex:1; padding:14px; border:none; border-radius:10px; background:linear-gradient(90deg,#f87171,#ef4444); color:white; font-weight:bold; cursor:pointer; transition: all 0.4s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+          Cancel ❌
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Meal Cards -->
+  <div style="display:flex; flex-wrap:wrap; gap:20px;">
+    <div *ngFor="let meal of mealMasters" 
+         style="flex:1 1 250px; background:linear-gradient(135deg,#fef3c7,#fde68a); border-radius:16px; padding:20px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow:hidden;"
+        >
+      
+      <h3 style="margin-top:0; color:#1e3a8a;">{{ meal.name }} 🍛</h3>
+      <p style="margin:5px 0;"><strong>Category:</strong> {{ meal.category }}</p>
+      <p style="margin:5px 0;"><strong>Type:</strong> {{ meal.type }}</p>
+      <p style="margin:5px 0; color:#374151;">{{ meal.details }}</p>
+      <p style="margin:5px 0; font-weight:bold; color:#059669;">Price: {{ meal.price | currency:'BDT' }} 💰</p>
+
+      <!-- Buttons at bottom -->
+      <div style="margin-top:12px; display:flex; gap:10px; justify-content:flex-end;">
+        <button (click)="edit(meal)" style="background:#fbbf24; border:none; padding:6px 10px; border-radius:8px; cursor:pointer; transition: transform 0.3s ease;">✏️ </button>
+        <button (click)="delete(meal.id!)" style="background:#ef4444; border:none; padding:6px 10px; border-radius:8px; cursor:pointer; transition: transform 0.3s ease;">🗑️ </button>
+      </div>
+    </div>
+  </div>
+</div>

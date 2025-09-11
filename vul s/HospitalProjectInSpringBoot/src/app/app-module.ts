@@ -47,6 +47,8 @@ import { Supplier } from './pharmacy/supplier/supplier';
 import { Purchase } from './pharmacy/purchase/purchase';
 import { MedicineStock } from './pharmacy/medicine-stock/medicine-stock';
 import { AddTestMaster } from './testMaster/add-test-master/add-test-master';
+import { AddMealMaster } from './mealMaster/add-meal-master/add-meal-master';
+import { AddMeal } from './mealMaster/add-meal/add-meal';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,9 @@ import { AddTestMaster } from './testMaster/add-test-master/add-test-master';
         Supplier,
         Purchase,
         MedicineStock,
-        AddTestMaster
+        AddTestMaster,
+        AddMealMaster,
+        AddMeal
   ],
   imports: [
     BrowserModule,
