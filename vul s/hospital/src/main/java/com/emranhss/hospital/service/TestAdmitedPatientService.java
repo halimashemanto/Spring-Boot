@@ -2,11 +2,9 @@ package com.emranhss.hospital.service;
 
 
 import com.emranhss.hospital.dto.TestAdmitedPatientDTO;
-import com.emranhss.hospital.entity.AdmittedPatient;
 import com.emranhss.hospital.entity.BedBooking;
 import com.emranhss.hospital.entity.TestAdmitedPatient;
 import com.emranhss.hospital.entity.TestMaster;
-import com.emranhss.hospital.repository.IAdmittedPatientRepo;
 import com.emranhss.hospital.repository.IBedBookingRepo;
 import com.emranhss.hospital.repository.ITestAdmitedPatientRepo;
 import com.emranhss.hospital.repository.ITestMasterRepo;
@@ -19,19 +17,15 @@ import java.util.stream.Collectors;
 @Service
 public class TestAdmitedPatientService {
 
-
-
     @Autowired
     private ITestAdmitedPatientRepo testPatientRepo;
-
     @Autowired
     private IBedBookingRepo bedBookingRepo;
-
     @Autowired
     private ITestMasterRepo testMasterRepo;
 
-    public TestAdmitedPatientDTO saveTestsForPatient(TestAdmitedPatientDTO dto) {
 
+    public TestAdmitedPatientDTO saveTestsForPatient(TestAdmitedPatientDTO dto) {
         BedBooking bedBooking = bedBookingRepo.findById(dto.getBedBookingId())
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
 
@@ -43,18 +37,17 @@ public class TestAdmitedPatientService {
 
         TestAdmitedPatient tap = new TestAdmitedPatient();
         tap.setBedBooking(bedBooking);
-        tap.setAdmittedPatient(bedBooking.getAdmittedPatient());
         tap.setSelectedTests(selectedTests);
         tap.setTestCost(totalCost);
 
         testPatientRepo.save(tap);
 
+        // Build DTO for response
         dto.setId(tap.getId());
         dto.setPatientName(bedBooking.getPatientName());
         dto.setAge(bedBooking.getAge());
         dto.setPhone(bedBooking.getPhone());
         dto.setAddress(bedBooking.getAddress());
-        dto.setAdmittedPatientId(bedBooking.getAdmittedPatient().getId());
         dto.setTestCost(totalCost);
         dto.setSelectedTests(selectedTests.stream()
                 .map(t -> new TestAdmitedPatientDTO.TestInfoDTO(t.getId(), t.getTestName(), t.getTestPrice()))
@@ -65,7 +58,6 @@ public class TestAdmitedPatientService {
 
     // Get tests by bedBookingId
     public TestAdmitedPatientDTO getTestsByBedBooking(Long bedBookingId) {
-
         BedBooking bedBooking = bedBookingRepo.findById(bedBookingId)
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
 
@@ -83,7 +75,6 @@ public class TestAdmitedPatientService {
 
         TestAdmitedPatientDTO dto = new TestAdmitedPatientDTO();
         dto.setBedBookingId(bedBookingId);
-        dto.setAdmittedPatientId(bedBooking.getAdmittedPatient().getId());
         dto.setPatientName(bedBooking.getPatientName());
         dto.setAge(bedBooking.getAge());
         dto.setPhone(bedBooking.getPhone());
@@ -93,6 +84,8 @@ public class TestAdmitedPatientService {
 
         return dto;
     }
+
+
 
 
 }

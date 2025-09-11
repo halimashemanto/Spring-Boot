@@ -4,15 +4,14 @@ export interface TestInfo {
   testPrice: number;
 }
 
-export interface TestAssignedDTO {
+export interface TestAdmittedPatient {
   id?: number;
   bedBookingId: number;
-  admittedPatientId?: number;
   patientName?: string;
   age?: number;
   phone?: string;
   address?: string;
-  testIds: number[];
+  testIds?: number[];
   testCost?: number;
   selectedTests?: TestInfo[];
 }

@@ -37,7 +37,7 @@ public class SaleService {
 
 
     public SaleDto saveSale(SaleDto dto) {
-        // 1. Create or update Sale entity
+
         Sale sale = new Sale();
         sale.setId(dto.getId());
         sale.setInvoiceNo(dto.getInvoiceNo());
@@ -46,10 +46,9 @@ public class SaleService {
         sale.setTotalAmount(dto.getTotalAmount());
         sale.setCreatedAt(dto.getCreatedAt());
 
-        // Save sale first
+
         Sale savedSale = saleRepository.save(sale);
 
-        // 2. Save sale items and decrease stock
         if (dto.getItems() != null) {
             dto.getItems().forEach(itemDto -> {
                 MedicineStock stock = stockRepository.findById(itemDto.getMedicineStockId()).orElse(null);
@@ -77,26 +76,8 @@ public class SaleService {
             });
         }
 
-        // 3. Convert saved sale to DTO and return
         return convertToDto(savedSale);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void deleteSale(Long id) {
         saleRepository.deleteById(id);

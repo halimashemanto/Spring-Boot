@@ -9,7 +9,7 @@ public class TestAdmitedPatientDTO {
 
         private Long id;
         private Long bedBookingId;
-        private Long admittedPatientId;
+
 
         private String patientName;
         private int age;
@@ -51,8 +51,7 @@ public class TestAdmitedPatientDTO {
         public Long getBedBookingId() { return bedBookingId; }
         public void setBedBookingId(Long bedBookingId) { this.bedBookingId = bedBookingId; }
 
-        public Long getAdmittedPatientId() { return admittedPatientId; }
-        public void setAdmittedPatientId(Long admittedPatientId) { this.admittedPatientId = admittedPatientId; }
+
 
         public String getPatientName() { return patientName; }
         public void setPatientName(String patientName) { this.patientName = patientName; }

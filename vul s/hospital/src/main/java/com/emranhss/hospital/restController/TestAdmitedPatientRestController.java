@@ -15,7 +15,6 @@ public class TestAdmitedPatientRestController {
     @Autowired
     private TestAdmitedPatientService testService;
 
-
     @PostMapping("/assign")
     public TestAdmitedPatientDTO assignTests(@RequestBody TestAdmitedPatientDTO dto) {
         return testService.saveTestsForPatient(dto);

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { TestAssignedDTO, TestInfo } from '../model/testAdmittedPatient.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TestAdmittedPatient, TestInfo } from '../model/testAdmittedPatient.model';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TestsAdmittedPatientService } from '../tests-admitted-patient-service';
-import { debounceTime, of, switchMap } from 'rxjs';
+import { TestMasterService } from '../../testMaster/test-master-service';
 
 @Component({
   selector: 'app-add-tests-admitted-patient',
@@ -13,73 +13,274 @@ import { debounceTime, of, switchMap } from 'rxjs';
 export class AddTestsAdmittedPatient {
 
 
-form: FormGroup;
-  assignedTest: TestAssignedDTO | null = null;
-  patientInfoLoaded = false;
+  form: FormGroup;
   allTests: TestInfo[] = [];
+  totalCost: number = 0;
+  patientDetails?: TestAdmittedPatient;
 
-  constructor(private fb: FormBuilder, private service: TestsAdmittedPatientService) {
+  constructor(
+    private fb: FormBuilder,
+    private service: TestsAdmittedPatientService,
+    private testMasterService: TestMasterService
+  ) {
     this.form = this.fb.group({
-      bedBookingId: [null, Validators.required],
-      testIds: [[]],
+      bedBookingId: ['', Validators.required],
+      patientName: [''],
+      age: [''],
+      phone: [''],
+      address: [''],
+      tests: this.fb.array([])
     });
   }
 
   ngOnInit(): void {
-    this.loadAllTests();
+    
+    // Load all tests from Test Master
+    this.testMasterService.getAllTests().subscribe(tests => {
+      this.allTests = tests.map(t => ({
+        id: t.id,
+        testName: t.testName,
+        testPrice: t.testPrice
+      } as TestInfo));
+    });
 
-    // Auto load patient info
-    this.form.get('bedBookingId')?.valueChanges
-      .pipe(
-        debounceTime(500),
-        switchMap((id: number) => {
-          if (!id) return of(null);
-          return this.service.getTestsByBed(id);
-        })
-      )
-      .subscribe(res => {
-        if (res) {
-          this.assignedTest = res;
-          this.patientInfoLoaded = true;
-          this.form.get('testIds')?.setValue([]);
-        } else {
-          this.assignedTest = null;
-          this.patientInfoLoaded = false;
-        }
-      });
-  }
-
-  loadAllTests() {
-    this.service.getAllMasterTests().subscribe(res => {
-      this.allTests = res;
+    // BedBooking ID changes
+    this.form.get('bedBookingId')?.valueChanges.subscribe(id => {
+      if (id) this.loadPatient(id);
     });
   }
 
-  saveTests() {
-    if (this.form.invalid) return;
+  // Getter for FormArray
+  get tests(): FormArray {
+    return this.form.get('tests') as FormArray;
+  }
 
-    const dto: TestAssignedDTO = {
+  // Load patient details without pre-filling selected tests
+  loadPatient(bedBookingId: number) {
+    this.service.getPatientByBed(bedBookingId).subscribe(patient => {
+      this.patientDetails = patient;
+      this.form.patchValue({
+        patientName: patient.patientName,
+        age: patient.age,
+        phone: patient.phone,
+        address: patient.address
+      });
+
+      // Clear previous selections
+      this.tests.clear();
+      this.totalCost = 0;
+    });
+  }
+
+  // Check if test is selected
+  isSelected(testId: number): boolean {
+    return this.tests.controls.some(c => c.value.testId === testId);
+  }
+
+  // Toggle test selection
+  onTestToggle(event: any, test: TestInfo) {
+    if (event.target.checked) {
+      if (!this.isSelected(test.id)) {
+        this.tests.push(this.fb.group({
+          testId: [test.id],
+          testName: [test.testName],
+          testPrice: [test.testPrice]
+        }));
+      }
+    } else {
+      const index = this.tests.controls.findIndex(c => c.value.testId === test.id);
+      if (index !== -1) {
+        this.tests.removeAt(index);
+      }
+    }
+    this.calculateTotal();
+  }
+
+  removeTest(index: number) {
+    this.tests.removeAt(index);
+    this.calculateTotal();
+  }
+
+  calculateTotal() {
+    this.totalCost = this.tests.controls
+      .map(c => c.value.testPrice)
+      .reduce((a, b) => a + b, 0);
+  }
+
+  save() {
+    const dto: TestAdmittedPatient = {
       bedBookingId: this.form.value.bedBookingId,
-      testIds: this.form.value.testIds
+      testIds: this.tests.controls.map(c => c.value.testId)
     };
 
-    this.service.assignTests(dto).subscribe(res => {
-      alert('Tests assigned successfully!');
-      this.assignedTest = res;
-      this.form.get('testIds')?.setValue([]);
+    this.service.savePatientTests(dto).subscribe(res => {
+      this.patientDetails = res;
+
+      // Update table with saved tests
+      this.tests.clear();
+      (res.selectedTests || []).forEach(t => {
+        this.tests.push(this.fb.group({
+          testId: [t.id],
+          testName: [t.testName],
+          testPrice: [t.testPrice]
+        }));
+      });
+
+      this.calculateTotal();
+      alert('Saved successfully!');
     });
+
+    this.resetForm();
   }
 
   resetForm() {
-    this.form.reset({ testIds: [] });
-    this.assignedTest = null;
-    this.patientInfoLoaded = false;
+
+    this.tests.clear();
+    this.totalCost = 0;
+    this.form.patchValue({ bedBookingId: '' });
   }
 
-  get subtotal(): number {
-    if (!this.form.value.testIds || this.allTests.length === 0) return 0;
-    return this.allTests
-      .filter(t => this.form.value.testIds.includes(t.id))
-      .reduce((sum, t) => sum + t.testPrice, 0);
-  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// form: FormGroup;
+//   allTests: TestInfo[] = [];
+//   totalCost: number = 0;
+//   patientDetails?: TestAdmittedPatient;
+//   selectedTestId: number | null = null;
+
+//   constructor(
+//     private fb: FormBuilder,
+//     private service: TestsAdmittedPatientService,
+//     private testMasterService: TestMasterService
+//   ) {
+//     this.form = this.fb.group({
+//       bedBookingId: ['', Validators.required],
+//       patientName: [''],
+//       age: [''],
+//       phone: [''],
+//       address: [''],
+//       tests: this.fb.array([])
+//     });
+//   }
+
+//   ngOnInit(): void {
+//     // Load all tests from Test Master
+//     this.testMasterService.getAllTests().subscribe(tests => {
+//       // Convert TestMaster to TestInfo if necessary
+//       this.allTests = tests.map(t => ({
+//         id: t.id,
+//         testName: t.testName,  // ensure TestMaster e thik property name
+//         testPrice: t.testPrice
+//       } as TestInfo));
+
+//     });
+
+//     // BedBooking ID changes
+//     this.form.get('bedBookingId')?.valueChanges.subscribe(id => {
+//       if (id) this.loadPatient(id);
+//     });
+//   }
+
+//   get tests(): FormArray {
+//     return this.form.get('tests') as FormArray;
+//   }
+
+//   loadPatient(bedBookingId: number) {
+//     this.service.getPatientByBed(bedBookingId).subscribe(patient => {
+//       this.patientDetails = patient;
+//       this.form.patchValue({
+//         patientName: patient.patientName,
+//         age: patient.age,
+//         phone: patient.phone,
+//         address: patient.address
+//       });
+
+//       // Prefill previously selected tests
+//       this.tests.clear();
+//       (patient.selectedTests || []).forEach(t => {
+//         this.tests.push(this.fb.group({
+//           testId: [t.id],
+//           testName: [t.testName],
+//           testPrice: [t.testPrice]
+//         }));
+//       });
+
+//       this.calculateTotal();
+//     });
+//   }
+
+//   // Check if test already selected
+// isSelected(testId: number): boolean {
+//   return this.tests.controls.some(c => c.value.testId === testId);
+// }
+
+// // Toggle test selection
+// onTestToggle(event: any, test: TestInfo) {
+//   if (event.target.checked) {
+//     // Add test
+//     if (!this.isSelected(test.id)) {
+//       this.tests.push(this.fb.group({
+//         testId: [test.id],
+//         testName: [test.testName],
+//         testPrice: [test.testPrice]
+//       }));
+//     }
+//   } else {
+//     // Remove test
+//     const index = this.tests.controls.findIndex(c => c.value.testId === test.id);
+//     if (index !== -1) {
+//       this.tests.removeAt(index);
+//     }
+//   }
+//   this.calculateTotal(); // update total immediately
+// }
+
+
+//   removeTest(index: number) {
+//     this.tests.removeAt(index);
+//     this.calculateTotal();
+//   }
+
+//   calculateTotal() {
+//     this.totalCost = this.tests.controls
+//       .map(c => c.value.testPrice)
+//       .reduce((a, b) => a + b, 0);
+//   }
+
+//   save() {
+//   const dto: TestAdmittedPatient = {
+//     bedBookingId: this.form.value.bedBookingId,
+//     testIds: this.tests.controls.map(c => c.value.testId)
+//   };
+
+//   this.service.savePatientTests(dto).subscribe(res => {
+//     // Update patientDetails with backend response
+//     this.patientDetails = res;
+
+//     // Clear current FormArray and reload selected tests from response
+//     this.tests.clear();
+//     (res.selectedTests || []).forEach(t => {
+//       this.tests.push(this.fb.group({
+//         testId: [t.id],
+//         testName: [t.testName],
+//         testPrice: [t.testPrice]
+//       }));
+//     });
+
+//     this.calculateTotal(); // update total
+//     alert('Saved successfully!');
+//   });
+
+

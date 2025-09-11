@@ -3,6 +3,7 @@ import { TestMaster } from './model/testMaster.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environment/environment';
+import { TestInfo } from '../testAdmittedPatient/model/testAdmittedPatient.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class TestMasterService {
 
   deleteTest(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  getAllTestss(): Observable<TestInfo[]> {
+    return this.http.get<TestInfo[]>('/api/test-master');
   }
 
 }

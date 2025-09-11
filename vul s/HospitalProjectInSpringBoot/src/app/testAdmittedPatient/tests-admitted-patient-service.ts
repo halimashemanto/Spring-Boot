@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TestAssignedDTO, TestInfo } from './model/testAdmittedPatient.model';
+import { TestAdmittedPatient, TestInfo } from './model/testAdmittedPatient.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 
@@ -9,23 +9,20 @@ import { environment } from '../../environment/environment';
 })
 export class TestsAdmittedPatientService {
 
-    private baseUrl = environment.apiBaseUrl + '/api/patient-tests';
+  private baseUrl = environment.apiBaseUrl + '/api/patient-tests';
 
- 
+  constructor(private http: HttpClient) { }
 
-
-
-constructor(private http: HttpClient) { }
- getTestsByBed(bedBookingId: number): Observable<TestAssignedDTO> {
-    return this.http.get<TestAssignedDTO>(`${this.baseUrl}/by-bed/${bedBookingId}`);
+   getPatientByBed(bedBookingId: number): Observable<TestAdmittedPatient> {
+    return this.http.get<TestAdmittedPatient>(`${this.baseUrl}/by-bed/${bedBookingId}`);
   }
 
-  getAllMasterTests(): Observable<TestInfo[]> {
-    return this.http.get<TestInfo[]>(`${this.baseUrl}/master-tests`);
+  savePatientTests(dto: TestAdmittedPatient): Observable<TestAdmittedPatient> {
+    return this.http.post<TestAdmittedPatient>(`${this.baseUrl}/assign`, dto);
   }
 
-  assignTests(dto: TestAssignedDTO): Observable<TestAssignedDTO> {
-    return this.http.post<TestAssignedDTO>(`${this.baseUrl}/assign`, dto);
+  getAllTests(): Observable<TestInfo[]> {
+    return this.http.get<TestInfo[]>(`${this.baseUrl}/all-tests`);
   }
-  
+
 }

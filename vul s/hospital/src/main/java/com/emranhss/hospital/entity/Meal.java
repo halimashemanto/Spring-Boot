@@ -19,13 +19,19 @@ public class Meal {
         private Date servedAt;
 
         @ManyToOne
+        @JoinColumn(name = "bed_booking_id")
+        private BedBooking bedBooking;
+
+
+        @ManyToOne
         @JoinColumn(name = "admitted_patient_id")
         private AdmittedPatient admittedPatient;
 
         public Meal() {}
 
-    public Meal(AdmittedPatient admittedPatient, Date servedAt, double mealCost, String mealType, Long id) {
+        public Meal(AdmittedPatient admittedPatient,BedBooking  bedBooking, Date servedAt, double mealCost, String mealType, Long id) {
         this.admittedPatient = admittedPatient;
+        this.bedBooking = bedBooking;
         this.servedAt = servedAt;
         this.mealCost = mealCost;
         this.mealType = mealType;
@@ -66,6 +72,14 @@ public class Meal {
 
     public AdmittedPatient getAdmittedPatient() {
         return admittedPatient;
+    }
+
+    public BedBooking getBedBooking() {
+        return bedBooking;
+    }
+
+    public void setBedBooking(BedBooking bedBooking) {
+        this.bedBooking = bedBooking;
     }
 
     public void setAdmittedPatient(AdmittedPatient admittedPatient) {

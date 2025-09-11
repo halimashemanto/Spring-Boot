@@ -35,11 +35,11 @@ public class TestAdmitedPatient {
     public TestAdmitedPatient() {
     }
 
-    public TestAdmitedPatient(Long id, double testCost, BedBooking bedBooking, AdmittedPatient admittedPatient, List<TestMaster> selectedTests) {
+    public TestAdmitedPatient(Long id, double testCost, BedBooking bedBooking, List<TestMaster> selectedTests) {
         this.id = id;
         this.testCost = testCost;
         this.bedBooking = bedBooking;
-        this.admittedPatient = admittedPatient;
+
         this.selectedTests = selectedTests;
     }
 
