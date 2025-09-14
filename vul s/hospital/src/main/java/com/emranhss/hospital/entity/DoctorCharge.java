@@ -18,6 +18,19 @@ public class DoctorCharge {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    public DoctorCharge(Long id, String description, double amount, Doctor doctor, BedBooking bedBooking, AdmittedPatient admittedPatient) {
+        this.id = id;
+        this.description = description;
+        this.amount = amount;
+        this.doctor = doctor;
+        this.bedBooking = bedBooking;
+        this.admittedPatient = admittedPatient;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "bed_booking_id")
+    private BedBooking bedBooking;
+
     @ManyToOne
     @JoinColumn(name = "admitted_patient_id")
     private AdmittedPatient admittedPatient;
@@ -56,21 +69,19 @@ public class DoctorCharge {
         this.doctor = doctor;
     }
 
+    public BedBooking getBedBooking() {
+        return bedBooking;
+    }
+
+    public void setBedBooking(BedBooking bedBooking) {
+        this.bedBooking = bedBooking;
+    }
+
     public AdmittedPatient getAdmittedPatient() {
         return admittedPatient;
     }
 
     public void setAdmittedPatient(AdmittedPatient admittedPatient) {
         this.admittedPatient = admittedPatient;
-    }
-
-    public DoctorCharge(Long id, String description, double amount, Doctor doctor, AdmittedPatient admittedPatient) {
-        this.id = id;
-        this.description = description;
-        this.amount = amount;
-        this.doctor = doctor;
-        this.admittedPatient = admittedPatient;
-
-
     }
 }

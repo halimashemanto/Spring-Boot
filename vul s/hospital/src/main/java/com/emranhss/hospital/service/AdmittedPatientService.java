@@ -99,7 +99,6 @@ public class AdmittedPatientService {
         DoctorCharge charge = new DoctorCharge();
         charge.setDescription(docDTO.getDescription());
         charge.setAmount(docDTO.getAmount());
-        charge.setAdmittedPatient(patient);
         patient.getDoctorCharges().add(charge);
         return admittedPatientRepository.save(patient);
     }

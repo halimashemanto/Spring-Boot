@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
+
+
     @Autowired
     private IDoctorRepo doctorRepository;
 
@@ -67,6 +69,10 @@ public class DoctorService {
                         d.getDepartment() != null ? d.getDepartment().getDescription() : null
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Doctor> getDoctorByEmail(String email) {
+        return doctorRepository.findByEmail(email);
     }
 
 

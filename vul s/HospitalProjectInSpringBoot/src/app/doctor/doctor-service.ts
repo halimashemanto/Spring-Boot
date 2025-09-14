@@ -1,9 +1,10 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Doctor } from './model/doctor.model';
 import { isPlatformBrowser } from '@angular/common';
+import { DoctorDTO } from '../profile/model/doctorInduvisualProfile.model';
 
 
 @Injectable({
@@ -46,16 +47,101 @@ getDoctorsByDepartment(departmentId: number): Observable<Doctor[]> {
   }
 
 
-  getProfile(): Observable<Doctor> {
+//   getProfile(): Observable<Doctor> {
+//   let headers = new HttpHeaders();
+//   if (isPlatformBrowser(this.platformId)) {
+//     const token = localStorage.getItem('authToken');
+//     if (token) {
+//       headers = headers.set('Authorization', 'Bearer ' + token);
+//     }
+//   }
+
+//   return this.http.get<Doctor>(`${this.baseUrl}profile`, { headers });
+// }
+
+// getProfile(): Observable<DoctorDTO> {
+//     let headers = new HttpHeaders();
+//     if (isPlatformBrowser(this.platformId)) {
+//       const token = localStorage.getItem('authToken');
+//       if (token) {
+//         headers = headers.set('Authorization', 'Bearer ' + token);
+//       }
+//     }
+//     return this.http.get<DoctorDTO>(`${this.baseUrl}profile`, { headers });
+//   }
+
+//   private profileSubject = new BehaviorSubject<DoctorDTO | null>(null);
+
+//  get profile$(): Observable<DoctorDTO | null> {
+//     return this.profileSubject.asObservable();
+//   }
+
+//   private getAuthHeaders(): HttpHeaders {
+//     let headers = new HttpHeaders();
+//     if (isPlatformBrowser(this.platformId)) {
+//       const token = localStorage.getItem('authToken');
+//       if (token) headers = headers.set('Authorization', 'Bearer ' + token);
+//     }
+//     return headers;
+//   }
+
+//   getProfile(): Observable<DoctorDTO> {
+//     return this.http.get<DoctorDTO>(`${this.baseUrl}profile`, { headers: this.getAuthHeaders() });
+//   }
+
+//   loadProfile(): Observable<DoctorDTO> {
+//   return this.getProfile().pipe(
+//     tap(profile => {
+//       this.profileSubject.next(profile);
+//       if (isPlatformBrowser(this.platformId)) {
+//         localStorage.setItem('doctorProfile', JSON.stringify(profile));
+//       }
+//     })
+//   );
+// }
+
+
+
+
+
+private profileSubject = new BehaviorSubject<DoctorDTO | null>(null);
+
+get profile$(): Observable<DoctorDTO | null> {
+  return this.profileSubject.asObservable();
+}
+
+getProfile(): Observable<DoctorDTO> {
   let headers = new HttpHeaders();
   if (isPlatformBrowser(this.platformId)) {
     const token = localStorage.getItem('authToken');
-    if (token) {
-      headers = headers.set('Authorization', 'Bearer ' + token);
-    }
+    if (token) headers = headers.set('Authorization', 'Bearer ' + token);
   }
+  return this.http.get<DoctorDTO>(`${this.baseUrl}profile`, { headers });
+}
 
-  return this.http.get<Doctor>(`${this.baseUrl}profile`, { headers });
+loadProfile(): Observable<DoctorDTO> {
+  return this.getProfile().pipe(
+    tap(profile => {
+      // Photo path ঠিক করা backend অনুযায়ী
+      if (profile.photo) {
+        profile.photo = `http://localhost:8080/images/doctor/${profile.photo}`;
+      } else {
+        profile.photo = 'assets/default-avatar.png'; // default
+      }
+      this.profileSubject.next(profile);
+    })
+  );
+}
+
+
+
+
+getCachedProfile(): DoctorDTO | null {
+  if (isPlatformBrowser(this.platformId)) {
+    const p = localStorage.getItem('doctorProfile');
+    return p ? JSON.parse(p) : null;
+  }
+  return null;
 }
 
 

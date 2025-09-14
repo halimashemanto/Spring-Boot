@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,17 +108,69 @@ public class DoctorRestController {
 
 
 
+//
+//    @GetMapping("profile")
+//    public ResponseEntity<?> getProfile(Authentication authentication) {
+//        System.out.println("Authenticated User: " + authentication.getName());
+//        System.out.println("Authorities: " + authentication.getAuthorities());
+//        String email = authentication.getName();
+//        Optional<User> user =userRepo.findByEmail(email);
+//        Doctor doctor = doctorService.getProfileByUserId(user.get().getId());
+//        return ResponseEntity.ok(doctor);
+//
+//    }
+//
 
-    @GetMapping("profile")
-    public ResponseEntity<?> getProfile(Authentication authentication) {
-        System.out.println("Authenticated User: " + authentication.getName());
-        System.out.println("Authorities: " + authentication.getAuthorities());
-        String email = authentication.getName();
-        Optional<User> user =userRepo.findByEmail(email);
-        Doctor doctor = doctorService.getProfileByUserId(user.get().getId());
-        return ResponseEntity.ok(doctor);
 
+//    @GetMapping("profile")
+//    public ResponseEntity<Doctor> getProfile(@AuthenticationPrincipal UserDetails userDetails) {
+//        if (userDetails == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        String email = userDetails.getUsername(); // এখানে username আসলে তোমার email
+//        Doctor doctor = doctorRepository.findByEmail(email).orElse(null);
+//
+//        if (doctor == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        return ResponseEntity.ok(doctor);
+//    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<DoctorDTO> getProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String email = userDetails.getUsername(); // এখানে username আসলে তোমার email
+        Doctor doctor = doctorRepository.findByEmail(email).orElse(null);
+
+        if (doctor == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // DoctorDTO তে map করা
+        DoctorDTO dto = new DoctorDTO(
+                doctor.getId(),
+                doctor.getName(),
+                doctor.getEmail(),
+                doctor.getPhone(),
+                doctor.getGender(),
+                doctor.getStatus(),
+                doctor.getStudy(),
+                doctor.getChamber(),
+                doctor.getJoinDate(),
+                doctor.getPhoto(),
+                doctor.getDepartment() != null ? doctor.getDepartment().getId() : null,
+                doctor.getDepartment() != null ? doctor.getDepartment().getDepartmentName() : null,
+                doctor.getDepartment() != null ? doctor.getDepartment().getDescription() : null
+        );
+
+        return ResponseEntity.ok(dto);
     }
+
 
 
     @GetMapping("/by-department/{departmentId}")

@@ -1,22 +1,13 @@
-export interface Meal {
-  mealId?: number;
-  mealMasterId: number;
-  bedBookingId: number;
-  servedAt: Date;
-}
+import { MealMaster } from "./mealMaster.model";
 
-export interface MealDTO {
+export interface MealAssign {
+  id?: number;
+  bedBookingId: number;
   patientName?: string;
-  phone?: string;
   age?: number;
+  phone?: string;
   address?: string;
+  mealIds?: number[];
   totalCost?: number;
-  meals?: {
-    mealId: number;
-    mealName: string;
-    mealCategory: string;
-    mealType: string;
-    mealCost: number;
-    servedAt: Date;
-  }[];
+  selectedMeals?: MealMaster[];
 }

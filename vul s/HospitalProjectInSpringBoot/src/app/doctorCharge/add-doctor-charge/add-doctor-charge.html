@@ -1,0 +1,43 @@
+<div style="max-width:600px; margin:auto; padding:20px; border:1px solid #ccc; border-radius:8px;">
+  <h2 style="text-align:center;">Doctor Charges</h2>
+
+  <!-- Form -->
+  <form [formGroup]="form" (ngSubmit)="saveCharge()">
+    <div>
+      <label>Description</label><br>
+      <input formControlName="description" placeholder="Description">
+    </div>
+    <div>
+      <label>Amount</label><br>
+      <input type="number" formControlName="amount" placeholder="Amount">
+    </div>
+    <div>
+      <label>Doctor ID</label><br>
+      <input type="number" formControlName="doctorId" placeholder="Doctor ID">
+    </div>
+    <div>
+      <label>Bed Booking ID</label><br>
+      <input type="number" formControlName="bedBookingId" readonly>
+    </div>
+    <button type="submit" [disabled]="form.invalid" style="margin-top:10px;">Save Charge</button>
+  </form>
+
+  <hr>
+
+  <!-- List of Charges -->
+  <h3>Charges for Bed Booking {{bedBookingId}}</h3>
+  <table border="1" width="100%" cellpadding="5">
+    <tr>
+      <th>ID</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Doctor ID</th>
+    </tr>
+    <tr *ngFor="let c of charges">
+      <td>{{c.id}}</td>
+      <td>{{c.description}}</td>
+      <td>{{c.amount}}</td>
+      <td>{{c.doctorId}}</td>
+    </tr>
+  </table>
+</div>
