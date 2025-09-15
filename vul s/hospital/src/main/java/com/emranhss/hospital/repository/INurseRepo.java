@@ -12,4 +12,6 @@ public interface INurseRepo extends JpaRepository<Nurse, Long> {
 
 
     Optional<Nurse> findByUserId(long userId);
+
+    Optional<Nurse> findByEmail(String email);
 }

@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from '../../environment/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Nurse } from './model/nurse.model';
+import { NurseDTO } from '../profile/model/nurseDTO.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ export class NurseService {
 
   private baseUrl = environment.apiBaseUrl + '/api/nurse/';
 
-  constructor(private http: HttpClient
+  constructor(private http: HttpClient,
+     @Inject(PLATFORM_ID) private platformId: Object
 
 
   ) { }
@@ -31,5 +34,61 @@ export class NurseService {
   getAllNurse(): Observable<Nurse[]> {
     return this.http.get<Nurse[]>(this.baseUrl);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+private profileSubject = new BehaviorSubject<NurseDTO | null>(null);
+
+get profile$(): Observable<NurseDTO | null> {
+  return this.profileSubject.asObservable();
+}
+
+getProfile(): Observable<NurseDTO> {
+  let headers = new HttpHeaders();
+  if (isPlatformBrowser(this.platformId)) {
+    const token = localStorage.getItem('authToken');
+    if (token) headers = headers.set('Authorization', 'Bearer ' + token);
+  }
+  return this.http.get<NurseDTO>(`${this.baseUrl}profile`, { headers });
+}
+
+loadProfile(): Observable<NurseDTO> {
+  return this.getProfile().pipe(
+    tap(profile => {
+     
+      if (profile.photo) {
+        profile.photo = `http://localhost:8080/imagesnurse/${profile.photo}`;
+      } else {
+        profile.photo = 'assets/default-avatar.png';
+      }
+      this.profileSubject.next(profile);
+    })
+  );
+}
+
+
+
+
+getCachedProfile(): NurseDTO | null {
+  if (isPlatformBrowser(this.platformId)) {
+    const p = localStorage.getItem('viewnurse');
+    return p ? JSON.parse(p) : null;
+  }
+  return null;
+}
+
+
+
+
 
 }

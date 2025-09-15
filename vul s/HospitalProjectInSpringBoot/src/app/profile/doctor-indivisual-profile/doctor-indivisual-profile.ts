@@ -15,117 +15,58 @@ export class DoctorIndivisualProfile implements OnInit {
 
 
   constructor(private doctorService: DoctorService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private cd: ChangeDetectorRef
+  ) { }
 
- 
 
-
- profile: DoctorDTO | null = null;
+  profile: DoctorDTO | null = null;
   loading: boolean = true;
   errorMessage: string = '';
 
 
-//  ngOnInit(): void {
-//   const cached = this.doctorService.getCachedProfile();
-//   if (cached) {
-//     this.profile = cached;
-//     this.loading = false;
-//   } else {
-//     this.loadProfileFromServer();
-//   }
-
-//   // Always subscribe to BehaviorSubject for updates
-//   this.doctorService.profile$.subscribe(profile => {
-//     if (profile) this.profile = profile;
-//   });
-// }
-
-
-//   private loadProfileFromServer() {
-//     this.loading = true;
-//     this.doctorService.loadProfile()
-//       .pipe(finalize(() => this.loading = false))
-//       .subscribe({
-//         next: profile => this.profile = profile,
-//         error: err => {
-//           console.error(err);
-//           this.errorMessage = 'Failed to load profile from server';
-//         }
-//       });
-//   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ngOnInit(): void {
-  this.doctorService.profile$.subscribe({
-    next: profile => {
-      if (profile) {
-        this.profile = profile;
-        this.loading = false;
-      } else {
-        this.loadProfileFromServer();
-      }
-    },
-    error: err => {
-      console.error(err);
-      this.errorMessage = 'Failed to load profile';
-      this.loading = false;
-    }
-  });
-}
-
-private loadProfileFromServer() {
-  this.loading = true;
-  this.doctorService.loadProfile()
-    .pipe(finalize(() => this.loading = false))
-    .subscribe({
-      next: profile => this.profile = profile,
+  ngOnInit(): void {
+    this.doctorService.profile$.subscribe({
+      next: profile => {
+        if (profile) {
+          this.profile = profile;
+          this.cd.markForCheck();
+          this.loading = false;
+        } else {
+          this.loadProfileFromServer();
+        }
+      },
       error: err => {
         console.error(err);
-        this.errorMessage = 'Failed to load profile from server';
+        this.errorMessage = 'Failed to load profile';
+        this.loading = false;
       }
     });
-}
-
-
-
-
-
-
-// Component class এর ভিতর
-getStatusColor(status: string): string {
-  switch(status.toLowerCase()) {
-    case 'specialist': return '#4caf50';   // green
-    case 'general physician': return '#ff9800'; // orange
-    case 'consultant': return '#2196f3';   // blue
-    default: return '#9e9e9e';             // gray
   }
-}
+
+  private loadProfileFromServer() {
+    this.loading = true;
+    this.doctorService.loadProfile()
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: profile => this.profile = profile,
+        error: err => {
+          console.error(err);
+          this.errorMessage = 'Failed to load profile from server';
+        }
+      });
+  }
 
 
 
-
-
-
-
-
-
-
+  getStatusColor(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'specialist': return '#4caf50';
+      case 'general physician': return '#ff9800';
+      case 'consultant': return '#2196f3';
+      default: return '#9e9e9e';
+    }
+  }
 
 
   logout() {

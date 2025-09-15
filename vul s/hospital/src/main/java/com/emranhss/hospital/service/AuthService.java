@@ -104,7 +104,7 @@ public class AuthService {
     private void sendActivationEmail(User user) {
         String subject = "Welcome to Our Service – Confirm Your Registration";
 
-        String activationLink="http://localhost:8080/api/user/active/"+user.getId();
+//        String activationLink="http://localhost:8080/api/user/active/"+user.getId();
 
         String mailText = "<!DOCTYPE html>"
                 + "<html>"
@@ -130,7 +130,7 @@ public class AuthService {
                 + "      <br>"
                 + "      <p>Best regards,<br>The Support Team</p>"
                 + "      <p>To Activate Your Account, please click the following link:</p>"
-                + "      <p><a href=\"" + activationLink + "\">Activate Account</a></p>"
+//                + "      <p><a href=\"" + activationLink + "\">Activate Account</a></p>"
                 + "    </div>"
                 + "    <div class='footer'>"
                 + "      &copy; " + java.time.Year.now() + " YourCompany. All rights reserved."
@@ -232,7 +232,7 @@ public class AuthService {
         // 2️⃣ Password encode + role + active
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.Doctor);
-        user.setActive(false);
+        user.setActive(true);
 
         // 3️⃣ Save User
         User savedUser = userRepo.save(user);
@@ -302,7 +302,7 @@ public class AuthService {
         // Encode password before saving User
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.Nurse);
-        user.setActive(false);
+        user.setActive(true);
 
 
         // Save User FIRST and get persisted instance
@@ -370,7 +370,7 @@ public class AuthService {
         // Encode password before saving User
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.OfficeStaff);
-        user.setActive(false);
+        user.setActive(true);
 
         // Save User FIRST and get persisted instance
         User savedUser = userRepo.save(user);
@@ -440,7 +440,7 @@ public class AuthService {
         // Encode password before saving User
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.Receptionist);
-        user.setActive(false);
+        user.setActive(true);
 
         // Save User FIRST and get persisted instance
         User savedUser = userRepo.save(user);

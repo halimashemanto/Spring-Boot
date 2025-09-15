@@ -39,6 +39,8 @@ public class SecurityConfig {
 
                         req.requestMatchers("/api/user/",
                                         "/images/**",
+                                        "/imagesnurse/**",
+                                        "/imagesofficeStaff/**",
                                         "/auth/all",
                                         "/api/doctor/**",
                                         "/api/doctor/",
@@ -92,7 +94,8 @@ public class SecurityConfig {
                                         "/api/meals",
                                         "/api/meals/**",
                                         "/api/doctor-charges",
-                                        "/api/doctor-charges/**"
+                                        "/api/doctor-charges/**",
+                                "/api/nurse/nurseprofile"
 
                                         )
 

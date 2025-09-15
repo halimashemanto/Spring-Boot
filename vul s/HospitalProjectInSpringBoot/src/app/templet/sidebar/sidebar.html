@@ -1,6 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar shadow-lg min-h-screen transition-all duration-500 ease-in-out"
-    id="accordionSidebar"
+<ul class="navbar-nav sidebar shadow-lg min-h-screen transition-all duration-500 ease-in-out" id="accordionSidebar"
     style="background: linear-gradient(to bottom right, #1e293b, #334155); color: white;">
 
     <!-- Sidebar - Brand -->
@@ -54,13 +53,16 @@
         </a>
         <div id="collapseUtilities" class="collapse ml-10">
             <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
-                href="/slot"><i class="fas fa-clock"></i> Schedule Slot</a><br>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
                 href="/appoinment"><i class="fas fa-calendar-plus"></i> Appointment</a><br>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
-                href="/viewAppoinment"><i class="fas fa-eye"></i> View Booking</a> <br>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
-                href="/doctorpdf"><i class="fas fa-file-pdf"></i> PDF</a><br>
+
+            <ng-container *ngIf="isReceptionist()">
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                    href="/slot"><i class="fas fa-clock"></i> Schedule Slot</a><br>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                    href="/viewAppoinment"><i class="fas fa-eye"></i> View Booking</a> <br>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2 transition-transform"
+                    href="/doctorpdf"><i class="fas fa-file-pdf"></i> PDF</a><br>
+            </ng-container>
         </div>
     </li>
 
@@ -72,21 +74,44 @@
             <span>Department</span>
         </a>
         <div id="collapseDept" class="collapse ml-10">
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
-                href="/department"><i class="fas fa-hospital-symbol"></i> Department</a>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
-                href="/test"><i class="fas fa-vials"></i> Test</a> <br>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
-                href="/medicine"><i class="fas fa-pills"></i> Medicine</a> <br>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
-                href="/addpatient"><i class="fas fa-user-injured"></i> Patient</a> <br>
-            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+
+            <ng-container *ngIf="isDoctor()">
+
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                    href="/department"><i class="fas fa-hospital-symbol"></i> Department</a>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                    href="/test"><i class="fas fa-vials"></i> Test</a> <br>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                    href="/medicine"><i class="fas fa-pills"></i> Medicine</a> <br>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                    href="/addpatient"><i class="fas fa-user-injured"></i> Patient</a> <br>
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                    href="/invoice"><i class="fas fa-file-invoice"></i> Invoice</a> <br>
+
+
+
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                    href="/emergency"><i class="fas fa-file-invoice"></i> Emergency Patient</a> <br>
+
+
+            </ng-container>
+
+            <!-- 
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
                 href="/invoice"><i class="fas fa-file-invoice"></i> Invoice</a> <br>
+
+
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/invoice"><i class="fas fa-file-invoice"></i> Invoice</a> <br>
+
+
+                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/invoice"><i class="fas fa-file-invoice"></i> Invoice</a> <br> -->
         </div>
     </li>
 
 
- <!-- profile -->
+    <!-- profile -->
     <li class="nav-item group">
         <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
             data-toggle="collapse" href="#collapseDept">
@@ -98,13 +123,15 @@
                 href="/allprofile"><i class="fas fa-hospital-symbol"></i> All Role </a>
             <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
                 href="/viewdoctor"><i class="fas fa-vials"></i> All Doctors</a> <br>
+                  <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+                href="/viewnurse"><i class="fas fa-vials"></i> All Nurses</a> <br>
             <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
                 href="/doctorprofile"><i class="fas fa-pills"></i> Indivisule Doctor</a> <br>
             <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
                 href="/Np"><i class="fas fa-user-injured"></i> Receptionists</a> <br>
             <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
                 href="/Np"><i class="fas fa-file-invoice"></i> Indivisual Nurses</a> <br>
-                <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
+            <a class="block flex items-center gap-2 px-4 py-1 text-gray-200 hover:text-white hover:translate-x-2"
                 href="/op"><i class="fas fa-file-invoice"></i> Indivisual OfficeStaff</a> <br>
         </div>
     </li>

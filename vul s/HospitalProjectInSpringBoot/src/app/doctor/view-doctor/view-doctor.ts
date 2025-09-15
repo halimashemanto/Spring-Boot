@@ -12,42 +12,12 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './view-doctor.css'
 })
 export class ViewDoctor  {
-
-
-  //      doctor: Doctor[] = [];
-
-
-  // constructor(
-  //   private doctorService: DoctorService
-  // ) { }
-
-  // ngOnInit(): void {
-
-  //   this.loadDoctors();
-  // }
-
-
- 
- 
-  // loadDoctors(): void {
-  //   this.doctorService.getAllDoctor().subscribe({
-  //     next: (data) => {
-  //       console.log("User data loaded:", data); 
-  //       this.doctor = data;
-  //     },
-  //     error: (err) => {
-  //       console.error("Error fetching users", err);
-  //     }
-  //   });
-  // }
-
-
-
-  
   
   doctors: Doctor[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private cdr:ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getDoctors();
@@ -58,6 +28,7 @@ export class ViewDoctor  {
       .subscribe({
         next: (res) => {
           this.doctors = res;
+          this.cdr.markForCheck();
         },
         error: (err) => {
           console.error('Doctor data load error:', err);

@@ -47,63 +47,6 @@ getDoctorsByDepartment(departmentId: number): Observable<Doctor[]> {
   }
 
 
-//   getProfile(): Observable<Doctor> {
-//   let headers = new HttpHeaders();
-//   if (isPlatformBrowser(this.platformId)) {
-//     const token = localStorage.getItem('authToken');
-//     if (token) {
-//       headers = headers.set('Authorization', 'Bearer ' + token);
-//     }
-//   }
-
-//   return this.http.get<Doctor>(`${this.baseUrl}profile`, { headers });
-// }
-
-// getProfile(): Observable<DoctorDTO> {
-//     let headers = new HttpHeaders();
-//     if (isPlatformBrowser(this.platformId)) {
-//       const token = localStorage.getItem('authToken');
-//       if (token) {
-//         headers = headers.set('Authorization', 'Bearer ' + token);
-//       }
-//     }
-//     return this.http.get<DoctorDTO>(`${this.baseUrl}profile`, { headers });
-//   }
-
-//   private profileSubject = new BehaviorSubject<DoctorDTO | null>(null);
-
-//  get profile$(): Observable<DoctorDTO | null> {
-//     return this.profileSubject.asObservable();
-//   }
-
-//   private getAuthHeaders(): HttpHeaders {
-//     let headers = new HttpHeaders();
-//     if (isPlatformBrowser(this.platformId)) {
-//       const token = localStorage.getItem('authToken');
-//       if (token) headers = headers.set('Authorization', 'Bearer ' + token);
-//     }
-//     return headers;
-//   }
-
-//   getProfile(): Observable<DoctorDTO> {
-//     return this.http.get<DoctorDTO>(`${this.baseUrl}profile`, { headers: this.getAuthHeaders() });
-//   }
-
-//   loadProfile(): Observable<DoctorDTO> {
-//   return this.getProfile().pipe(
-//     tap(profile => {
-//       this.profileSubject.next(profile);
-//       if (isPlatformBrowser(this.platformId)) {
-//         localStorage.setItem('doctorProfile', JSON.stringify(profile));
-//       }
-//     })
-//   );
-// }
-
-
-
-
-
 private profileSubject = new BehaviorSubject<DoctorDTO | null>(null);
 
 get profile$(): Observable<DoctorDTO | null> {

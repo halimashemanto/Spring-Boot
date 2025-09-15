@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { User } from '../../AllModel/user.model';
 import { UserService } from '../../Service/user-service';
 
@@ -15,7 +15,8 @@ export class AllUserProfile {
 
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private cdr:ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -31,6 +32,7 @@ export class AllUserProfile {
       next: (data) => {
         console.log("User data loaded:", data); 
         this.users = data;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error("Error fetching users", err);

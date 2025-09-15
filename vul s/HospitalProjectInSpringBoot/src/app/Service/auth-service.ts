@@ -10,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class AuthService {
-  
+
   private baseUrl = environment.apiBaseUrl + '/auth/';
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -114,8 +114,21 @@ export class AuthService {
 
   }
 
-   isDoctor(): boolean {
+  isDoctor(): boolean {
     return this.getUserRole() === 'Doctor';
   }
+
+  isNurse(): boolean {
+    return this.getUserRole() === 'Nurse';
+  }
+
+  isReceptionist(): boolean {
+    return this.getUserRole() === 'Receptionist';
+  }
+
+  isOfficeStaff(): boolean {
+    return this.getUserRole() === 'OfficeStaff';
+  }
+
 
 }

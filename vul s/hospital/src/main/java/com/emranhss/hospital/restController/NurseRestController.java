@@ -2,6 +2,7 @@ package com.emranhss.hospital.restController;
 
 
 
+import com.emranhss.hospital.dto.NurseDTO;
 import com.emranhss.hospital.entity.Nurse;
 import com.emranhss.hospital.entity.User;
 
@@ -77,6 +78,18 @@ public class NurseRestController {
         return ResponseEntity.ok(nurseList);
 
     }
+
+
+    @GetMapping("nurseprofile")
+
+    public ResponseEntity<NurseDTO> getNurseProfile(Authentication authentication) {
+
+        String email = authentication.getName(); // logged-in user's email
+        NurseDTO nurseDTO = nurseService.getNurseProfile(email);
+        return ResponseEntity.ok(nurseDTO);
+
+    }
+
 
 
     @GetMapping("profile")

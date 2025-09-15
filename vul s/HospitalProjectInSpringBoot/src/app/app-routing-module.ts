@@ -39,6 +39,7 @@ import { AddTestMaster } from './testMaster/add-test-master/add-test-master';
 import { AddMealMaster } from './mealMaster/add-meal-master/add-meal-master';
 import { AddMeal } from './mealMaster/add-meal/add-meal';
 import { AddDoctorCharge } from './doctorCharge/add-doctor-charge/add-doctor-charge';
+import { ViewNurse } from './nurse/view-nurse/view-nurse';
 
 const routes: Routes = [
 
@@ -91,6 +92,7 @@ const routes: Routes = [
   { path: 'doctorprofile', component: DoctorIndivisualProfile },
   { path: 'viewdoctor', component: ViewDoctor },
   { path: 'viewdoc', component: ViewDoctor },
+  { path: 'viewnurse', component: ViewNurse },
 
 
 

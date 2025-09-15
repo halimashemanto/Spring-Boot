@@ -15,13 +15,11 @@ public class NurseDTO {
     private String workingHours;
     private String photo;
     private Date joinDate;
-    private Long userId;
+
 
     public NurseDTO() {}
 
-    public NurseDTO(long id, String name, String email, String phone, String address,
-                    String nurseType, String gender, String shift, String workingHours,
-                    String photo, Date joinDate, Long userId) {
+    public NurseDTO(long id, String name, String email, String phone, String address, String nurseType, String gender, String shift, String workingHours, String photo, Date joinDate) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -33,7 +31,6 @@ public class NurseDTO {
         this.workingHours = workingHours;
         this.photo = photo;
         this.joinDate = joinDate;
-        this.userId = userId;
     }
 
     public long getId() {
@@ -122,13 +119,5 @@ public class NurseDTO {
 
     public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }
