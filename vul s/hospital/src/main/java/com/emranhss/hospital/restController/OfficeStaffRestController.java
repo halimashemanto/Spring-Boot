@@ -1,5 +1,7 @@
 package com.emranhss.hospital.restController;
 
+import com.emranhss.hospital.dto.NurseDTO;
+import com.emranhss.hospital.dto.OfficeStaffDTO;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.Nurse;
 import com.emranhss.hospital.entity.OfficeStaff;
@@ -71,8 +73,8 @@ public class OfficeStaffRestController {
 
     @GetMapping("all")
     public ResponseEntity<List<OfficeStaff>> getAllUsers() {
-        List<OfficeStaff> nurseList = officeStaffService.getAll();
-        return ResponseEntity.ok(nurseList);
+        List<OfficeStaff> officeStaffs = officeStaffService.getAll();
+        return ResponseEntity.ok(officeStaffs);
 
     }
 
@@ -85,6 +87,18 @@ public class OfficeStaffRestController {
         Optional<User> user =userRepo.findByEmail(email);
         OfficeStaff officeStaff = officeStaffService.getProfileByUserId(user.get().getId());
         return ResponseEntity.ok(officeStaff);
+
+    }
+
+
+
+    @GetMapping("officestaffprofile")
+
+    public ResponseEntity<OfficeStaffDTO> getOfficeStaffProfile(Authentication authentication) {
+
+        String email = authentication.getName();
+        OfficeStaffDTO officeStaffDTO = officeStaffService.getOfficeStaffProfile(email);
+        return ResponseEntity.ok(officeStaffDTO);
 
     }
 

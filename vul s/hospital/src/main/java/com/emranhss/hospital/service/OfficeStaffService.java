@@ -1,6 +1,8 @@
 package com.emranhss.hospital.service;
 
 
+import com.emranhss.hospital.dto.NurseDTO;
+import com.emranhss.hospital.dto.OfficeStaffDTO;
 import com.emranhss.hospital.entity.Doctor;
 import com.emranhss.hospital.entity.Nurse;
 import com.emranhss.hospital.entity.OfficeStaff;
@@ -40,5 +42,35 @@ public class OfficeStaffService {
         return officeStaffRepo.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Office Staff not found"));
     }
+
+
+
+
+    public OfficeStaffDTO getOfficeStaffProfile(String email) {
+        OfficeStaff officeStaff = officeStaffRepo.findByEmail(email).orElse(null);
+        return mapToDTO(officeStaff);
+    }
+
+
+
+    private OfficeStaffDTO mapToDTO(OfficeStaff officeStaff) {
+        if (officeStaff == null) return null;
+
+        OfficeStaffDTO dto = new OfficeStaffDTO();
+        dto.setId(officeStaff.getId());
+        dto.setName(officeStaff.getName());
+        dto.setEmail(officeStaff.getEmail());
+        dto.setPhone(officeStaff.getPhone());
+        dto.setGender(officeStaff.getGender());
+        dto.setPosition(officeStaff.getPosition());
+        dto.setAge(officeStaff.getAge());
+        dto.setDepartment(officeStaff.getDepartment());
+        dto.setWorkingHours(officeStaff.getWorkingHours());
+        dto.setJoinDate(officeStaff.getJoinDate());
+        dto.setPhoto(officeStaff.getPhoto());
+
+        return dto;
+    }
+
 
 }

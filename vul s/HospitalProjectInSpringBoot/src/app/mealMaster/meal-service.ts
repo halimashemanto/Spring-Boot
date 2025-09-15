@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {   MealAssign} from './model/meal.model';
+import {   MealAdmittedPatient, MealDTO} from './model/meal.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 
@@ -8,22 +8,23 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class MealService {
-
-  private baseUrl = environment.apiBaseUrl + '/api/meals';
+ private baseUrl = environment.apiBaseUrl + '/api/meals';
   private mealMasterUrl = environment.apiBaseUrl + '/api/meal-masters';
 
   constructor(private http: HttpClient) { }
 
-getPatientByBed(bedBookingId: number): Observable<MealAssign> {
-    return this.http.get<MealAssign>(`${this.baseUrl}/by-bed/${bedBookingId}`);
+  // Assign meals to patient
+  assignMeals(dto: { bedBookingId: number; mealIds: number[] }): Observable<MealDTO> {
+    return this.http.post<MealDTO>(this.baseUrl, dto);
   }
 
-  saveMealAssign(dto: MealAssign): Observable<MealAssign> {
-    return this.http.post<MealAssign>(`${this.baseUrl}/assign`, dto);
+  // Get patient by bedBookingId
+  getPatientByBed(bedBookingId: number): Observable<MealDTO> {
+    return this.http.get<MealDTO>(`${this.baseUrl}/bedbooking/${bedBookingId}`);
   }
 
   // Delete a meal by id
   deleteMeal(mealId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/api/meals/${mealId}`);
+    return this.http.delete(`${this.baseUrl}/${mealId}`);
   }
 }

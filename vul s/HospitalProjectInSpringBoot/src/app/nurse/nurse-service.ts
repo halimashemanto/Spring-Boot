@@ -35,18 +35,6 @@ export class NurseService {
     return this.http.get<Nurse[]>(this.baseUrl);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
 private profileSubject = new BehaviorSubject<NurseDTO | null>(null);
 
 get profile$(): Observable<NurseDTO | null> {

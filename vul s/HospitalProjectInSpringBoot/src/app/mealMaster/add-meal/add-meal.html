@@ -1,0 +1,115 @@
+<div class="container" style="max-width:800px;margin:auto;padding:20px;background:#f9f9f9;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);font-family:Arial,sans-serif;">
+
+  <h2 style="text-align:center;color:#2c3e50;font-size:26px;margin-bottom:25px;">Assign Meals to Admitted Patient</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()" style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- Bed Booking ID -->
+    <div style="display:flex;flex-direction:column;">
+      <label style="font-weight:bold;margin-bottom:4px;">Bed Booking ID:</label>
+      <input type="number" formControlName="bedBookingId" placeholder="Enter Bed Booking ID"
+             style="padding:10px;border:1px solid #ccc;border-radius:8px;transition:0.3s;outline:none;"
+             onfocus="this.style.borderColor='#3498db';" onblur="this.style.borderColor='#ccc';">
+    </div>
+
+    <!-- Patient Details -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+      <div>
+        <label style="font-weight:bold;">Name:</label>
+        <input type="text" formControlName="patientName" readonly
+               style="padding:8px;width:100%;border:1px solid #ccc;border-radius:8px;background:#eaeaea;">
+      </div>
+      <div>
+        <label style="font-weight:bold;">Age:</label>
+        <input type="number" formControlName="age" readonly
+               style="padding:8px;width:100%;border:1px solid #ccc;border-radius:8px;background:#eaeaea;">
+      </div>
+      <div>
+        <label style="font-weight:bold;">Phone:</label>
+        <input type="text" formControlName="phone" readonly
+               style="padding:8px;width:100%;border:1px solid #ccc;border-radius:8px;background:#eaeaea;">
+      </div>
+      <div>
+        <label style="font-weight:bold;">Address:</label>
+        <input type="text" formControlName="address" readonly
+               style="padding:8px;width:100%;border:1px solid #ccc;border-radius:8px;background:#eaeaea;">
+      </div>
+        <div>
+        <label style="font-weight:bold;">Date:</label>
+        <input type="date" formControlName="servedAt" 
+               style="padding:8px;width:100%;border:1px solid #ccc;border-radius:8px;background:#eaeaea;">
+      </div>
+    </div>
+
+    <!-- Category & Type Filter -->
+    <div style="display:flex;gap:15px;">
+      <div style="flex:1;">
+        <label style="font-weight:bold;">Category:</label>
+        <select formControlName="category" style="padding:8px;width:100%;border-radius:6px;border:1px solid #ccc;">
+          <option value="">Select Category</option>
+        <option *ngFor="let c of allCategories" [value]="c">{{c}}</option>
+
+        </select>
+      </div>
+      <div style="flex:1;">
+        <label style="font-weight:bold;">Type:</label>
+        <select formControlName="type" style="padding:8px;width:100%;border-radius:6px;border:1px solid #ccc;">
+          <option value="">Select Type</option>
+          <option *ngFor="let t of filteredTypes" [value]="t">{{t}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Meal Selection -->
+    <div *ngIf="form.value.category && form.value.type">
+      <label style="font-weight:bold;margin-bottom:8px;display:block;">Available Meals:</label>
+      <div *ngFor="let m of getMealsByType()" style="margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+        <input type="checkbox"
+               [checked]="isMealSelected(m.id!)"
+               (change)="toggleMeal($event, m)"
+               style="width:18px;height:18px;border-radius:4px;border:1px solid #3498db;cursor:pointer;transition:0.3s;">
+        <span style="font-size:14px;color:#2c3e50;">{{m.name}} ({{m.price | currency}})</span>
+      </div>
+    </div>
+
+    <!-- Selected Meals Table -->
+    <div formArrayName="meals" *ngIf="meals.length > 0" style="margin-top:15px;">
+      <h4 style="color:#2c3e50;margin-bottom:10px;font-weight:bold;">Selected Meals</h4>
+      <table style="width:100%;border-collapse:collapse;box-shadow:0 2px 10px rgba(0,0,0,0.05);border-radius:8px;overflow:hidden;">
+        <thead style="background:#3498db;color:white;">
+          <tr>
+            <th style="padding:10px;text-align:left;">Meal Name</th>
+            <th style="padding:10px;text-align:left;">Price</th>
+            <th style="padding:10px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of meals.controls; let i=index" [formGroupName]="i" style="border-bottom:1px solid #ddd;transition:0.3s;" 
+              onmouseover="this.style.backgroundColor='#f0f8ff';" onmouseout="this.style.backgroundColor='white';">
+            <td style="padding:8px;"><input type="text" formControlName="name" readonly style="width:100%;padding:4px;border-radius:6px;border:1px solid #ccc;background:#f4f4f4;"></td>
+            <td style="padding:8px;"><input type="number" formControlName="price" readonly style="width:100%;padding:4px;border-radius:6px;border:1px solid #ccc;background:#f4f4f4;"></td>
+            <td style="padding:8px;text-align:center;">
+              <button type="button" (click)="removeMeal(i)"
+                      style="padding:6px 12px;background:#e74c3c;color:white;border:none;border-radius:6px;cursor:pointer;transition:0.3s;"
+                      onmouseover="this.style.backgroundColor='#c0392b';" onmouseout="this.style.backgroundColor='#e74c3c';">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="text-align:right;margin-top:8px;font-weight:bold;color:#2c3e50;">Total: <span style="color:#e67e22;">{{totalCost | currency}}</span></p>
+    </div>
+
+    <!-- Save Button -->
+    <div style="text-align:center;margin-top:15px;">
+      <button type="submit"
+              style="padding:12px 30px;background:#2ecc71;color:white;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:all 0.3s;"
+              onmouseover="this.style.transform='scale(1.05)';this.style.backgroundColor='#27ae60';"
+              onmouseout="this.style.transform='scale(1)';this.style.backgroundColor='#2ecc71';">
+        Save Meals
+      </button>
+    </div>
+
+  </form>
+</div>

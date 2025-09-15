@@ -95,7 +95,9 @@ public class SecurityConfig {
                                         "/api/meals/**",
                                         "/api/doctor-charges",
                                         "/api/doctor-charges/**",
-                                "/api/nurse/nurseprofile"
+                                        "/api/nurse/nurseprofile",
+                                        "/api/officeStaff/officestaffprofile",
+                                        "/api/receptionist/receptionistprofile"
 
                                         )
 

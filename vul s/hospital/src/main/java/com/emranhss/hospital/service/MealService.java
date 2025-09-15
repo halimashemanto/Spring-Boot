@@ -12,6 +12,7 @@ import com.emranhss.hospital.repository.IMealMasterRepo;
 import com.emranhss.hospital.repository.IMealRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,24 +36,73 @@ public class MealService {
     @Autowired
     private IAdmittedPatientRepo admittedPatientRepository;
 
+    @Transactional
+    public MealDTO assignMeals(MealDTO dto) {
+        BedBooking bedBooking = bedBookingRepo.findById(dto.getBedBookingId())
+                .orElseThrow(() -> new RuntimeException("BedBooking not found"));
+
+        List<Meal> savedMeals = new ArrayList<>();
+
+        // Collect mealMasterIds
+        List<Long> mealIds = new ArrayList<>();
+        if (dto.getMeals() != null && !dto.getMeals().isEmpty()) {
+            for (MealDTO m : dto.getMeals()) {
+                if (m.getMealMasterId() != null) mealIds.add(m.getMealMasterId());
+            }
+        } else if (dto.getMealMasterId() != null) {
+            mealIds.add(dto.getMealMasterId());
+        }
+
+// === Eta loop er jaygay bosao ===
+        for (Long mealId : mealIds) {
+            MealMaster master = mealMasterRepo.findById(mealId)
+                    .orElseThrow(() -> new RuntimeException("MealMaster not found"));
+            Meal meal = new Meal();
+            meal.setBedBooking(bedBooking);
+            meal.setMealMaster(master);
+            meal.setMealCost(master.getPrice());
+            meal.setServedAt(new Date());
+
+            // Set admitted patient if exists
+            if (dto.getAdmittedPatientId() != null) {
+                AdmittedPatient patient = admittedPatientRepository.findById(dto.getAdmittedPatientId())
+                        .orElseThrow(() -> new RuntimeException("AdmittedPatient not found"));
+                meal.setAdmittedPatient(patient);
+            }
+
+            savedMeals.add(mealRepo.save(meal));
+        }
 
 
+        // Prepare response
+        MealDTO result = new MealDTO();
+        result.setPatientName(bedBooking.getPatientName());
+        result.setAge(bedBooking.getAge());
+        result.setPhone(bedBooking.getPhone());
+        result.setAddress(bedBooking.getAddress());
 
-    public Meal saveMeal(MealDTO dto) {
-        Meal meal = new Meal();
+        List<MealDTO> mealDTOList = new ArrayList<>();
+        double total = 0;
+        for (Meal m : savedMeals) {
+            MealDTO mdto = new MealDTO();
+            mdto.setMealId(m.getId());
+            mdto.setMealName(m.getMealMaster().getName());
+            mdto.setMealCategory(m.getMealMaster().getCategory());
+            mdto.setMealType(m.getMealMaster().getType());
+            mdto.setMealCost(m.getMealCost());
+            mdto.setServedAt(m.getServedAt());
 
-        MealMaster master = mealMasterRepo.findById(dto.getMealMasterId()).orElseThrow(() -> new RuntimeException("MealMaster not found"));
-        BedBooking bedBooking = bedBookingRepo.findById(dto.getBedBookingId()).orElseThrow(() -> new RuntimeException("BedBooking not found"));
+            mealDTOList.add(mdto);
+            total += m.getMealCost();
+        }
 
-        meal.setMealMaster(master);
-        meal.setBedBooking(bedBooking);
-        meal.setMealCost(master.getPrice());
-        meal.setServedAt(dto.getServedAt());
+        result.setMeals(mealDTOList);
+        result.setTotalCost(total);
 
-        return mealRepo.save(meal);
+        return result;
     }
 
-    // Fetch all meals by BedBooking ID
+
     public MealDTO getMealsByBedBooking(Long bedBookingId) {
         List<Meal> meals = mealRepo.findByBedBookingId(bedBookingId);
 

@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface IOfficeStaffRepo extends JpaRepository<OfficeStaff,Long> {
 
     Optional<OfficeStaff> findByUserId(long userId);
+
+
+    Optional<OfficeStaff> findByEmail(String email);
 }

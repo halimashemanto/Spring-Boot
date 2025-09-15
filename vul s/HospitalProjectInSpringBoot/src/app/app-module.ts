@@ -51,6 +51,8 @@ import { AddMealMaster } from './mealMaster/add-meal-master/add-meal-master';
 import { AddMeal } from './mealMaster/add-meal/add-meal';
 import { AddDoctorCharge } from './doctorCharge/add-doctor-charge/add-doctor-charge';
 import { ViewNurse } from './nurse/view-nurse/view-nurse';
+import { ViewOfficeStaff } from './officeStaff/view-office-staff/view-office-staff';
+import { ViewReceptionists } from './receptionist/view-receptionists/view-receptionists';
 
 @NgModule({
   declarations: [
@@ -99,7 +101,9 @@ import { ViewNurse } from './nurse/view-nurse/view-nurse';
         AddMealMaster,
         AddMeal,
         AddDoctorCharge,
-        ViewNurse
+        ViewNurse,
+        ViewOfficeStaff,
+        ViewReceptionists
   ],
   imports: [
     BrowserModule,
