@@ -2,6 +2,7 @@ package com.emranhss.hospital.restController;
 
 
 import com.emranhss.hospital.dto.DoctorChargeDTO;
+import com.emranhss.hospital.dto.PatientDoctorChargeDTO;
 import com.emranhss.hospital.service.DoctorChargeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +16,21 @@ public class DoctorChargeRestController {
     @Autowired
     private DoctorChargeService service;
 
-    public DoctorChargeRestController(DoctorChargeService service) {
-        this.service = service;
+
+    @PostMapping
+    public DoctorChargeDTO addCharge(@RequestBody DoctorChargeDTO dto) {
+        return service.addCharge(dto);
     }
 
-    @GetMapping("/by-bed/{bedBookingId}")
-    public List<DoctorChargeDTO> getCharges(@PathVariable Long bedBookingId) {
-        return service.getChargesByBedBooking(bedBookingId);
+    @GetMapping("/bed/{bedBookingId}")
+    public PatientDoctorChargeDTO getPatientCharges(@PathVariable Long bedBookingId) {
+        return service.getPatientCharges(bedBookingId);
     }
 
-    @PostMapping("/save")
-    public DoctorChargeDTO saveCharge(@RequestBody DoctorChargeDTO dto) {
-        return service.saveCharge(dto);
+    @DeleteMapping("/{id}")
+    public void deleteCharge(@PathVariable Long id) {
+        service.deleteCharge(id);
     }
-
 
 
 }

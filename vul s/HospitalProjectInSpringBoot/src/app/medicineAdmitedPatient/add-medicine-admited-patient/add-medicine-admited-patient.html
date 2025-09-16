@@ -1,0 +1,127 @@
+<div class="container mt-4">
+  <!-- 🔹 BedBooking ID Input -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="bedBookingId" class="form-label">Bed Booking ID</label>
+      <input type="number"
+             id="bedBookingId"
+             class="form-control"
+             [(ngModel)]="bedBookingId"
+             (change)="loadPatientDetails()"
+             placeholder="Enter Bed Booking ID">
+    </div>
+  </div>
+
+  <!-- 🔹 Patient Info -->
+  <div *ngIf="patientDetails?.patientName" class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Patient Information</h5>
+      <p><strong>Name:</strong> {{ patientDetails.patientName }}</p>
+      <p><strong>Age:</strong> {{ patientDetails.age }}</p>
+      <p><strong>Phone:</strong> {{ patientDetails.phone }}</p>
+      <p><strong>Address:</strong> {{ patientDetails.address }}</p>
+    </div>
+  </div>
+
+  <!-- 🔹 Existing Medicines -->
+  <div *ngIf="patientDetails.medicines?.length > 0" class="mb-4">
+    <h5>Existing Medicines</h5>
+    <table class="table table-bordered table-sm">
+      <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Selling Price</th>
+          <th>Quantity</th>
+          <th>Apply Way</th>
+          <th>Total Cost</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of patientDetails.medicines">
+          <td>{{ m.medicineName }}</td>
+          <td>{{ m.sellingPrice }}</td>
+          <td>{{ m.quantity }}</td>
+          <td>{{ m.applyWay }}</td>
+          <td>{{ m.totalCost }}</td>
+          <td>{{ m.date | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🔹 New Medicines Form -->
+  <form [formGroup]="form">
+    <div formArrayName="medicines">
+      <div *ngFor="let med of medicineForms.controls; let i = index" [formGroupName]="i" class="card mb-3 shadow-sm">
+        <div class="card-body row g-3 align-items-center">
+
+          <!-- Medicine Select -->
+          <div class="col-md-3">
+            <label class="form-label">Medicine</label>
+            <select class="form-select"
+                    formControlName="pharmacyMedicineId"
+                    (change)="onMedicineChange(i)">
+              <option value="">-- Select Medicine --</option>
+              <option *ngFor="let m of medicines" [value]="m.id">{{ m.name }}</option>
+            </select>
+          </div>
+
+          <!-- Selling Price -->
+          <div class="col-md-2">
+            <label class="form-label">Price</label>
+            <input type="number" class="form-control" formControlName="sellingPrice" readonly>
+          </div>
+
+          <!-- Quantity -->
+          <div class="col-md-2">
+            <label class="form-label">Qty</label>
+            <input type="number" class="form-control" formControlName="quantity" (input)="onQuantityChange(i)">
+          </div>
+
+          <!-- Apply Way -->
+          <div class="col-md-2">
+            <label class="form-label">Apply Way</label>
+            <input type="text" class="form-control" formControlName="applyWay" placeholder="e.g. Oral / IV">
+          </div>
+
+          <!-- Total Cost -->
+          <div class="col-md-2">
+            <label class="form-label">Total</label>
+            <input type="number" class="form-control" formControlName="totalCost" readonly>
+          </div>
+
+          <!-- Remove Button -->
+          <div class="col-md-1 d-flex align-items-end">
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeMedicineRow(i)">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- 🔹 Add Medicine Row Button -->
+  <div class="mb-3">
+    <button class="btn btn-primary" type="button" (click)="addMedicineRow()">+ Add Medicine</button>
+  </div>
+
+  <!-- 🔹 Save Button -->
+  <div class="mb-3">
+    <button class="btn btn-success" type="button" (click)="saveMedicines()" [disabled]="!bedBookingId || medicineForms.length === 0">
+      💾 Save Medicines
+    </button>
+  </div>
+
+  <!-- 🔹 Total Cost -->
+  <div class="alert alert-info">
+    <h5>Total Cost: {{ totalCost }}</h5>
+  </div>
+
+  <!-- 🔹 Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+</div>

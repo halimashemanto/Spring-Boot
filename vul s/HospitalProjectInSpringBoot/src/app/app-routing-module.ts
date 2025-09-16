@@ -43,6 +43,8 @@ import { ViewNurse } from './nurse/view-nurse/view-nurse';
 import { ViewOfficeStaff } from './officeStaff/view-office-staff/view-office-staff';
 import { ViewReceptionists } from './receptionist/view-receptionists/view-receptionists';
 import { ViewDepartment } from './department/view-department/view-department';
+import { AddOthersCharge } from './othersCharge/add-others-charge/add-others-charge';
+import { AddMedicineAdmitedPatient } from './medicineAdmitedPatient/add-medicine-admited-patient/add-medicine-admited-patient';
 
 const routes: Routes = [
 
@@ -126,6 +128,8 @@ const routes: Routes = [
   { path: 'mm', component: AddMealMaster },
   { path: 'mmm', component: AddMeal },
   { path: 'adc', component: AddDoctorCharge },
+  { path: 'aoc', component: AddOthersCharge },
+  { path: 'amap', component: AddMedicineAdmitedPatient },
 
 
 

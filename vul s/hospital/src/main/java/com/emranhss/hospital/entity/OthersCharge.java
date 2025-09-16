@@ -14,17 +14,30 @@ public class OthersCharge {
     private double amount;
 
     @ManyToOne
+    @JoinColumn(name = "bed_booking_id")
+    private BedBooking bedBooking;
+
+    @ManyToOne
     @JoinColumn(name = "admitted_patient_id")
     private AdmittedPatient admittedPatient;
 
     public OthersCharge() {
     }
 
-    public OthersCharge(Long id, String description, double amount, AdmittedPatient admittedPatient) {
+    public OthersCharge(Long id, String description, double amount, BedBooking bedBooking, AdmittedPatient admittedPatient) {
         this.id = id;
         this.description = description;
         this.amount = amount;
+        this.bedBooking = bedBooking;
         this.admittedPatient = admittedPatient;
+    }
+
+    public BedBooking getBedBooking() {
+        return bedBooking;
+    }
+
+    public void setBedBooking(BedBooking bedBooking) {
+        this.bedBooking = bedBooking;
     }
 
     public Long getId() {

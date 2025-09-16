@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2 class="text-center mb-3">Patient Doctor Charges</h2>
+  <h2 class="text-center mb-3">Patient Others Charges</h2>
 
   <!-- BedBooking ID Input -->
   <div class="mb-3">
@@ -20,20 +20,11 @@
   <!-- Add Charge Form -->
   <form [formGroup]="form" (ngSubmit)="addCharge()" *ngIf="patientCharges">
     <div class="row g-2">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <input type="text" class="form-control" placeholder="Description" formControlName="description">
       </div>
-      <div class="col-md-3">
-        <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
-      </div>
       <div class="col-md-4">
-        <select class="form-control" formControlName="doctorId">
-          <option value="" disabled selected>Select Doctor</option>
-          <option *ngFor="let d of doctors" [value]="d.id">{{ d.name }}</option>
-        </select>
-      </div>
-      <div class="col-md-3">
-        <input type="date" class="form-control" formControlName="visitDate">
+        <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
       </div>
       <div class="col-md-2">
         <button class="btn btn-primary w-100" type="submit">Add</button>
@@ -48,8 +39,6 @@
         <th>#</th>
         <th>Description</th>
         <th>Amount</th>
-        <th>Doctor Name</th>
-        <th>Visit Date</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -58,15 +47,13 @@
         <td>{{ i + 1 }}</td>
         <td>{{ c.description }}</td>
         <td>{{ c.amount | currency:'BDT' }}</td>
-        <td>{{ c.doctorName }}</td>
-        <td>{{ c.visitDate | date:'short' }}</td>
         <td>
           <button class="btn btn-danger btn-sm" (click)="deleteCharge(c.id!)">Delete</button>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="text-end"><strong>Total</strong></td>
-        <td colspan="4"><strong>{{ patientCharges.totalAmount | currency:'BDT' }}</strong></td>
+        <td colspan="2"><strong>{{ patientCharges.totalAmount | currency:'BDT' }}</strong></td>
       </tr>
     </tbody>
   </table>

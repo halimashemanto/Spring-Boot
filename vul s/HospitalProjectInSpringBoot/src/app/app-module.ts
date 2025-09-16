@@ -54,6 +54,8 @@ import { ViewNurse } from './nurse/view-nurse/view-nurse';
 import { ViewOfficeStaff } from './officeStaff/view-office-staff/view-office-staff';
 import { ViewReceptionists } from './receptionist/view-receptionists/view-receptionists';
 import { ViewDepartment } from './department/view-department/view-department';
+import { AddOthersCharge } from './othersCharge/add-others-charge/add-others-charge';
+import { AddMedicineAdmitedPatient } from './medicineAdmitedPatient/add-medicine-admited-patient/add-medicine-admited-patient';
 
 @NgModule({
   declarations: [
@@ -105,7 +107,9 @@ import { ViewDepartment } from './department/view-department/view-department';
         ViewNurse,
         ViewOfficeStaff,
         ViewReceptionists,
-        ViewDepartment
+        ViewDepartment,
+        AddOthersCharge,
+        AddMedicineAdmitedPatient
   ],
   imports: [
     BrowserModule,

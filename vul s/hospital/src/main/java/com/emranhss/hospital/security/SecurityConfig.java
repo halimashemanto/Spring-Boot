@@ -97,7 +97,11 @@ public class SecurityConfig {
                                         "/api/doctor-charges/**",
                                         "/api/nurse/nurseprofile",
                                         "/api/officeStaff/officestaffprofile",
-                                        "/api/receptionist/receptionistprofile"
+                                        "/api/receptionist/receptionistprofile",
+                                        "/api/others-charges",
+                                        "/api/others-charges/**",
+                                        "/api/medicine-admitted",
+                                        "/api/medicine-admitted/**"
 
                                         )
 

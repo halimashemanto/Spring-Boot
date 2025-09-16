@@ -1,14 +1,14 @@
 package com.emranhss.hospital.service;
 
 
-import com.emranhss.hospital.dto.DoctorChargeDTO;
-import com.emranhss.hospital.dto.PatientDoctorChargeDTO;
+import com.emranhss.hospital.dto.OthersChargeDTO;
+import com.emranhss.hospital.dto.PatientOthersChargeDTO;
+import com.emranhss.hospital.entity.AdmittedPatient;
 import com.emranhss.hospital.entity.BedBooking;
-import com.emranhss.hospital.entity.Doctor;
-import com.emranhss.hospital.entity.DoctorCharge;
+import com.emranhss.hospital.entity.OthersCharge;
+import com.emranhss.hospital.repository.IAdmittedPatientRepo;
 import com.emranhss.hospital.repository.IBedBookingRepo;
-import com.emranhss.hospital.repository.IDoctorChargeRepo;
-import com.emranhss.hospital.repository.IDoctorRepo;
+import com.emranhss.hospital.repository.IOthersChargeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +16,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DoctorChargeService {
+public class OthersChargeService {
+
 
     @Autowired
-    private IDoctorChargeRepo repo;
-
-    @Autowired
-    private IDoctorRepo doctorRepo;
+    private IOthersChargeRepo othersChargeRepo;
 
     @Autowired
     private IBedBookingRepo bedBookingRepo;
 
+    @Autowired
+    private IAdmittedPatientRepo admittedPatientRepo;
 
-    // Add single DoctorCharge
-    public DoctorChargeDTO addCharge(DoctorChargeDTO dto) {
-        DoctorCharge charge = new DoctorCharge();
+    // Add single OthersCharge
+    public OthersChargeDTO addCharge(OthersChargeDTO dto) {
+        OthersCharge charge = new OthersCharge();
         charge.setDescription(dto.getDescription());
         charge.setAmount(dto.getAmount());
 
@@ -38,50 +38,51 @@ public class DoctorChargeService {
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
         charge.setBedBooking(bedBooking);
 
-        Doctor doctor = doctorRepo.findById(dto.getDoctorId())
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-        charge.setDoctor(doctor);
 
-        // Visit Date
-        charge.setVisitDate(dto.getVisitDate());
-
-        DoctorCharge saved = repo.save(charge);
+        OthersCharge saved = othersChargeRepo.save(charge);
         dto.setId(saved.getId());
         return dto;
     }
 
-
     // Get all charges for a BedBooking
-    public PatientDoctorChargeDTO getPatientCharges(Long bedBookingId) {
+    public PatientOthersChargeDTO getPatientCharges(Long bedBookingId) {
         BedBooking bedBooking = bedBookingRepo.findById(bedBookingId)
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
+        AdmittedPatient patient = bedBooking.getAdmittedPatient();
 
-        List<DoctorCharge> charges = repo.findByBedBookingId(bedBookingId);
-        double total = charges.stream().mapToDouble(DoctorCharge::getAmount).sum();
+        List<OthersCharge> charges = othersChargeRepo.findByBedBookingId(bedBookingId);
 
-        PatientDoctorChargeDTO dto = new PatientDoctorChargeDTO();
+        double total = charges.stream().mapToDouble(OthersCharge::getAmount).sum();
+
+        PatientOthersChargeDTO dto = new PatientOthersChargeDTO();
         dto.setBedBookingId(bedBookingId);
+
+// Patient details directly from bedBooking
         dto.setPatientName(bedBooking.getPatientName());
         dto.setAge(bedBooking.getAge());
         dto.setPhone(bedBooking.getPhone());
         dto.setAddress(bedBooking.getAddress());
 
+// Charges
         dto.setCharges(charges.stream().map(c -> {
-            DoctorChargeDTO cDto = new DoctorChargeDTO();
+            OthersChargeDTO cDto = new OthersChargeDTO();
             cDto.setId(c.getId());
-            cDto.setDescription(c.getDescription());
             cDto.setAmount(c.getAmount());
+            cDto.setDescription(c.getDescription());
             cDto.setBedBookingId(c.getBedBooking().getId());
-            cDto.setDoctorId(c.getDoctor().getId());
-            cDto.setVisitDate(c.getVisitDate());
+
             return cDto;
         }).collect(Collectors.toList()));
 
+// Total calculation
         dto.setTotalAmount(total);
+
         return dto;
+
     }
 
-    public void deleteCharge(Long id) {
-        repo.deleteById(id);
+
+    public void deleteCharge(Long chargeId){
+        othersChargeRepo.deleteById(chargeId);
     }
 }

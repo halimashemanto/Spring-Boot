@@ -1,12 +1,34 @@
 package com.emranhss.hospital.dto;
 
+import java.util.Date;
+
 public class MedicineAdmitedPatientDTO {
+
 
     private Long id;
     private String medicineName;
-    private int quantity;
+    private double sellingPrice;
     private String applyWay;
-    private double medicineCost;
+    private int quantity;
+    private double totalCost;
+    private Date date;
+    private Long bedBookingId;
+    private Long pharmacyMedicineId;
+
+    public MedicineAdmitedPatientDTO() {}
+
+    public MedicineAdmitedPatientDTO(Long id, String medicineName, double sellingPrice, String applyWay, int quantity, double totalCost, Date date, Long bedBookingId, Long pharmacyMedicineId) {
+        this.id = id;
+        this.medicineName = medicineName;
+        this.sellingPrice = sellingPrice;
+        this.applyWay = applyWay;
+        this.quantity = quantity;
+        this.totalCost = totalCost;
+        this.date = date;
+        this.bedBookingId = bedBookingId;
+        this.pharmacyMedicineId = pharmacyMedicineId;
+    }
+
 
     public Long getId() {
         return id;
@@ -14,6 +36,14 @@ public class MedicineAdmitedPatientDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getPharmacyMedicineId() {
+        return pharmacyMedicineId;
+    }
+
+    public void setPharmacyMedicineId(Long pharmacyMedicineId) {
+        this.pharmacyMedicineId = pharmacyMedicineId;
     }
 
     public String getMedicineName() {
@@ -24,12 +54,12 @@ public class MedicineAdmitedPatientDTO {
         this.medicineName = medicineName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public double getSellingPrice() {
+        return sellingPrice;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 
     public String getApplyWay() {
@@ -40,11 +70,35 @@ public class MedicineAdmitedPatientDTO {
         this.applyWay = applyWay;
     }
 
-    public double getMedicineCost() {
-        return medicineCost;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setMedicineCost(double medicineCost) {
-        this.medicineCost = medicineCost;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Long getBedBookingId() {
+        return bedBookingId;
+    }
+
+    public void setBedBookingId(Long bedBookingId) {
+        this.bedBookingId = bedBookingId;
     }
 }

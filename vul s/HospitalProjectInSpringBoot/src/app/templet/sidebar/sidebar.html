@@ -24,7 +24,7 @@
         </a>
     </li>
 
-    <!-- Registration & Login -->
+    <!-- Registration & Login
     <li class="nav-item group">
         <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
             data-toggle="collapse" href="#collapseRegistration">
@@ -48,7 +48,7 @@
                 <i class="fas fa-sign-in-alt"></i> Login
             </a>
         </div>
-    </li>
+    </li> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
@@ -62,11 +62,11 @@
         </a>
         <div id="collapseAppointment" class="collapse ml-10">
             <a href="/appoinment"><i class="fas fa-calendar-plus"></i> Appointment</a><br>
-            <ng-container *ngIf="isReceptionist()">
+            <!-- <ng-container *ngIf="isReceptionist()"> -->
                 <a href="/slot"><i class="fas fa-clock"></i> Schedule Slot</a><br>
                 <a href="/viewAppoinment"><i class="fas fa-eye"></i> View Booking</a><br>
                 <a href="/doctorpdf"><i class="fas fa-file-pdf"></i> PDF</a><br>
-            </ng-container>
+            <!-- </ng-container> -->
         </div>
     </li>
 
@@ -166,6 +166,10 @@
             <a href="/mmm"><i class="fas fa-plus-circle"></i> Add Meal</a><br>
             <a href="/at"><i class="fas fa-vials"></i> Tests At</a><br>
             <a href="/atm"><i class="fas fa-flask"></i> Test Master</a><br>
+              <a href="/amap"><i class="fas fa-flask"></i> Medicine AP</a><br>
+            <a href="/adc"><i class="fas fa-flask"></i> Doctor Charge</a><br>
+            <a href="/aoc"><i class="fas fa-flask"></i> Others Charge</a><br>
+          
         </div>
     </li>
 

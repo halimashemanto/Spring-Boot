@@ -101,6 +101,114 @@
       .grid-3{grid-template-columns:1fr}
       .footer-grid{grid-template-columns:1fr}
     }
+
+
+     h1,h2,h3,strong{
+      font-weight:800;
+      color:#0c4a6e;
+    }
+    h2{
+      background:linear-gradient(90deg,#0ea5e9,#22c55e,#f59e0b);
+      color:white !important;
+      padding:10px;
+      border-radius:12px;
+      text-align:center;
+      margin-bottom:15px;
+    }
+
+
+       /* Buttons */
+    .btn{
+      background:linear-gradient(45deg,#0ea5e9,#22c55e);
+      border:none;
+      color:white;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:700;
+      transition:all 0.3s;
+    }
+    .btn:hover{
+      transform:scale(1.05);
+      box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    }
+    .btn.secondary{
+      background:linear-gradient(45deg,#f59e0b,#fbbf24);
+      color:#fff;
+    }
+
+
+/* Common container */
+.container {
+  max-width: 1200px; /* চাইলে 1140px / 1000px করতে পারো */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Navbar */
+.nav {
+  background: linear-gradient(90deg, #0ea5e9 0%, #7dd3fc 100%);
+  padding: 14px 0; /* উপরে-নিচে padding, container handle করবে side space */
+  box-shadow: 0 4px 12px rgba(2,132,199,0.18);
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+}
+.nav .logo {
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+}
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+.nav ul li a {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  letter-spacing: 0.6px;
+  padding: 6px 6px;
+  transition: transform .15s ease, opacity .15s ease;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+}
+.nav ul li a:hover {
+  transform: translateY(-3px);
+  opacity: 0.95;
+  color: #fff;
+}
+.nav .btn {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+  font-weight: 900;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.nav .btn:hover {
+  background: #ffffff;
+  color: #0ea5e9;
+  box-shadow: 0 6px 16px rgba(14,165,233,0.18);
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(135deg,#0f172a,#1e293b);
+  color: #ffffff;
+  padding: 40px 0;
+  text-align: center;
+}
+footer strong {
+  color: #facc15;
+}
+
   </style>
 <!-- </head> -->
 <!-- <body> -->
@@ -183,6 +291,32 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+
+
+
+
+
+
+ section {
+    padding: 60px 0;
+  }
+  .section-light {
+    background: #f9fafb;
+  }
+  .section-dark {
+    background: #f0f9ff;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .section-title {
+    text-align: center;
+    background: #0ea5e9;
+    color: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+  }
 </style>
 
 
@@ -218,7 +352,7 @@
 
   <!-- Services -->
   <!-- <section id="services" aria-labelledby="services-title"> -->
-    <div class="container">
+    <div class="">
        <h2 style="text-align:center;background:#0ea5e9;color:#fff;padding:10px;border-radius:12px;">Our Services</h2>
       <p class="section-sub">Comprehensive healthcare services including Diagnostics, Inpatient & Outpatient Care, Surgery, Maternity Services, and more.</p>
       <div class="grid grid-3">
@@ -258,7 +392,7 @@
 
   <!-- Doctors -->
   <section id="doctors" aria-labelledby="doctors-title" style="background:#f0f9ff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0">
-    <div class="container">
+    <div class="">
       <!-- <h2 class="section-title" style="text-align: center; background-color: #0ea5e9; " id="doctors-title">Specialist Doctors</h2> -->
         <h2 style="text-align:center;background:#0ea5e9;color:#fff;padding:10px;border-radius:12px;">Specialist Doctor's</h2>
       <p class="section-sub">Our team consists of experienced and certified consultants.</p>
@@ -404,7 +538,7 @@
 
   <!-- Testimonials -->
  <!-- <section aria-labelledby="testimonials-title" style="background:#fff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0"> --> 
-    <div class="container">
+    <div class="">
       <!-- <h2 class="section-title"  style="text-align: center; background-color: #0ea5e9; " id="testimonials-title">Patient Testimonials</h2> -->
         <h2 style="text-align:center;background:#0ea5e9;color:#fff;padding:10px;border-radius:12px;">Patient Testimonials</h2>
       <div class="grid grid-3">
@@ -426,14 +560,14 @@
 
   <!-- Contact -->
   <section id="contact" aria-labelledby="contact-title"> 
-    <div class="container">
+    <div class="">
       <!-- <h2 class="section-title"  style="text-align: center; background-color: #0ea5e9; "id="contact-title">Contact With Us</h2> -->
         <h2 style="text-align:center;background:#0ea5e9;color:#fff;padding:10px;border-radius:12px;">Contact With Us</h2>
       <p class="section-sub">Hotline: 10600 • E-mail: healthCareofBangladesh@gmail.com</p>
       <div class="grid" style="grid-template-columns: 1.1fr .9fr; gap:18px">
         <div class="card">
           <h3 style="margin-top:0">Hospital Address</h3>
-          <p>House 12, Road 7, Dhanmondi, Dhaka-1205</p>
+          <p>House 12, Road 7, Azimpur, Dhaka-1205</p>
           <p class="muted">Operating 24 Hours Daily</p>
           <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0">
           <h3>Hotline</h3>
@@ -442,9 +576,19 @@
           <p>healthCareofBangladesh@gmail.com</p>
         </div>
         <div class="card" aria-label="Map placeholder">
-          <div style="background:#e2e8f0;border-radius:10px;height:260px;display:grid;place-items:center;color:#334155">
-            মানচিত্র এমবেড করুন (Google Maps iframe)
-          </div>
+         <!-- Map Embed -->
+<div style="background:#e2e8f0;border-radius:10px;overflow:hidden;height:260px;">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.45374637499!2d90.38256387480407!3d23.7351864892531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b95ae1d5f2a7%3A0xa9bdb61c4de8e4f7!2sAzimpur%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1726501300000!5m2!1sen!2sbd" 
+    width="100%" 
+    height="260" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
         </div>
       </div>
     </div>
@@ -452,14 +596,15 @@
 
   <!-- Footer -->
   <footer role="contentinfo">
-    <div class="container" style="padding:28px 0">
+    <div class="" style="padding:28px 0">
       <div class="footer-grid">
-        <div>
+        
           <div class="brand" style="margin-bottom:10px">
             <span class="brand-badge" aria-hidden="true">＋</span>
             <span>Health Care of Bangladesh</span>
-          </div>
-          <p style="margin:0;color:#cbd5e1">Trust, Hope & Healing — Your Health Our Priority.</p>
+          
+          <p style="margin:0;color:#cbd5e1"><b>**Trust, Hope & Healing</b> </p>
+          <p style="margin:0;color:#cbd5e1"><b>— Your Health Our Priority.**</b></p>
         </div>
         <div>
           <strong>Fast Access Links</strong>
