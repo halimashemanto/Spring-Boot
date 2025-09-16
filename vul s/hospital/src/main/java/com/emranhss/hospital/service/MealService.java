@@ -38,20 +38,36 @@ public class MealService {
 
     @Transactional
     public MealDTO assignMeals(MealDTO dto) {
+
         BedBooking bedBooking = bedBookingRepo.findById(dto.getBedBookingId())
                 .orElseThrow(() -> new RuntimeException("BedBooking not found"));
+
+
+        System.out.println("Bed Booking "+ bedBooking);
 
         List<Meal> savedMeals = new ArrayList<>();
 
         // Collect mealMasterIds
         List<Long> mealIds = new ArrayList<>();
-        if (dto.getMeals() != null && !dto.getMeals().isEmpty()) {
-            for (MealDTO m : dto.getMeals()) {
-                if (m.getMealMasterId() != null) mealIds.add(m.getMealMasterId());
-            }
-        } else if (dto.getMealMasterId() != null) {
-            mealIds.add(dto.getMealMasterId());
-        }
+
+        mealIds.addAll(dto.getMealIds());
+
+        System.out.println("mealIds 444444444444444444444444444444444"+mealIds);
+
+//        List<Long> mealIds = dto.getMealIds() != null ? dto.getMealIds() : new ArrayList<>();
+
+
+
+//        if (dto.getMeals() != null && !dto.getMeals().isEmpty()) {
+//            System.out.println("44444444444444444444444444444444444444444444444444444");
+//            for (MealDTO m : dto.getMeals()) {
+//                System.out.println("555555555555555555555555555555555555555555555555555");
+//                if (m.getMealMasterId() != null) mealIds.add(m.getMealMasterId());
+//            }
+//        } else if (dto.getMealMasterId() != null) {
+//            System.out.println("666666666666666666666666666666666666666666666");
+//            mealIds.add(dto.getMealMasterId());
+//        }
 
 // === Eta loop er jaygay bosao ===
         for (Long mealId : mealIds) {
@@ -70,7 +86,9 @@ public class MealService {
                 meal.setAdmittedPatient(patient);
             }
 
+            System.out.println("Meal 3333333333333333333333"+ meal );
             savedMeals.add(mealRepo.save(meal));
+            System.out.println("Saved Meal 222222222222222222222222222222222222222"+ savedMeals.toString());
         }
 
 
@@ -84,6 +102,7 @@ public class MealService {
         List<MealDTO> mealDTOList = new ArrayList<>();
         double total = 0;
         for (Meal m : savedMeals) {
+
             MealDTO mdto = new MealDTO();
             mdto.setMealId(m.getId());
             mdto.setMealName(m.getMealMaster().getName());
@@ -101,6 +120,9 @@ public class MealService {
 
         return result;
     }
+
+
+
 
 
     public MealDTO getMealsByBedBooking(Long bedBookingId) {

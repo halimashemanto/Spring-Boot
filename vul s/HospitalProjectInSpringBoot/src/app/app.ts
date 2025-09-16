@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from './Service/auth-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +12,14 @@ import { NavigationEnd, Router } from '@angular/router';
 export class App {
   protected title = 'HospitalProjectInSpringBoot';
 
-  //  showSidebar = true;
+   loginStatus$: Observable<string | null>;
+
+  constructor(public authService: AuthService) {
+    // now BehaviorSubject is already initialized from localStorage
+    this.loginStatus$ = this.authService.userRole$;
+  }
+
   
-  // constructor(private router: Router) {
-  //   this.router.events.subscribe(event => {
-  //     if (event instanceof NavigationEnd) {
-  //       const hcbRoutes = event.url.startsWith('/punblicNav/') || event.url.startsWith('/medicine/**') || event.url.startsWith('/PublicNav/');
-  //       this.showSidebar = hcbRoutes;
-  //     }
-  //   });
-  // }
+ 
+
 }

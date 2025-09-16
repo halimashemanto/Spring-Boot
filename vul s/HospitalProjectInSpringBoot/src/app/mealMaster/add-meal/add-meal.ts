@@ -30,7 +30,7 @@ export class AddMeal {
       age: [''],
       phone: [''],
       address: [''],
-       servedAt: [''],
+      servedAt: [''],
       category: ['', Validators.required],
       type: ['', Validators.required],
       meals: this.fb.array([])
@@ -38,23 +38,23 @@ export class AddMeal {
   }
 
   ngOnInit(): void {
-  // Load all meals from master
-  this.loadMeals();
+    // Load all meals from master
+    this.loadMeals();
 
-  // 🟢 BedBooking ID changes → load patient automatically
-  this.form.get('bedBookingId')?.valueChanges.subscribe(id => {
-    if(id) this.loadPatient(Number(id));
-    else this.resetPatientInfo();
-  });
+    // 🟢 BedBooking ID changes → load patient automatically
+    this.form.get('bedBookingId')?.valueChanges.subscribe(id => {
+      if (id) this.loadPatient(Number(id));
+      else this.resetPatientInfo();
+    });
 
-  // Category change → filter types
-  this.form.get('category')?.valueChanges.subscribe(cat => {
-    if(cat) {
-      this.filteredTypes = [...new Set(this.allMeals.filter(m => m.category === cat).map(m => m.type))];
-      this.form.patchValue({ type: '' });
-    }
-  });
-}
+    // Category change → filter types
+    this.form.get('category')?.valueChanges.subscribe(cat => {
+      if (cat) {
+        this.filteredTypes = [...new Set(this.allMeals.filter(m => m.category === cat).map(m => m.type))];
+        this.form.patchValue({ type: '' });
+      }
+    });
+  }
 
   get meals(): FormArray {
     return this.form.get('meals') as FormArray;
@@ -75,63 +75,63 @@ export class AddMeal {
     this.meals.clear();
     this.totalCost = 0;
   }
-loadPatient(bedBookingId: number) {
-  this.mealAdmittedService.getPatientByBed(bedBookingId).subscribe({
-    next: (p: MealDTO) => {
-      if (!p) {
+  loadPatient(bedBookingId: number) {
+    this.mealAdmittedService.getPatientByBed(bedBookingId).subscribe({
+      next: (p: MealDTO) => {
+        if (!p) {
+          this.resetPatientInfo();
+          alert('No patient found for this BedBooking ID');
+          return;
+        }
+
+        // Patch form fields
+        this.form.patchValue({
+          patientName: p.patientName || '',
+          age: p.age || '',
+          phone: p.phone || '',
+          address: p.address || ''
+        });
+
+        // Map DTO → MealAdmittedPatient
+        this.patientDetails = {
+          bedBookingId,
+          patientName: p.patientName,
+          age: p.age,
+          phone: p.phone,
+          address: p.address,
+          selectedMeals: (p.meals || []).map(m => ({
+            id: m.mealId!,
+            name: m.mealName!,
+            category: m.mealCategory!,
+            type: m.mealType!,
+            price: m.mealCost!
+          })),
+          totalCost: p.totalCost
+        };
+
+        // Clear FormArray & prefill selected meals
+        this.meals.clear();
+        (this.patientDetails.selectedMeals || []).forEach(m =>
+          this.meals.push(this.fb.group({
+            mealId: [m.id],
+            name: [m.name],
+            price: [m.price]
+          }))
+        );
+
+        this.calculateTotal();
+      },
+      error: err => {
+        console.error('Error loading patient:', err);
         this.resetPatientInfo();
-        alert('No patient found for this BedBooking ID');
-        return;
       }
-
-      // Patch form fields
-      this.form.patchValue({
-        patientName: p.patientName || '',
-        age: p.age || '',
-        phone: p.phone || '',
-        address: p.address || ''
-      });
-
-      // Map DTO → MealAdmittedPatient
-      this.patientDetails = {
-        bedBookingId,
-        patientName: p.patientName,
-        age: p.age,
-        phone: p.phone,
-        address: p.address,
-        selectedMeals: (p.meals || []).map(m => ({
-          id: m.mealId!,
-          name: m.mealName!,
-          category: m.mealCategory!,
-          type: m.mealType!,
-          price: m.mealCost!
-        })),
-        totalCost: p.totalCost
-      };
-
-      // Clear FormArray & prefill selected meals
-      this.meals.clear();
-      (this.patientDetails.selectedMeals || []).forEach(m =>
-        this.meals.push(this.fb.group({
-          mealId: [m.id],
-          name: [m.name],
-          price: [m.price]
-        }))
-      );
-
-      this.calculateTotal();
-    },
-    error: err => {
-      console.error('Error loading patient:', err);
-      this.resetPatientInfo();
-    }
-  });
-}
+    });
+  }
 
 
   get allCategories(): string[] {
-  return Array.from(new Set(this.allMeals.map(m => m.category)));
-}
+    return Array.from(new Set(this.allMeals.map(m => m.category)));
+  }
 
 
   getMealsByType(): MealMaster[] {
@@ -141,7 +141,7 @@ loadPatient(bedBookingId: number) {
   }
 
   toggleMeal(event: any, meal: MealMaster) {
-    if(event.target.checked) {
+    if (event.target.checked) {
       this.meals.push(this.fb.group({
         mealId: [meal.id],
         name: [meal.name],
@@ -149,7 +149,7 @@ loadPatient(bedBookingId: number) {
       }));
     } else {
       const index = this.meals.controls.findIndex(c => c.value.mealId === meal.id);
-      if(index !== -1) this.meals.removeAt(index);
+      if (index !== -1) this.meals.removeAt(index);
     }
     this.calculateTotal();
   }
@@ -170,11 +170,20 @@ loadPatient(bedBookingId: number) {
   }
 
   save() {
-    if(!this.form.value.bedBookingId) return alert('Please enter BedBooking ID!');
+    if (!this.form.value.bedBookingId) return alert('Please enter BedBooking ID!');
     const dto = {
       bedBookingId: this.form.value.bedBookingId,
-      mealIds: this.meals.controls.map(c => c.value.mealId)
+      mealIds: this.form.value.meals.map((c: any) => Number(c.mealId)),
+
+      servedAt: this.form.value.servedAt,
+      type: this.form.value.type
+
     };
+
+    // 👇 Log as formatted JSON
+    console.log('DTO Payload:', JSON.stringify(dto, null, 2));
+
+    
     this.mealAdmittedService.assignMeals(dto).subscribe(res => {
       alert('Meals assigned successfully!');
       this.loadPatient(this.form.value.bedBookingId);
@@ -183,145 +192,4 @@ loadPatient(bedBookingId: number) {
 
 
 }
-
-  
-//   form: FormGroup;
-//   allMeals: MealMaster[] = [];
-//   filteredTypes: string[] = [];
-//   totalCost: number = 0;
-//   patientDetails?: MealAdmittedPatient;
-
-//   constructor(
-//     private fb: FormBuilder,
-//     private mealMasterService: MealMasterService,
-//     private mealAdmittedService: MealService
-//   ) {
-//     this.form = this.fb.group({
-//       bedBookingId: ['', Validators.required],
-//       patientName: [''],
-//       age: [''],
-//       phone: [''],
-//       address: [''],
-//       category: ['', Validators.required],
-//       type: ['', Validators.required],
-//       meals: this.fb.array([])
-//     });
-//   }
-
-//   ngOnInit(): void {
-//     this.loadMeals();
-
-//     this.form.get('bedBookingId')?.valueChanges.subscribe(id => {
-//       if (id) this.loadPatient(id);
-//     });
-
-//     this.form.get('category')?.valueChanges.subscribe(cat => {
-//       if (cat) {
-//         this.filteredTypes = [...new Set(this.allMeals.filter(m => m.category === cat).map(m => m.type))];
-//         this.form.patchValue({ type: '' });
-//       }
-//     });
-//   }
-
-//   get meals(): FormArray {
-//     return this.form.get('meals') as FormArray;
-//   }
-
-//   loadMeals() {
-//     this.mealMasterService.getAll().subscribe(data => this.allMeals = data);
-//   }
-
-
-// loadPatient(bedBookingId: number) {
-//   console.log('Loading patient for bed:', bedBookingId);
-//   this.mealAdmittedService.getPatientByBed(bedBookingId).subscribe({
-//     next: p => {
-//       console.log('Patient response:', p);
-//       if (!p) {
-//         alert('No patient found for this BedBooking ID');
-//         this.form.patchValue({
-//           patientName: '',
-//           age: '',
-//           phone: '',
-//           address: ''
-//         });
-//         this.meals.clear();
-//         this.totalCost = 0;
-//         return;
-//       }
-
-//       this.patientDetails = p;
-//       this.form.patchValue({
-//         patientName: p.patientName,
-//         age: p.age,
-//         phone: p.phone,
-//         address: p.address
-//       });
-
-//       this.meals.clear();
-//       this.totalCost = 0;
-//       (p.selectedMeals || []).forEach(m => this.meals.push(this.fb.group({
-//         mealId: [m.id],
-//         name: [m.name],
-//         price: [m.price]
-//       })));
-
-//       this.calculateTotal();
-//     },
-//     error: err => console.error('Error loading patient:', err)
-//   });
-// }
-
-
-//   getMealsByType(): MealMaster[] {
-//     const cat = this.form.value.category;
-//     const type = this.form.value.type;
-//     return this.allMeals.filter(m => m.category === cat && m.type === type);
-//   }
-
-//   toggleMeal(event: any, meal: MealMaster) {
-//     if (event.target.checked) {
-//       this.meals.push(this.fb.group({
-//         mealId: [meal.id],
-//         name: [meal.name],
-//         price: [meal.price]
-//       }));
-//     } else {
-//       const index = this.meals.controls.findIndex(c => c.value.mealId === meal.id);
-//       if (index !== -1) this.meals.removeAt(index);
-//     }
-//     this.calculateTotal();
-//   }
-
-//   calculateTotal() {
-//     this.totalCost = this.meals.controls
-//       .map(c => c.value.price)
-//       .reduce((a, b) => a + b, 0);
-//   }
-
-//   isMealSelected(mealId: number): boolean {
-//   return this.meals.controls.some(c => c.value.mealId === mealId);
-// }
-
-
-//   save() {
-//     const dto = {
-//       bedBookingId: this.form.value.bedBookingId,
-//       mealIds: this.meals.controls.map(c => c.value.mealId)
-//     };
-//     this.mealAdmittedService.assignMeals(dto).subscribe(res => {
-//       alert('Meals assigned successfully!');
-//       this.loadPatient(this.form.value.bedBookingId);
-//     });
-//   }
-
-//   removeMeal(index: number) {
-//     this.meals.removeAt(index);
-//     this.calculateTotal();
-//   }
-
-
-
-
-
 

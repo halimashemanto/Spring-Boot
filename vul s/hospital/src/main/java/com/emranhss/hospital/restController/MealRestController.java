@@ -30,6 +30,7 @@ public class MealRestController {
     public MealDTO assignMealsToPatient(@RequestBody MealDTO dto){
 
         return mealService.assignMeals(dto);
+
     }
 
     @GetMapping("/bedbooking/{id}")

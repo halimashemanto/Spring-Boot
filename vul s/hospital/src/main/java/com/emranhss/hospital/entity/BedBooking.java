@@ -134,4 +134,22 @@ public class BedBooking {
     public void setAdmittedPatient(AdmittedPatient admittedPatient) {
         this.admittedPatient = admittedPatient;
     }
+
+
+    @Override
+    public String toString() {
+        return "BedBooking{" +
+                "id=" + id +
+                ", patientName='" + patientName + '\'' +
+                ", age=" + age +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", broughtBy='" + broughtBy + '\'' +
+                ", admissionDate=" + admissionDate +
+                ", dischargeDate=" + dischargeDate +
+                ", totalCharge=" + totalCharge +
+                ", bed=" + bed +
+                ", admittedPatient=" + admittedPatient +
+                '}';
+    }
 }

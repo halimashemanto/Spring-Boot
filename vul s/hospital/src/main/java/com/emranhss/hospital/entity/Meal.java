@@ -93,6 +93,19 @@ public class Meal {
     public void setAdmittedPatient(AdmittedPatient admittedPatient) {
         this.admittedPatient = admittedPatient;
     }
+
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", mealCost=" + mealCost +
+                ", servedAt=" + servedAt +
+                ", mealMaster=" + mealMaster +
+                ", bedBooking=" + bedBooking +
+                ", admittedPatient=" + admittedPatient +
+                '}';
+    }
 }
 
 

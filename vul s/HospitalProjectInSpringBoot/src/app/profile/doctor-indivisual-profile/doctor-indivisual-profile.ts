@@ -4,6 +4,7 @@ import { DoctorService } from '../../doctor/doctor-service';
 import { AuthService } from '../../Service/auth-service';
 import { DoctorDTO } from '../model/doctorInduvisualProfile.model';
 import { BehaviorSubject, finalize, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-indivisual-profile',
@@ -16,7 +17,8 @@ export class DoctorIndivisualProfile implements OnInit {
 
   constructor(private doctorService: DoctorService,
     private authService: AuthService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) { }
 
 
@@ -71,6 +73,9 @@ export class DoctorIndivisualProfile implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['']);
+
+
   }
 
 

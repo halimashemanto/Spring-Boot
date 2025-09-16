@@ -20,11 +20,19 @@ export class AuthService {
   public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
 
 
+
+
   constructor(
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {
+
+    const storedRole = this.isBrowser() ? localStorage.getItem('userRole') : null;
+    this.userRoleSubject = new BehaviorSubject<string | null>(storedRole);
+    this.userRole$ = this.userRoleSubject.asObservable();
+
+  }
 
 
   login(email: string, password: string): Observable<AuthResponse> {

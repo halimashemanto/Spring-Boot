@@ -42,6 +42,7 @@ import { AddDoctorCharge } from './doctorCharge/add-doctor-charge/add-doctor-cha
 import { ViewNurse } from './nurse/view-nurse/view-nurse';
 import { ViewOfficeStaff } from './officeStaff/view-office-staff/view-office-staff';
 import { ViewReceptionists } from './receptionist/view-receptionists/view-receptionists';
+import { ViewDepartment } from './department/view-department/view-department';
 
 const routes: Routes = [
 
@@ -69,6 +70,7 @@ const routes: Routes = [
   //Appointment Part
   { path: 'slot', component: ScheduleSlot },
   { path: 'department', component: Department },
+  { path: 'viewdep', component: ViewDepartment },
   { path: 'appoinment', component: AddApooinment },
   { path: 'viewAppoinment', component: ViewAllAppointment },
   { path: 'doctorpdf', component: IndivisualDoctorAppointment },
@@ -93,7 +95,7 @@ const routes: Routes = [
   { path: 'allprofile', component: AllUserProfile },
   { path: 'doctorprofile', component: DoctorIndivisualProfile },
   { path: 'viewdoctor', component: ViewDoctor },
-  { path: 'viewdoc', component: ViewDoctor },
+  
   { path: 'viewnurse', component: ViewNurse },
   { path: 'viewofficestaff', component: ViewOfficeStaff },
   { path: 'viewreceptionists', component: ViewReceptionists },

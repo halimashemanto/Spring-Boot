@@ -35,7 +35,8 @@ export class AddDoctor implements OnInit {
       study: ['', Validators.required],
       chamber: ['', Validators.required],
       departmentId: ['', Validators.required],
-      joinDate: ['', Validators.required]
+      joinDate: ['', Validators.required],
+     
     });
   }
 
@@ -77,7 +78,8 @@ export class AddDoctor implements OnInit {
       joinDate: this.doctorForm.value.joinDate,
       study: this.doctorForm.value.study,
       chamber: this.doctorForm.value.chamber,
-      department: { id: this.doctorForm.value.departmentId } // nested object
+      department: { id: this.doctorForm.value.departmentId }, // nested object
+      phone: this.userForm.value.phone
     };
 
     this.doctorService.registerDoctor(user, doctor, this.photoFile).subscribe({

@@ -113,14 +113,78 @@
       </a>
       <button class="menu-btn" aria-label="Toggle Menu" onclick="toggleMenu()">☰</button>
       <div class="nav-links" id="navLinks">
+        
         <a href="#services">Service</a>
-        <a href="#doctors">Doctor</a>
-        <a href="/department">Department</a>
-        <a href="#contact">Contact</a>
-        <a class="nav-cta" href="/appoinment">Appointment</a>
+        <a href="/viewdoctor">Doctor's</a>
+        <a href="/viewdep">Department</a>
+        <a href="/login">Login</a>
+
+         <!-- <a class="nav-cta" href="/login">Login</a> -->
+        
+       
+
+         
+ 
+
+       <!-- Login Dropdown -->
+      <div class="dropdown">
+        <a  href="#" class="dropbtn">Registration▾</a>
+        <div class="dropdown-content">
+         
+          <a class="nav-cta" href="/doc"><b>Doctor</b> </a>
+          <a href="/nr"><b>Nurse</b> </a>
+          <a href="/rr"><b>Receptionist</b> </a>
+          <a href="/or"><b>Office-Staff</b> </a>
+          
+        </div>
+        
       </div>
     </div>
+         </div>
   </nav>
+
+
+
+
+<style>
+/* Dropdown base */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 14px;
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 14px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background: #f5f5f5;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+
 
   <!-- Hero -->
   <header class="hero">

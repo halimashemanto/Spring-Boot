@@ -53,6 +53,7 @@ import { AddDoctorCharge } from './doctorCharge/add-doctor-charge/add-doctor-cha
 import { ViewNurse } from './nurse/view-nurse/view-nurse';
 import { ViewOfficeStaff } from './officeStaff/view-office-staff/view-office-staff';
 import { ViewReceptionists } from './receptionist/view-receptionists/view-receptionists';
+import { ViewDepartment } from './department/view-department/view-department';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import { ViewReceptionists } from './receptionist/view-receptionists/view-recept
         AddDoctorCharge,
         ViewNurse,
         ViewOfficeStaff,
-        ViewReceptionists
+        ViewReceptionists,
+        ViewDepartment
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,8 @@ public class MealDTO {
         private Long bedBookingId;
         private Long admittedPatientId;
         private Date servedAt;
-        private Long mealId;
+        private  Long mealId;
+        private List<Long> mealIds;
         private String mealName;
         private String mealType;
         private String mealCategory;
@@ -29,6 +30,14 @@ public class MealDTO {
         private double totalCost;
 
 
+        public Long getMealId() {
+                return mealId;
+        }
+
+        public void setMealId(Long mealId) {
+                this.mealId = mealId;
+        }
+
         public Long getMealMasterId() { return mealMasterId; }
         public void setMealMasterId(Long mealMasterId) { this.mealMasterId = mealMasterId; }
 
@@ -41,8 +50,14 @@ public class MealDTO {
         public Date getServedAt() { return servedAt; }
         public void setServedAt(Date servedAt) { this.servedAt = servedAt; }
 
-        public Long getMealId() { return mealId; }
-        public void setMealId(Long mealId) { this.mealId = mealId; }
+
+        public List<Long> getMealIds() {
+                return mealIds;
+        }
+
+        public void setMealIds(List<Long> mealIds) {
+                this.mealIds = mealIds;
+        }
 
         public String getMealName() { return mealName; }
         public void setMealName(String mealName) { this.mealName = mealName; }
@@ -78,4 +93,25 @@ public class MealDTO {
         public void setTotalCost(double totalCost) { this.totalCost = totalCost; }
 
 
+        @Override
+        public String toString() {
+                return "MealDTO{" +
+                        "mealMasterId=" + mealMasterId +
+                        ", bedBookingId=" + bedBookingId +
+                        ", admittedPatientId=" + admittedPatientId +
+                        ", servedAt=" + servedAt +
+                        ", mealIds=" + mealIds +
+                        ", mealName='" + mealName + '\'' +
+                        ", mealType='" + mealType + '\'' +
+                        ", mealCategory='" + mealCategory + '\'' +
+                        ", mealCost=" + mealCost +
+                        ", servedTime=" + servedTime +
+                        ", patientName='" + patientName + '\'' +
+                        ", phone='" + phone + '\'' +
+                        ", age=" + age +
+                        ", address='" + address + '\'' +
+                        ", meals=" + meals +
+                        ", totalCost=" + totalCost +
+                        '}';
+        }
 }
