@@ -11,4 +11,6 @@ public interface IMealRepo extends JpaRepository<Meal,Long> {
 
 
     List<Meal> findByBedBookingId(Long bedBookingId);
+
+
 }

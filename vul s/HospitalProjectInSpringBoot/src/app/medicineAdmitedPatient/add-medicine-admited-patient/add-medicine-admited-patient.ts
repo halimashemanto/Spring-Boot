@@ -58,21 +58,17 @@ export class AddMedicineAdmitedPatient implements OnInit {
   });
 }
 
+
+  // Load patient info + existing medicines
   loadPatientDetails() {
     if (!this.bedBookingId || this.bedBookingId <= 0) return;
 
     this.loading = true;
     this.errorMessage = '';
 
-    this.service.getPatientMedicines(this.bedBookingId).subscribe({
+    this.service.getPatientByBedBooking(this.bedBookingId).subscribe({
       next: data => {
-        this.patientDetails = {
-          patientName: 'Auto Loaded', // backend e thakle replace kora jabe
-          age: 0,
-          phone: '',
-          address: '',
-          medicines: data
-        };
+        this.patientDetails = data;
         this.calculateTotal();
         this.loading = false;
         this.cdr.markForCheck();

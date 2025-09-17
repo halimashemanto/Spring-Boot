@@ -45,6 +45,7 @@ import { ViewReceptionists } from './receptionist/view-receptionists/view-recept
 import { ViewDepartment } from './department/view-department/view-department';
 import { AddOthersCharge } from './othersCharge/add-others-charge/add-others-charge';
 import { AddMedicineAdmitedPatient } from './medicineAdmitedPatient/add-medicine-admited-patient/add-medicine-admited-patient';
+import { AddDischargeBill } from './dischargeBill/add-discharge-bill/add-discharge-bill';
 
 const routes: Routes = [
 
@@ -130,6 +131,7 @@ const routes: Routes = [
   { path: 'adc', component: AddDoctorCharge },
   { path: 'aoc', component: AddOthersCharge },
   { path: 'amap', component: AddMedicineAdmitedPatient },
+  { path: 'adcb', component: AddDischargeBill },
 
 
 

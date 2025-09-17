@@ -71,8 +71,12 @@ public class MealService {
 
 // === Eta loop er jaygay bosao ===
         for (Long mealId : mealIds) {
+            System.out.println(mealId+"1000000000000000000000000000000000000");
+
             MealMaster master = mealMasterRepo.findById(mealId)
                     .orElseThrow(() -> new RuntimeException("MealMaster not found"));
+            System.out.println(master+"2000000000000000000000000000000000000000000000");
+
             Meal meal = new Meal();
             meal.setBedBooking(bedBooking);
             meal.setMealMaster(master);

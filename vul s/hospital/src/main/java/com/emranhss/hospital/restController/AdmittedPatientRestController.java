@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@RestController
-@RequestMapping("/api/admittedPatient")
+
 public class AdmittedPatientRestController {
 
 
-    @Autowired
-    private AdmittedPatientService admittedPatientService;
+
 
 
 }

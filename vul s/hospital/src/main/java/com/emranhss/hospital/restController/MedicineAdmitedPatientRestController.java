@@ -2,6 +2,7 @@ package com.emranhss.hospital.restController;
 
 
 import com.emranhss.hospital.dto.MedicineAdmitedPatientDTO;
+import com.emranhss.hospital.dto.PatientMedicineDetailsDTO;
 import com.emranhss.hospital.entity.MedicineAdmitedPatient;
 import com.emranhss.hospital.service.MedicineAdmitedPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,13 @@ public class MedicineAdmitedPatientRestController {
     @GetMapping("/bed/{bedBookingId}/total-cost")
     public double getTotalCost(@PathVariable Long bedBookingId) {
         return service.calculateTotalCost(bedBookingId);
+    }
+
+
+
+    // Get patient info + medicines (auto load)
+    @GetMapping("/bedbooking/{id}/patient")
+    public PatientMedicineDetailsDTO getPatientByBedBooking(@PathVariable Long id) {
+        return service.getPatientDetails(id);
     }
 }

@@ -14,4 +14,5 @@ public interface ITestAdmitedPatientRepo extends JpaRepository<TestAdmitedPatien
 
     List<TestAdmitedPatient> findByBedBooking_Id(Long bedBookingId);
 
+    List<TestAdmitedPatient> findByBedBookingId(Long bedBookingId);
 }

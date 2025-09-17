@@ -2,6 +2,7 @@ package com.emranhss.hospital.service;
 
 
 import com.emranhss.hospital.dto.MedicineAdmitedPatientDTO;
+import com.emranhss.hospital.dto.PatientMedicineDetailsDTO;
 import com.emranhss.hospital.entity.BedBooking;
 import com.emranhss.hospital.entity.MedicineAdmitedPatient;
 import com.emranhss.hospital.entity.PharmacyMedicine;
@@ -29,7 +30,6 @@ public class MedicineAdmitedPatientService {
     @Autowired
     private IPharmacyMedicineRepo pharmacyRepo;
 
-    // Add a new medicine entry
     // Add a new medicine entry
     public MedicineAdmitedPatient addMedicine(MedicineAdmitedPatientDTO dto) {
         MedicineAdmitedPatient med = new MedicineAdmitedPatient();
@@ -75,6 +75,24 @@ public class MedicineAdmitedPatientService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    public PatientMedicineDetailsDTO getPatientDetails(Long bedBookingId) {
+        BedBooking booking = bedBookingRepo.findById(bedBookingId)
+                .orElseThrow(() -> new RuntimeException("BedBooking not found"));
+
+        PatientMedicineDetailsDTO dto = new PatientMedicineDetailsDTO();
+        dto.setPatientName(booking.getPatientName());
+        dto.setAge(booking.getAge());
+        dto.setPhone(booking.getPhone());
+        dto.setAddress(booking.getAddress());
+
+        // medicines
+        List<MedicineAdmitedPatientDTO> meds = getPatientMedicines(bedBookingId);
+        dto.setMedicines(meds);
+
+        return dto;
+    }
+
 
     // Delete a medicine entry
     public void deleteMedicine(Long id) {
