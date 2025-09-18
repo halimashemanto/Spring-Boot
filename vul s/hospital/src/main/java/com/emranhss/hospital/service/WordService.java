@@ -2,10 +2,7 @@ package com.emranhss.hospital.service;
 
 
 import com.emranhss.hospital.Mapper.WardMapper;
-import com.emranhss.hospital.dto.BedBookingDTO;
-import com.emranhss.hospital.dto.BedDTO;
-import com.emranhss.hospital.dto.FacilityDTO;
-import com.emranhss.hospital.dto.WardDTO;
+import com.emranhss.hospital.dto.*;
 import com.emranhss.hospital.entity.Bed;
 import com.emranhss.hospital.entity.BedBooking;
 import com.emranhss.hospital.entity.Facility;
@@ -31,6 +28,8 @@ public class WordService {
     private IBedRepo bedRepo;
     @Autowired
     private IBedBookingRepo bookingRepo;
+    @Autowired
+    private IBedBookingRepo iBedBookingRepo;
 
     @Autowired
         public WordService(IWordRepo wardRepo, IBedRepo bedRepo, IFacilityRepo facilityRepo) {
@@ -178,5 +177,24 @@ public class WordService {
 
         return dto;
     }
+
+
+
+    public List<BedBookingViewDto> getAllBookingDetails() {
+        return iBedBookingRepo.findAllBookingDetails();
+    }
+
+
+    public List<BedBookingViewDto> getBookingDetailsByPhone(String phone) {
+        return iBedBookingRepo.findBookingDetailsByPhone(phone);
+    }
+
+
+    public List<BedBookingViewDto> getBookingDetailsByBedNumber(String bedNumber) {
+        return iBedBookingRepo.findBookingDetailsByBedNumber(bedNumber);
+    }
+
+
+
 
 }

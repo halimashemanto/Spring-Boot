@@ -1,10 +1,7 @@
 package com.emranhss.hospital.restController;
 
 
-import com.emranhss.hospital.dto.BedBookingDTO;
-import com.emranhss.hospital.dto.BedDTO;
-import com.emranhss.hospital.dto.FacilityDTO;
-import com.emranhss.hospital.dto.WardDTO;
+import com.emranhss.hospital.dto.*;
 import com.emranhss.hospital.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -98,5 +95,24 @@ public class WordRestController {
     public BedBookingDTO releaseBed(@PathVariable Long bedId) {
         return service.releaseBed(bedId);
     }
+
+
+    @GetMapping("/bed-bookings/details")    //   http://localhost:8080/api/ward/bed-bookings/details
+    public List<BedBookingViewDto> getBedBookingDetails() {
+        return service.getAllBookingDetails();
+    }
+
+
+    @GetMapping("/bed-bookings/phone/{phone}")     //  http://localhost:8080/api/ward/bed-bookings/phone/019123456789
+    public List<BedBookingViewDto> getByPhone(@PathVariable String phone) {
+        return service.getBookingDetailsByPhone(phone);
+    }
+
+
+    @GetMapping("/bed-bookings/bedNumber/{bedNumber}")     //  http://localhost:8080/api/ward/bed-bookings/bedNumber/202-F
+    public List<BedBookingViewDto> getByBedNumber(@PathVariable String bedNumber) {
+        return service.getBookingDetailsByBedNumber(bedNumber);
+    }
+
 
 }

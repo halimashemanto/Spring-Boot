@@ -46,6 +46,9 @@ import { ViewDepartment } from './department/view-department/view-department';
 import { AddOthersCharge } from './othersCharge/add-others-charge/add-others-charge';
 import { AddMedicineAdmitedPatient } from './medicineAdmitedPatient/add-medicine-admited-patient/add-medicine-admited-patient';
 import { AddDischargeBill } from './dischargeBill/add-discharge-bill/add-discharge-bill';
+import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admittion-view';
+import { OfficeStaffGuard } from './guards/office-staff-guard';
+import { DotorOfficeStaffGuard } from './guards/dotor-office-staff-guard';
 
 const routes: Routes = [
 
@@ -71,8 +74,8 @@ const routes: Routes = [
 
 
   //Appointment Part
-  { path: 'slot', component: ScheduleSlot },
-  { path: 'department', component: Department },
+  { path: 'slot', component: ScheduleSlot , canActivate:[OfficeStaffGuard]},
+  { path: 'department', component: Department  , canActivate:[DotorOfficeStaffGuard]},
   { path: 'viewdep', component: ViewDepartment },
   { path: 'appoinment', component: AddApooinment },
   { path: 'viewAppoinment', component: ViewAllAppointment },
@@ -107,20 +110,21 @@ const routes: Routes = [
 
 
   //ward-bedbooking part
-  { path: 'ward', component: AddWard },
-  { path: 'bb', component: BedBookingModalComponent },
-  { path: 'facility', component: Word },
-  { path: 'bedbooked', component: BedBooking },
+  { path: 'ward', component: AddWard, canActivate:[OfficeStaffGuard] },
+  { path: 'bb', component: BedBookingModalComponent , canActivate:[OfficeStaffGuard]},
+  { path: 'facility', component: Word, canActivate:[OfficeStaffGuard] },
+  { path: 'bedbooked', component: BedBooking , canActivate:[OfficeStaffGuard]},
+  { path: 'aav', component: AllAdmittionView , canActivate:[OfficeStaffGuard]},
 
 
 
 
   //Pharmacy part
-  { path: 'pm', component: PharmacyMedicine },
-  { path: 'sp', component: Supplier },
-  { path: 'p', component: Purchase },
-  { path: 's', component: Sale },
-  { path: 'ms', component: MedicineStock },
+  { path: 'pm', component: PharmacyMedicine , canActivate:[OfficeStaffGuard]},
+  { path: 'sp', component: Supplier, canActivate:[OfficeStaffGuard] },
+  { path: 'p', component: Purchase, canActivate:[OfficeStaffGuard] },
+  { path: 's', component: Sale , canActivate:[OfficeStaffGuard]},
+  { path: 'ms', component: MedicineStock , canActivate:[OfficeStaffGuard]},
 
 
   //Admitted-Patient Part

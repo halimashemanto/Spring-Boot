@@ -293,17 +293,16 @@ export class AddPrescription implements OnInit {
 //   doc.save(`Prescription_${patient.patientName || 'Unknown'}_${Date.now()}.pdf`);
 // }
 
-
 generatePDF() {
   const doc = new jsPDF('p', 'mm', 'a4');
 
   // ---------- Header ----------
-  doc.setFontSize(18);
+  doc.setFontSize(22);
   doc.setFont('helvetica', 'bold');
-  doc.text('🏥 Health Care of Bangladesh', 105, 15, { align: 'center' });
+  doc.text('Health Care of Bangladesh', 105, 15, { align: 'center' });
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
-  doc.text('Address: 123 Main Street, Dhaka, Bangladesh', 105, 22, { align: 'center' });
+  doc.text('Address: 123 Azimpur, Dhaka, Bangladesh', 105, 22, { align: 'center' });
   doc.text('Phone: +880123456789', 105, 28, { align: 'center' });
 
   // Line under header
@@ -315,10 +314,15 @@ generatePDF() {
   doc.text('Patient Information:', 14, 40);
   doc.setFont('helvetica', 'normal');
   const patient = this.prescription;
+
   doc.text(`Name: ${patient.patientName || ''}`, 14, 47);
   doc.text(`Age: ${patient.patientAge || ''}`, 14, 54);
-  doc.text(`Gender: ${patient.patientAge || ''}`, 14, 61);
-  doc.text(`Contact: ${patient.patientContact || ''}`, 14, 68);
+ 
+  doc.text(`Height: ${patient.height || ''} cm`, 14, 68);
+  doc.text(`Weight: ${patient.weight || ''} kg`, 14, 75);
+  doc.text(`BP: ${patient.bp || ''}`, 14, 82);
+  doc.text(`Contact: ${patient.patientContact || ''}`, 14, 89);
+
   doc.text(
     `Doctor: ${this.doctors.find(d => d.id === patient.doctorId)?.name || ''}`,
     105,
@@ -326,14 +330,15 @@ generatePDF() {
   );
   doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 54);
 
-  let currentY = 75;
+  let currentY = 100;
 
   // ---------- Medicines Table ----------
   if (this.selectedMedicines && this.selectedMedicines.length > 0) {
     const medicineRows = this.selectedMedicines.map(m => [
       m.medicineName || '',
-      patient.applyWay || '',
      
+    
+    
     ]);
 
     autoTable(doc, {
@@ -351,8 +356,9 @@ generatePDF() {
   // ---------- Tests Table ----------
   if (this.selectedTests && this.selectedTests.length > 0) {
     const testRows = this.selectedTests.map(t => [
-      t.testName || '',
-     
+      t.testName || ''
+    
+      
     ]);
 
     autoTable(doc, {

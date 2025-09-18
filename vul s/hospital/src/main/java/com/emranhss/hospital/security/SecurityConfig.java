@@ -102,6 +102,7 @@ public class SecurityConfig {
                                         "/api/others-charges/**",
                                         "/api/medicine-admitted",
                                         "/api/medicine-admitted/**",
+                                        "/api/billing",
                                         "/api/billing/**",
                                         "/api/discharge",
                                         "/api/discharge/**"
