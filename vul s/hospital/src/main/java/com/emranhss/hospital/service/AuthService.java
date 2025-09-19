@@ -462,28 +462,6 @@ public class AuthService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //token saved
 
     private void saveUserToken(String jwt, User user) {
@@ -526,10 +504,16 @@ public class AuthService {
         User user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+
+
+       // ==================eta apatoto off kore rakchi mail active korar jamela hoy tai =========
+
+
+
         // Check Activation Status
-        if (!user.isActive()) {
-            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
-        }
+//        if (!user.isActive()) {
+//            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
+//        }
 
         // Generate JWT Token
         String jwt = jwtService.generateToken(user);
@@ -562,6 +546,59 @@ public class AuthService {
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+    // ✅ Admin Registration Method
+    public void registerAdmin(User user, MultipartFile imageFile) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // User এর জন্য image save করব
+            String filename = saveImage(imageFile, user);
+            user.setPhoto(filename);
+        }
+
+        // Password Encode + Role Set + Active
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.Admin);
+        user.setActive(true);
+
+        // Save User
+        User savedUser = userRepo.save(user);
+
+        // JWT Token Generate + Save
+        String jwt = jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
+
+        // Activation Mail পাঠানো
+        sendActivationEmail(savedUser);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

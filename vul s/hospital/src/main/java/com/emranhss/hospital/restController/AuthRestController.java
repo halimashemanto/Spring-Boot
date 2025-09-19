@@ -4,15 +4,19 @@ package com.emranhss.hospital.restController;
 import com.emranhss.hospital.dto.AuthenticationResponse;
 import com.emranhss.hospital.entity.User;
 import com.emranhss.hospital.repository.ITokenRepository;
+import com.emranhss.hospital.repository.IUserRepo;
 import com.emranhss.hospital.service.AuthService;
+import com.emranhss.hospital.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,12 @@ public class AuthRestController {
 
     @Autowired
     ITokenRepository tokenRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private IUserRepo userRepo;
 
 
     @PostMapping
@@ -94,4 +104,47 @@ public class AuthRestController {
 
         return ResponseEntity.ok("Logged out successfully.");
     }
+
+
+
+
+
+
+
+//admin part include here bcz admin hasn't any component
+
+
+    @PostMapping("register/admin")
+    public ResponseEntity<String> registerAdmin(
+            @RequestPart("user") User user,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        authService.registerAdmin(user, imageFile);
+        return ResponseEntity.ok("Admin Registered Successfully!");
+    }
+
+
+    @GetMapping("user/role/{role}") //http://localhost:8080/auth/user/role/Admin
+    public ResponseEntity<List<User>> getUsersByRole(@PathVariable String role) {
+        List<User> users = userService.getUsersByRole(role);
+        return ResponseEntity.ok(users);
+    }
+
+
+
+    @GetMapping("user/profile")
+    public User getProfile(Authentication authentication) {
+        String email = authentication.getName(); // JWT theke logged-in user email
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+
+
+
+
+
+
+
+
+
 }

@@ -52,7 +52,7 @@ onSubmit() {
 
       // Role wise redirect
       if (role === 'Admin') {
-        this.router.navigate(['/admin-profile']);
+        this.router.navigate(['/admi']);
       
       } else if (role === 'User') {
         this.router.navigate(['/account-profile']);

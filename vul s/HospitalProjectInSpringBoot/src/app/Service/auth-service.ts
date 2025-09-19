@@ -5,6 +5,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthResponse } from '../AllModel/authResponse.model';
 import { isPlatformBrowser } from '@angular/common';
+import { User } from '../AllModel/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +106,34 @@ export class AuthService {
   }
 
 
+
+
+
+  // ✅ Admin Registration with Photo
+  registerAdmin(user: User, imageFile?: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
+    if (imageFile) {
+      formData.append('imageFile', imageFile);
+    }
+
+    return this.http.post(`${this.baseUrl}register/admin`, formData);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   logout(): void {
     if (this.isBrowser()) {
       localStorage.removeItem('userRole');
@@ -138,5 +167,7 @@ export class AuthService {
     return this.getUserRole() === 'OfficeStaff';
   }
 
-
+isAdmin(): boolean {
+    return this.getUserRole() === 'Admin';
+  }
 }

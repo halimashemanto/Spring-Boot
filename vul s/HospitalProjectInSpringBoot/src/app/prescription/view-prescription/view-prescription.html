@@ -1,1 +1,37 @@
-<p>view-prescription works!</p>
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h3 class="text-center mb-4">Admin Registration</h3>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="mb-3">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter Name">
+      </div>
+
+      <div class="mb-3">
+        <label>Username</label>
+        <input type="text" class="form-control" formControlName="username" placeholder="Enter Username">
+      </div>
+
+      <div class="mb-3">
+        <label>Email</label>
+        <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
+      </div>
+
+      <div class="mb-3">
+        <label>Password</label>
+        <input type="password" class="form-control" formControlName="password" placeholder="Enter Password">
+      </div>
+
+      <div class="mb-3">
+        <label>Profile Photo</label>
+        <input type="file" class="form-control" (change)="onFileSelected($event)">
+      </div>
+
+      <button class="btn btn-success w-100" type="submit" [disabled]="form.invalid">
+        Register Admin
+      </button>
+    </form>
+  </div>
+</div>

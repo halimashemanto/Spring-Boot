@@ -49,6 +49,7 @@ import { AddDischargeBill } from './dischargeBill/add-discharge-bill/add-dischar
 import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admittion-view';
 import { OfficeStaffGuard } from './guards/office-staff-guard';
 import { DotorOfficeStaffGuard } from './guards/dotor-office-staff-guard';
+import { AdmiProfile } from './profile/admi-profile/admi-profile';
 
 const routes: Routes = [
 
@@ -74,12 +75,13 @@ const routes: Routes = [
 
 
   //Appointment Part
-  { path: 'slot', component: ScheduleSlot , canActivate:[OfficeStaffGuard]},
-  { path: 'department', component: Department  , canActivate:[DotorOfficeStaffGuard]},
+  { path: 'slot', component: ScheduleSlot },
+  { path: 'department', component: Department },
   { path: 'viewdep', component: ViewDepartment },
   { path: 'appoinment', component: AddApooinment },
   { path: 'viewAppoinment', component: ViewAllAppointment },
   { path: 'doctorpdf', component: IndivisualDoctorAppointment },
+  { path: 'admi', component: AdmiProfile },
 
 
 
@@ -110,11 +112,11 @@ const routes: Routes = [
 
 
   //ward-bedbooking part
-  { path: 'ward', component: AddWard, canActivate:[OfficeStaffGuard] },
-  { path: 'bb', component: BedBookingModalComponent , canActivate:[OfficeStaffGuard]},
-  { path: 'facility', component: Word, canActivate:[OfficeStaffGuard] },
-  { path: 'bedbooked', component: BedBooking , canActivate:[OfficeStaffGuard]},
-  { path: 'aav', component: AllAdmittionView , canActivate:[OfficeStaffGuard]},
+  { path: 'ward', component: AddWard},
+  { path: 'bb', component: BedBookingModalComponent },
+  { path: 'facility', component: Word },
+  { path: 'bedbooked', component: BedBooking },
+  { path: 'aav', component: AllAdmittionView },
 
 
 

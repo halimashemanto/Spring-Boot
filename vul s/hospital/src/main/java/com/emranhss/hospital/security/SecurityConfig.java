@@ -38,10 +38,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
 
                         req.requestMatchers("/api/user/",
+                                        "/auth/user/role/**",
+                                        "/auth/user/profile",
                                         "/images/**",
                                         "/imagesnurse/**",
                                         "/imagesofficeStaff/**",
                                         "/auth/all",
+                                        "/auth/**",
                                         "/api/doctor/**",
                                         "/api/doctor/",
                                         "/api/user/active/**",

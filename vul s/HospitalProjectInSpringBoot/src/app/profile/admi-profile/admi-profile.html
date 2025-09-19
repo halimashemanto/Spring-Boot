@@ -1,0 +1,58 @@
+<div *ngIf="loading" 
+     style="display:flex; justify-content:center; align-items:center; height:300px; font-size:1.5rem; color:#555;">
+  Loading Profile...
+</div>
+
+<div *ngIf="!loading && profile" 
+     style="max-width:400px; margin:2rem auto; background: linear-gradient(145deg, #f0f4ff, #e0e7ff);
+            padding:2rem; border-radius:20px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
+            text-align:center; transition: transform 0.3s ease;" 
+     onmouseover="this.style.transform='scale(1.03)'" 
+     onmouseout="this.style.transform='scale(1)'">
+
+  <!-- Profile Photo -->
+  <div style="position:relative; display:inline-block; margin-bottom:1rem;">
+    <img [src]="profile.photo" 
+         alt="Profile Photo" 
+         style="width:120px; height:120px; border-radius:50%; border:4px solid #4f46e5; 
+                object-fit:cover; transition: transform 0.3s ease;">
+    <span *ngIf="isAdmin()" 
+      style="position:absolute; bottom:0; right:0; background:#4f46e5; color:white; 
+             border-radius:50%; width:30px; height:30px; display:flex; justify-content:center; 
+             align-items:center; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+  ★
+</span>
+
+  </div>
+
+  <!-- Name & Role -->
+  <h2 style="margin:0.5rem 0; color:#1e3a8a; font-weight:700; letter-spacing:1px;">{{ profile.name }}</h2>
+  <p style="margin:0.25rem 0; font-size:0.9rem; color:#555;">
+    <i class="fa fa-envelope" aria-hidden="true"></i> {{ profile.email }}
+  </p>
+  <p style="margin:0.25rem 0; font-size:0.9rem; color:#555;">
+    <i class="fa fa-phone" aria-hidden="true"></i> {{ profile.phone }}
+  </p>
+  <p style="margin:0.5rem 0; font-weight:600;">
+    Role: 
+    <span [style.background]="getStatusColor(profile.role)" 
+          style="color:white; padding:0.2rem 0.6rem; border-radius:12px; font-size:0.85rem;">
+      {{ profile.role }}
+    </span>
+  </p>
+
+  <!-- Logout Button -->
+  <button (click)="logout()" 
+          style="margin-top:1rem; padding:0.5rem 1.2rem; border:none; border-radius:12px; 
+                 background:#4f46e5; color:white; cursor:pointer; font-weight:600;
+                 transition: all 0.3s ease;"
+          onmouseover="this.style.background='#3730a3'; this.style.transform='scale(1.05)'" 
+          onmouseout="this.style.background='#4f46e5'; this.style.transform='scale(1)'">
+    Logout
+  </button>
+
+</div>
+
+<div *ngIf="errorMsg" style="color:red; text-align:center; margin-top:1rem; font-weight:600;">
+  {{ errorMsg }}
+</div>

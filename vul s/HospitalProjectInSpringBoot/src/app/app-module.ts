@@ -58,6 +58,7 @@ import { AddOthersCharge } from './othersCharge/add-others-charge/add-others-cha
 import { AddMedicineAdmitedPatient } from './medicineAdmitedPatient/add-medicine-admited-patient/add-medicine-admited-patient';
 import { AddDischargeBill } from './dischargeBill/add-discharge-bill/add-discharge-bill';
 import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admittion-view';
+import { AdmiProfile } from './profile/admi-profile/admi-profile';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admitti
         AddOthersCharge,
         AddMedicineAdmitedPatient,
         AddDischargeBill,
-        AllAdmittionView
+        AllAdmittionView,
+        AdmiProfile
   ],
   imports: [
     BrowserModule,
