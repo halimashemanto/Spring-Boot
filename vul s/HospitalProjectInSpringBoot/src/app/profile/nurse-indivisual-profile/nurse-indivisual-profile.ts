@@ -40,6 +40,8 @@ export class NurseIndivisualProfile {
         this.loading = false;
       }
     });
+
+    this.LoadProfile();
   }
 
   private loadProfileFromServer() {
@@ -58,6 +60,22 @@ export class NurseIndivisualProfile {
   
   logout() {
     this.authService.logout();
+  }
+
+
+  LoadProfile(){
+
+    this.nurseService.getProfile().subscribe({      
+        next: (res) => {
+          this.profile = res;
+          console.log('Profile loaded:', res);         
+          this.cd.markForCheck();
+        },
+        error: (err) => {
+          console.error('Failed to load profile:', err);
+        }     
+
+    });
   }
 
 

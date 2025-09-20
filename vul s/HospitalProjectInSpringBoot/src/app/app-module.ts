@@ -59,6 +59,7 @@ import { AddMedicineAdmitedPatient } from './medicineAdmitedPatient/add-medicine
 import { AddDischargeBill } from './dischargeBill/add-discharge-bill/add-discharge-bill';
 import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admittion-view';
 import { AdmiProfile } from './profile/admi-profile/admi-profile';
+import { Logout } from './auth/logout/logout';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { AdmiProfile } from './profile/admi-profile/admi-profile';
         AddMedicineAdmitedPatient,
         AddDischargeBill,
         AllAdmittionView,
-        AdmiProfile
+        AdmiProfile,
+        Logout
   ],
   imports: [
     BrowserModule,

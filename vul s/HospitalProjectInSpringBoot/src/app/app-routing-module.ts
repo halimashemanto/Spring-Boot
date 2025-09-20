@@ -50,6 +50,8 @@ import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admitti
 import { OfficeStaffGuard } from './guards/office-staff-guard';
 import { DotorOfficeStaffGuard } from './guards/dotor-office-staff-guard';
 import { AdmiProfile } from './profile/admi-profile/admi-profile';
+import { Navbar } from './templet/navbar/navbar';
+import { Logout } from './auth/logout/logout';
 
 const routes: Routes = [
 
@@ -64,6 +66,9 @@ const routes: Routes = [
   { path: 'or', component: OfficeStaffRegistration },
   { path: 'rr', component: ReceptionistRegistration },
   { path: 'login', component: Login },
+  {path: 'logout',component: Logout},
+  
+
 
 
   // prescription part
@@ -122,11 +127,11 @@ const routes: Routes = [
 
 
   //Pharmacy part
-  { path: 'pm', component: PharmacyMedicine , canActivate:[OfficeStaffGuard]},
-  { path: 'sp', component: Supplier, canActivate:[OfficeStaffGuard] },
-  { path: 'p', component: Purchase, canActivate:[OfficeStaffGuard] },
-  { path: 's', component: Sale , canActivate:[OfficeStaffGuard]},
-  { path: 'ms', component: MedicineStock , canActivate:[OfficeStaffGuard]},
+  { path: 'pm', component: PharmacyMedicine },
+  { path: 'sp', component: Supplier },
+  { path: 'p', component: Purchase },
+  { path: 's', component: Sale },
+  { path: 'ms', component: MedicineStock },
 
 
   //Admitted-Patient Part
