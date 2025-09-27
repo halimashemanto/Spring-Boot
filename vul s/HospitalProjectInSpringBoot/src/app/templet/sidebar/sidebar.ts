@@ -48,6 +48,9 @@ export class Sidebar implements OnInit {
     return this.authService.isOfficeStaff();
   }
 
+ isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
 
  
 

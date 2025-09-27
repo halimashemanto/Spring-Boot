@@ -1,6 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar shadow-lg min-h-screen transition-all duration-500 ease-in-out" 
-    id="accordionSidebar"
+<ul class="navbar-nav sidebar shadow-lg min-h-screen transition-all duration-500 ease-in-out" id="accordionSidebar"
     style="background: linear-gradient(to bottom right, #1e293b, #334155); color: white;">
 
     <!-- Sidebar - Brand -->
@@ -24,174 +23,178 @@
         </a>
     </li>
 
-    <!-- Registration & Login
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapseRegistration">
-            <i class="fas fa-user-md text-rose-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Registration & Login</span>
-        </a>
-        <div id="collapseRegistration" class="collapse ml-10">
-            <a href="/doc" class="block flex items-center gap-2 px-4 py-1 hover:text-white hover:translate-x-2">
-                <i class="fas fa-user-md"></i> Doctor
-            </a><br>
-            <a href="/nr" class="block flex items-center gap-2 px-4 py-1 hover:text-white hover:translate-x-2">
-                <i class="fas fa-user-nurse"></i> Nurse
-            </a><br>
-            <a href="/rr" class="block flex items-center gap-2 px-4 py-1 hover:text-white hover:translate-x-2">
-                <i class="fas fa-user-tie"></i> Receptionist
-            </a><br>
-            <a href="/or" class="block flex items-center gap-2 px-4 py-1 hover:text-white hover:translate-x-2">
-                <i class="fas fa-users-cog"></i> Office Staff
-            </a><br>
-            <a href="/login" class="block flex items-center gap-2 px-4 py-1 hover:text-white hover:translate-x-2">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </a>
-        </div>
-    </li> -->
+
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Appointment -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapseAppointment">
-            <i class="fas fa-calendar-check text-green-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Appointment</span>
-        </a>
-        <div id="collapseAppointment" class="collapse ml-10">
-            <a href="/appoinment"><i class="fas fa-calendar-plus"></i> Appointment</a><br>
-            <!-- <ng-container *ngIf="isReceptionist()"> -->
+    <ng-container *ngIf="isReceptionist() || isAdmin()">
+        <li class="nav-item group">
+            <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+                data-toggle="collapse" href="#collapseAppointment">
+                <i class="fas fa-calendar-check text-green-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Appointment</span>
+            </a>
+            <div id="collapseAppointment" class="collapse ml-10">
+                <a href="/appoinment"><i class="fas fa-calendar-plus"></i> Appointment</a><br>
+
                 <a href="/slot"><i class="fas fa-clock"></i> Schedule Slot</a><br>
                 <a href="/viewAppoinment"><i class="fas fa-eye"></i> View Booking</a><br>
                 <a href="/doctorpdf"><i class="fas fa-file-pdf"></i> PDF</a><br>
-            <!-- </ng-container> -->
-        </div>
-    </li>
+
+            </div>
+        </li>
+    </ng-container>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Department -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapseDepartment">
-            <i class="fas fa-building text-indigo-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Department</span>
-        </a>
-        <div id="collapseDepartment" class="collapse ml-10">
-            <!-- <ng-container *ngIf="isDoctor()"> -->
+    <ng-container *ngIf="isAdmin()||isReceptionist()">
+        <li class="nav-item group">
+            <a class="nav-link flex items-center gap-3 px-4 py-2 transition-all duration-300 hover:bg-gray-700 hover:pl-6"
+                data-toggle="collapse" href="#collapseDepartment">
+                <i class="fas fa-building text-indigo-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Department</span>
+            </a>
+            <div id="collapseDepartment" class="collapse ml-10">
+
                 <a href="/department"><i class="fas fa-hospital-symbol"></i> Department</a><br>
                 <a href="/test"><i class="fas fa-vials"></i> Test</a><br>
                 <a href="/medicine"><i class="fas fa-pills"></i> Medicine</a><br>
                 <a href="/addpatient"><i class="fas fa-user-injured"></i> Patient</a><br>
                 <a href="/invoice"><i class="fas fa-file-invoice"></i> Invoice</a><br>
                 <a href="/emergency"><i class="fas fa-ambulance"></i> Emergency Patient</a><br>
-            <!-- </ng-container> -->
-        </div>
-    </li>
+
+            </div>
+        </li>
+    </ng-container>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Profile -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapseProfile">
-            <i class="fas fa-id-card text-orange-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Profile</span>
-        </a>
-        <div id="collapseProfile" class="collapse ml-10">
-            <a href="/allprofile"><i class="fas fa-users"></i> All Role</a><br>
-            <a href="/viewdoctor"><i class="fas fa-user-md"></i> All Doctors</a><br>
-            <a href="/viewnurse"><i class="fas fa-user-nurse"></i> All Nurses</a><br>
-            <a href="/viewofficestaff"><i class="fas fa-user-tie"></i> All OfficeStaff</a><br>
-            <a href="/viewreceptionists"><i class="fas fa-user"></i> All Receptionists</a><br>
-        </div>
-    </li>
+    <ng-container *ngIf="isAdmin()">
+        <li class="nav-item group">
+            <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" data-toggle="collapse"
+                href="#collapseProfile">
+                <i class="fas fa-id-card text-orange-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Profile</span>
+            </a>
+            <div id="collapseProfile" class="collapse ml-10">
+
+                <a href="/allprofile"><i class="fas fa-users"></i> All Role</a><br>
+                <a href="/viewdoctor"><i class="fas fa-user-md"></i> All Doctors</a><br>
+                <a href="/viewnurse"><i class="fas fa-user-nurse"></i> All Nurses</a><br>
+                <a href="/viewofficestaff"><i class="fas fa-user-tie"></i> All OfficeStaff</a><br>
+                <a href="/viewreceptionists"><i class="fas fa-user"></i> All Receptionists</a><br>
+
+            </div>
+        </li>
+    </ng-container>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Pharmacy -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapsePharmacy">
-            <i class="fas fa-pills text-pink-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Pharmacy</span>
-        </a>
-        <div id="collapsePharmacy" class="collapse ml-10">
-            <a href="/pm"><i class="fas fa-capsules"></i> Pharmacy Medicine</a><br>
-            <a href="/sp"><i class="fas fa-truck"></i> Supplier</a><br>
-            <a href="/ms"><i class="fas fa-warehouse"></i> Medicine Stock</a><br>
-            <a href="/p"><i class="fas fa-shopping-cart"></i> Purchase</a><br>
-            <a href="/s"><i class="fas fa-cash-register"></i> Sale</a><br>
-        </div>
-    </li>
+    <ng-container *ngIf="isAdmin()||isOfficeStaff()">
+        <li class="nav-item group">
+            <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" data-toggle="collapse"
+                href="#collapsePharmacy">
+                <i class="fas fa-pills text-pink-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Pharmacy</span>
+            </a>
+            <div id="collapsePharmacy" class="collapse ml-10">
+
+                <a href="/pm"><i class="fas fa-capsules"></i> Pharmacy Medicine</a><br>
+                <a href="/sp"><i class="fas fa-truck"></i> Supplier</a><br>
+                <a href="/ms"><i class="fas fa-warehouse"></i> Medicine Stock</a><br>
+                <a href="/p"><i class="fas fa-shopping-cart"></i> Purchase</a><br>
+                <a href="/s"><i class="fas fa-cash-register"></i> Sale</a><br>
+
+            </div>
+        </li>
+    </ng-container>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Ward -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapseWard">
-            <i class="fas fa-procedures text-teal-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Ward</span>
-        </a>
-        <div id="collapseWard" class="collapse ml-10">
-     
-            <a href="/ward"><i class="fas fa-hospital"></i> Add Ward</a><br>
-            <a href="/bb"><i class="fas fa-couch"></i> Add Bed</a><br>
-            <a href="/facility"><i class="fas fa-tools"></i> Facility</a><br>
-            <a href="/at"><i class="fas fa-vial"></i> Tests At</a><br>
-            <a href="/atm"><i class="fas fa-flask"></i> Add Test Master</a><br>
-        </div>
-    </li>
+    <ng-container *ngIf="isAdmin()||isOfficeStaff()">
+        <li class="nav-item group">
+            <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" data-toggle="collapse"
+                href="#collapseWard">
+                <i class="fas fa-procedures text-teal-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Ward</span>
+            </a>
+            <div id="collapseWard" class="collapse ml-10">
+
+                <a href="/ward"><i class="fas fa-hospital"></i> Add Ward</a><br>
+                <a href="/bb"><i class="fas fa-couch"></i> Add Bed</a><br>
+                <a href="/facility"><i class="fas fa-tools"></i> Facility</a><br>
+                <!-- <a href="/at"><i class="fas fa-vial"></i> Tests At</a><br>
+            <a href="/atm"><i class="fas fa-flask"></i> Add Test Master</a><br> -->
+
+            </div>
+        </li>
+    </ng-container>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Admitted Patient -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6"
-            data-toggle="collapse" href="#collapseAdmitted">
-            <i class="fas fa-bed text-purple-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Admitted Patient</span>
-        </a>
-        <div id="collapseAdmitted" class="collapse ml-10">
-            <a href="/bedbooked"><i class="fas fa-procedures"></i> Admitted Patient</a><br>
-            <a href="/mm"><i class="fas fa-utensils"></i> Meal Master</a><br>
-            <a href="/mmm"><i class="fas fa-plus-circle"></i> Add Meal</a><br>
-            <a href="/at"><i class="fas fa-vials"></i> Tests At</a><br>
-            <a href="/atm"><i class="fas fa-flask"></i> Test Master</a><br>
-            <a href="/amap"><i class="fas fa-flask"></i> Medicine AP</a><br>
-            <a href="/adc"><i class="fas fa-flask"></i> Doctor Charge</a><br>
-            <a href="/aoc"><i class="fas fa-flask"></i> Others Charge</a><br>
-            <a href="/aav"><i class="fas fa-bed"></i> Search Admitted Patient</a><br>
-            <a href="/adcb"><i class="fas fa-flask"></i>Discharge</a><br>
-          
-        </div>
-    </li>
+    <ng-container *ngIf="isAdmin()||isReceptionist()">
+        <li class="nav-item group">
+            <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" data-toggle="collapse"
+                href="#collapseAdmitted">
+                <i class="fas fa-bed text-purple-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Admitted Patient</span>
+            </a>
+            <div id="collapseAdmitted" class="collapse ml-10">
+
+                <a href="/bedbooked"><i class="fas fa-procedures"></i> Admitted Patient</a><br>
+                <a href="/mm"><i class="fas fa-utensils"></i> Meal Master</a><br>
+                <a href="/mmm"><i class="fas fa-plus-circle"></i> Add Meal</a><br>
+                <a href="/at"><i class="fas fa-vials"></i> Tests At</a><br>
+                <a href="/atm"><i class="fas fa-flask"></i> Test Master</a><br>
+                <a href="/amap"><i class="fas fa-flask"></i> Medicine AP</a><br>
+                <a href="/adc"><i class="fas fa-flask"></i> Doctor Charge</a><br>
+                <a href="/aoc"><i class="fas fa-flask"></i> Others Charge</a><br>
+                <a href="/aav"><i class="fas fa-bed"></i> Search Admitted Patient</a><br>
+                <a href="/adcb"><i class="fas fa-flask"></i>Discharge</a><br>
+
+
+            </div>
+        </li>
+    </ng-container>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-2 border-gray-500/30">
 
     <!-- Prescription -->
-    <div class="sidebar-heading px-4 py-1 text-gray-300 uppercase">Prescription</div>
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" href="/pres">
-            <i class="fas fa-file-prescription text-sky-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Prescriptions</span>
-        </a>
-    </li>
+    <ng-container *ngIf="isDoctor()">
+        <div class="sidebar-heading px-4 py-1 text-gray-300 uppercase">Prescription</div>
+        <li class="nav-item group">
+
+            <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" href="/pres">
+                <i class="fas fa-file-prescription text-sky-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Prescriptions</span>
+            </a>
+
+        </li>
+    </ng-container>
 
     <!-- Report -->
-    <li class="nav-item group">
-        <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" href="/report">
-            <i class="fas fa-file-alt text-purple-400 group-hover:rotate-12 transition-transform"></i>
-            <span>Report</span>
-        </a>
-    </li>
+    <ng-container *ngIf="isDoctor()||isOfficeStaff()">
+        <li class="nav-item group">
+
+            <a class="nav-link flex items-center gap-3 px-4 py-2 hover:bg-gray-700 hover:pl-6" href="/report">
+                <i class="fas fa-file-alt text-purple-400 group-hover:rotate-12 transition-transform"></i>
+                <span>Report</span>
+
+            </a>
+
+        </li>
+    </ng-container>
 </ul>

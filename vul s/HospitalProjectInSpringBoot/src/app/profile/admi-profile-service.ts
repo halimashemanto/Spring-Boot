@@ -19,7 +19,7 @@ export class AdmiProfileService {
     private http: HttpClient,
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
@@ -34,12 +34,12 @@ export class AdmiProfileService {
     return this.http.get<User>(`${this.baseUrl}user/profile`, { headers: this.getHeaders() }).pipe(
       tap(profile => {
         // Photo path backend sesuai
-      if (profile.photo) {
- profile.photo = `http://localhost:8080/images/users/${profile.photo}`;
+        if (profile.photo) {
+          profile.photo = `http://localhost:8080/images/users/${profile.photo}`;
 
-} else {
-  profile.photo = 'assets/default-avatar.png';
-}
+        } else {
+          profile.photo = 'assets/default-avatar.png';
+        }
 
         this.profileSubject.next(profile);
       })
