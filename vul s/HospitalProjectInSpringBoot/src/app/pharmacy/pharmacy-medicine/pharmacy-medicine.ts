@@ -11,16 +11,16 @@ import { PharmacyMedicineModel } from '../model/pharmacyMedicine.model';
 })
 export class PharmacyMedicine {
 
-  
+
   medicines: PharmacyMedicineModel[] = [];
   form: FormGroup;
   editMode = false;
   editId?: number;
 
   constructor(private service: PharmacyMedicineService,
-     private fb: FormBuilder,
-    private cdr:ChangeDetectorRef) {
-    
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef) {
+
     this.form = this.fb.group({
       name: ['', Validators.required],
       genericName: ['', Validators.required],
@@ -33,13 +33,31 @@ export class PharmacyMedicine {
 
   ngOnInit() {
     this.loadMedicines();
-     this.cdr.markForCheck();
+    this.cdr.markForCheck();
   }
 
   // Load all medicines
   loadMedicines() {
-    this.service.getMedicines().subscribe(data => this.medicines = data);
-    this.cdr.markForCheck();
+    this.service.getMedicines().subscribe({
+      next: (data) => {
+
+
+        this.medicines = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+
+      }
+
+
+
+    });
+
+
+
+
   }
 
   // Save or Update
@@ -59,11 +77,11 @@ export class PharmacyMedicine {
         this.resetForm();
       });
     }
-     this.cdr.markForCheck();
+    this.cdr.markForCheck();
   }
 
   // Edit medicine
-  editMedicine(med:PharmacyMedicineModel ) {
+  editMedicine(med: PharmacyMedicineModel) {
     this.editMode = true;
     this.editId = med.id;
     this.form.patchValue(med);

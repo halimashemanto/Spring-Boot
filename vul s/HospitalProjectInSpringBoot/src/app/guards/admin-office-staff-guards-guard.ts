@@ -1,31 +1,26 @@
-import { CanActivateFn } from '@angular/router';
+import { CanActivate, CanActivateFn, Router, UrlTree } from '@angular/router';
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate,  GuardResult, MaybeAsync, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthService } from '../Service/auth-service';
 import { Observable } from 'rxjs';
-
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'  
 })
 
 
+export class AdminOfficeStaffGuard implements CanActivate{
 
-
-export class  ReceptionistsGuard implements CanActivate {
-
-  constructor(
+   constructor(
     private authService: AuthService,
     private router: Router,
      @Inject(PLATFORM_ID) private platformId: Object
   ){}
 
 
-
    canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
 
-    if(this.authService.isReceptionist()){
+    if(this.authService.isAdmin()|| this.authService.isOfficeStaff() ){
 
       return true;
     }
@@ -33,4 +28,5 @@ export class  ReceptionistsGuard implements CanActivate {
     return this.router.createUrlTree(['login']);
  
   }
+ 
 }

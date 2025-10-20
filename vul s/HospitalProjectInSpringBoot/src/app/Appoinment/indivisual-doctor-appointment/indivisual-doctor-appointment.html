@@ -1,5 +1,6 @@
 <div style="margin-bottom: 30px; text-align:center; font-family: 'Segoe UI', sans-serif;">
 
+  <!-- Doctor Filter -->
   <label for="doctor" style="font-weight: 600; margin-right: 10px; font-size: 16px; color: #00796b;">
     Select Doctor:
   </label>
@@ -7,14 +8,35 @@
   <select id="doctor" [(ngModel)]="selectedDoctorId" (change)="filterAppointments()"
           style="padding: 8px 12px; border-radius: 8px; border: 1px solid #26a69a;
                  background: #e0f7fa; color: #004d40; font-size: 14px; outline: none;
-                 transition: all 0.3s ease;">
+                 transition: all 0.3s ease; margin-right: 20px;">
     <option [ngValue]="null">-- All Doctors --</option>
     <option *ngFor="let doc of doctors" [ngValue]="doc.id">{{doc.name}}</option>
   </select>
 
+  <!-- Date Filter -->
+  <label for="date" style="font-weight: 600; margin-right: 10px; font-size: 16px; color: #00796b;">
+    Select Date:
+  </label>
+
+  <input type="date" id="date"
+         [(ngModel)]="selectedDate"
+         (change)="filterAppointments()"
+         style="padding: 8px 12px; border-radius: 8px; border: 1px solid #26a69a;
+                background: #e0f7fa; color: #004d40; font-size: 14px; outline: none;
+                transition: all 0.3s ease; margin-right: 20px; cursor:pointer;">
+
+  <!-- Clear Button -->
+  <button (click)="clearFilters()"
+          style="padding: 8px 14px; border:none;
+                 background: linear-gradient(135deg, #81d4fa, #0288d1);
+                 color:white; border-radius: 10px; cursor:pointer; font-weight:600;
+                 box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: 0.3s; margin-right: 15px;">
+    Clear
+  </button>
+
   <!-- Export Button -->
   <button (click)="exportToPDF()"
-          style="margin-left: 20px; padding: 8px 16px; border:none; 
+          style="padding: 8px 16px; border:none; 
                  background: linear-gradient(135deg, #26a69a, #00796b); 
                  color:white; border-radius: 10px; cursor:pointer; font-weight:600;
                  box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: 0.3s;">
@@ -23,9 +45,10 @@
 
 </div>
 
-<!-- Hover Effect -->
+<!-- Hover Effects -->
 <style>
-  select:hover {
+  select:hover,
+  input[type="date"]:hover {
     background: #b2ebf2;
   }
   button:hover {

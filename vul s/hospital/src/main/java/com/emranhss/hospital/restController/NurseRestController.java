@@ -80,6 +80,8 @@ public class NurseRestController {
     }
 
 
+
+// indivisual profile
     @GetMapping("nurseprofile")
 
     public ResponseEntity<NurseDTO> getNurseProfile(Authentication authentication) {

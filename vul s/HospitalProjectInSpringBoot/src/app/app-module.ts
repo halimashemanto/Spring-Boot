@@ -60,6 +60,7 @@ import { AddDischargeBill } from './dischargeBill/add-discharge-bill/add-dischar
 import { AllAdmittionView } from './viewAdmittion/all-admittion-view/all-admittion-view';
 import { AdmiProfile } from './profile/admi-profile/admi-profile';
 import { Logout } from './auth/logout/logout';
+import { AuthInterceptor } from './auth/auth-interceptor/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { Logout } from './auth/logout/logout';
         AddDischargeBill,
         AllAdmittionView,
         AdmiProfile,
-        Logout
+        Logout,
+        AuthInterceptor
   ],
   imports: [
     BrowserModule,

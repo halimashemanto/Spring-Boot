@@ -1,4 +1,4 @@
-<div style="max-width:900px; margin:40px auto; padding:30px; border-radius:20px;
+<div style="max-width:950px; margin:40px auto; padding:30px; border-radius:20px;
             background: linear-gradient(135deg,#f9f9f9,#e0f7fa);
             box-shadow:0 12px 30px rgba(0,0,0,0.2); font-family: 'Segoe UI', sans-serif;
             animation: fadeIn 1s ease-in-out;">
@@ -7,11 +7,55 @@
     All Appointments
   </h2>
 
-  <div *ngIf="appointments.length === 0" style="text-align:center; color:#555;">
+  <!-- 🔹 Filter Section -->
+  <div style="margin-bottom: 25px; text-align:center;">
+
+    <!-- Doctor Filter -->
+    <label for="doctor" style="font-weight:600; margin-right:10px; font-size:16px; color:#00796b;">
+      Select Doctor:
+    </label>
+    <select id="doctor" [(ngModel)]="selectedDoctor" (change)="filterAppointments()"
+            style="padding:8px 12px; border-radius:8px; border:1px solid #26a69a;
+                   background:#e0f7fa; color:#004d40; font-size:14px; outline:none;
+                   transition:all 0.3s ease; margin-right:20px;">
+      <option value="">-- All Doctors --</option>
+      <option *ngFor="let doc of doctorNames" [value]="doc">{{doc}}</option>
+    </select>
+
+    <!-- Date Filter -->
+    <label for="date" style="font-weight:600; margin-right:10px; font-size:16px; color:#00796b;">
+      Select Date:
+    </label>
+    <input type="date" id="date" [(ngModel)]="selectedDate" (change)="filterAppointments()"
+           style="padding:8px 12px; border-radius:8px; border:1px solid #26a69a;
+                  background:#e0f7fa; color:#004d40; font-size:14px; outline:none;
+                  transition:all 0.3s ease; margin-right:20px; cursor:pointer;">
+
+    <!-- Clear Button -->
+    <button (click)="clearFilters()"
+            style="padding:8px 14px; border:none;
+                   background:linear-gradient(135deg,#81d4fa,#0288d1);
+                   color:white; border-radius:10px; cursor:pointer; font-weight:600;
+                   box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.3s; margin-right:15px;">
+      Clear
+    </button>
+
+    <!-- Export Button -->
+    <!-- <button (click)="exportToPDF()"
+            style="padding:8px 16px; border:none; 
+                   background:linear-gradient(135deg,#26a69a,#00796b); 
+                   color:white; border-radius:10px; cursor:pointer; font-weight:600;
+                   box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.3s;">
+      Export PDF
+    </button> -->
+  </div>
+
+  <!-- 🔹 Table Section -->
+  <div *ngIf="filteredAppointments.length === 0" style="text-align:center; color:#555;">
     No appointments found.
   </div>
 
-  <div *ngIf="appointments.length > 0" style="overflow-x:auto;">
+  <div *ngIf="filteredAppointments.length > 0" style="overflow-x:auto;">
     <table style="width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden;">
       <thead>
         <tr style="background:#26a69a; color:white; text-align:left;">
@@ -24,9 +68,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let a of appointments" 
-            style="transition:0.3s; cursor:pointer;"
-            >
+        <tr *ngFor="let a of filteredAppointments" 
+            style="transition:0.3s; cursor:pointer;">
           <td style="padding:10px; border-bottom:1px solid #ddd;">{{a.patientName}}</td>
           <td style="padding:10px; border-bottom:1px solid #ddd;">{{a.patientContact || '-'}}</td>
           <td style="padding:10px; border-bottom:1px solid #ddd;">{{a.reason || '-'}}</td>
@@ -50,5 +93,16 @@
 @keyframes slideDown {
   0% { opacity:0; transform: translateY(-20px);}
   100% { opacity:1; transform: translateY(0);}
+}
+select:hover, input[type="date"]:hover {
+  background:#b2ebf2;
+}
+button:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(0,0,0,0.25);
+}
+button:active {
+  transform:translateY(0);
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 </style>

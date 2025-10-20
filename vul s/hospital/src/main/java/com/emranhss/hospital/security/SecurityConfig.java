@@ -58,8 +58,7 @@ public class SecurityConfig {
                                         "/api/department/",
                                         "/api/slot/**",
                                         "/api/slot",
-                                        "/api/prescription",
-                                        "/api/prescription/**",
+
                                         "/api/patient/",
                                         "/api/invoice",
                                         "/api/invoice/**",
@@ -116,6 +115,9 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/doctor/profile","/api/nurse/profile","/api/receptionist/profile")
                                 .hasAnyRole("Doctor","Nurse","Admin","Receptionist","OfficeStaff")
+                                .requestMatchers("/api/prescription",
+                                        "/api/prescription/**")
+                                .hasAuthority("Doctor")
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
@@ -145,7 +147,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200","http://localhost:5000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Cache_Control", "Content-type"));
         configuration.setAllowCredentials(true);

@@ -20,38 +20,51 @@ export class DoctorService {
 ) { }
 
 
- registerDoctor(user: any, doctor: any, photo: File): Observable<any> {
-    const formData = new FormData();
 
-  
+ private getAuthHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
+    return headers;
+  }
+
+  registerDoctor(user: any, doctor: any, photo: File): Observable<any> {
+    const formData = new FormData();
     formData.append('user', JSON.stringify(user));
     formData.append('doctor', JSON.stringify(doctor));
 
-    
     if (photo) {
       formData.append('photo', photo, photo.name);
     }
 
-    return this.http.post(`${this.baseUrl}`, formData);
+    return this.http.post(`${this.baseUrl}`, formData, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getDoctorsByDepartment(departmentId: number): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(`${this.baseUrl}/by-department/${departmentId}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
 
 
-getDoctorsByDepartment(departmentId: number): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(`${this.baseUrl}by-department${departmentId}`);
+ getAllDoctor(): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(`${this.baseUrl}`, {
+      headers: this.getAuthHeaders()
+    });
   }
-
-
-  getAllDoctor(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(environment.apiBaseUrl + '/api/doctor/');
-  }
-
 
 private profileSubject = new BehaviorSubject<DoctorDTO | null>(null);
 
-get profile$(): Observable<DoctorDTO | null> {
-  return this.profileSubject.asObservable();
-}
+ get profile$(): Observable<DoctorDTO | null> {
+    return this.profileSubject.asObservable();
+  }
 
 getProfile(): Observable<DoctorDTO> {
   let headers = new HttpHeaders();
@@ -62,30 +75,27 @@ getProfile(): Observable<DoctorDTO> {
   return this.http.get<DoctorDTO>(`${this.baseUrl}profile`, { headers });
 }
 
-loadProfile(): Observable<DoctorDTO> {
-  return this.getProfile().pipe(
-    tap(profile => {
-      // Photo path ঠিক করা backend অনুযায়ী
-      if (profile.photo) {
-        profile.photo = `http://localhost:8080/images/doctor/${profile.photo}`;
-      } else {
-        profile.photo = 'assets/default-avatar.png'; // default
-      }
-      this.profileSubject.next(profile);
-    })
-  );
-}
-
-
-
-
-getCachedProfile(): DoctorDTO | null {
-  if (isPlatformBrowser(this.platformId)) {
-    const p = localStorage.getItem('doctorProfile');
-    return p ? JSON.parse(p) : null;
+ loadProfile(): Observable<DoctorDTO> {
+    return this.getProfile().pipe(
+      tap(profile => {
+        if (profile.photo) {
+          profile.photo = `http://localhost:8080/images/doctor/${profile.photo}`;
+        } else {
+          profile.photo = 'assets/default-avatar.png';
+        }
+        this.profileSubject.next(profile);
+      })
+    );
   }
-  return null;
-}
+
+
+ getCachedProfile(): DoctorDTO | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const p = localStorage.getItem('doctorProfile');
+      return p ? JSON.parse(p) : null;
+    }
+    return null;
+  }
 
 
 }

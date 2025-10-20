@@ -12,12 +12,15 @@ import { WardService } from '../../ward/ward-service';
 })
 export class BedBooking {
 
- wards: WardDTO[] = [];
+  wards: WardDTO[] = [];
   beds: BedDTO[] = [];
   selectedWard?: WardDTO;
   bookingForm!: FormGroup;
 
-  constructor(private wardService: WardService, private fb: FormBuilder) {}
+  constructor(private wardService: WardService,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.bookingForm = this.fb.group({
@@ -33,17 +36,29 @@ export class BedBooking {
   }
 
   loadWards() {
-    this.wardService.getWards().subscribe(data => this.wards = data);
+    this.wardService.getWards().subscribe({
+      next: (data) => {
+
+
+        this.wards = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+      }
+    });
+    ;
   }
 
   selectedWardId: number | null = null;
 
-selectWard(wardId: number) {
-  this.selectedWard = this.wards.find(w => w.id === wardId);
-  if (this.selectedWard) {
-    this.wardService.getBeds(this.selectedWard.id!).subscribe(data => this.beds = data);
+  selectWard(wardId: number) {
+    this.selectedWard = this.wards.find(w => w.id === wardId);
+    if (this.selectedWard) {
+      this.wardService.getBeds(this.selectedWard.id!).subscribe(data => this.beds = data);
+    }
   }
-}
 
 
   bookBed(bed: BedDTO) {
@@ -52,10 +67,10 @@ selectWard(wardId: number) {
     const dto: BedBookingDTO = {
       bedId: bed.id!,
       patientName: this.bookingForm.value.patientName,
-      age:this.bookingForm.value.age,
-      phone:this.bookingForm.value.phone,
-      address:this.bookingForm.value.address,
-      broughtBy:this.bookingForm.value.broughtBy,
+      age: this.bookingForm.value.age,
+      phone: this.bookingForm.value.phone,
+      address: this.bookingForm.value.address,
+      broughtBy: this.bookingForm.value.broughtBy,
       admissionDate: new Date(this.bookingForm.value.admissionDate),
       dischargeDate: null
     };

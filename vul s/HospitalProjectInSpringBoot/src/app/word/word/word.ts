@@ -15,7 +15,9 @@ export class Word {
   facilityForm!: FormGroup;
   selectedWardId!: number;
 
-  constructor(private fb: FormBuilder, private wardService: WardService) {}
+  constructor(private fb: FormBuilder,
+     private wardService: WardService,
+    private cdr:ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.facilityForm = this.fb.group({
@@ -23,9 +25,22 @@ export class Word {
       name: ['', Validators.required],
       description: ['', Validators.required]
     });
+    this.cdr.markForCheck();
 
     // Load all wards
-    this.wardService.getWards().subscribe(data => this.wards = data);
+    this.wardService.getWards().subscribe({
+
+       next: (data) => {
+
+
+        this.wards = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+      }
+    });
   }
 
   loadFacilities(wardId: any) {
@@ -33,6 +48,8 @@ export class Word {
     if (this.selectedWardId) {
       this.wardService.getFacilities(this.selectedWardId)
         .subscribe(data => this.facilities = data);
+        this.cdr.markForCheck();
+        
     } else {
       this.facilities = [];
     }

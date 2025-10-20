@@ -85,24 +85,92 @@ export class Purchase {
     this.items.removeAt(index);
   }
 
+ // Load all purchases
   loadPurchases() {
-    this.service.getPurchases().subscribe(data => this.purchases = data);
-    this.cdr.markForCheck();
+    this.service.getPurchases().subscribe({
+      next: (data) => {
+
+
+        this.purchases = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+
+      }
+
+
+
+    });
+
+
+
+
   }
+
 
   loadSuppliers() {
-    this.service.getSuppliers().subscribe(data => this.suppliers = data);
-    this.cdr.markForCheck();
-  }
+    this.service.getSuppliers().subscribe({
+     next: (data) => {
 
+
+        this.suppliers = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+      }
+ });
+      
+  }
+  // Load all stock
   loadStocks() {
-    this.service.getStocks().subscribe(data => this.stocks = data);
-    this.cdr.markForCheck();
+    this.service.getStocks().subscribe({
+      next: (data) => {
+
+
+        this.stocks = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+
+      }
+
+
+
+    });
+
+
+
+
   }
 
+   // Load all medicines
   loadMedicines() {
-    this.service.getMedicines().subscribe(data => this.medicines = data);
-    this.cdr.markForCheck();
+    this.service.getMedicines().subscribe({
+      next: (data) => {
+
+
+        this.medicines = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+
+      }
+
+
+
+    });
+
+
+
+
   }
 
   getStockName(stockId: number): string {

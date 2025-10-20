@@ -1,9 +1,8 @@
-import { CanActivateFn } from '@angular/router';
+import { CanActivate, CanActivateFn, Router, UrlTree } from '@angular/router';
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate,  GuardResult, MaybeAsync, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthService } from '../Service/auth-service';
 import { Observable } from 'rxjs';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 
 @Injectable({
@@ -13,7 +12,7 @@ import { Observable } from 'rxjs';
 
 
 
-export class  ReceptionistsGuard implements CanActivate {
+export class  AdminGuard implements CanActivate {
 
   constructor(
     private authService: AuthService,
@@ -25,7 +24,7 @@ export class  ReceptionistsGuard implements CanActivate {
 
    canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
 
-    if(this.authService.isReceptionist()){
+    if(this.authService.isAdmin()){
 
       return true;
     }

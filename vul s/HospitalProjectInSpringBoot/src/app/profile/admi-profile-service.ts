@@ -21,31 +21,44 @@ export class AdmiProfileService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
-  private getHeaders(): HttpHeaders {
+ private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
     if (isPlatformBrowser(this.platformId)) {
-      const token = this.authService.getToken();
-      if (token) headers = headers.set('Authorization', 'Bearer ' + token);
+      const token = this.authService.getToken(); // AuthService থেকে token নাও
+      console.log('Token in AdmiProfileService:', token); // debug
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
     }
     return headers;
   }
 
+  // ===============================
+  // Load profile from backend
+  // ===============================
   loadProfile(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}user/profile`, { headers: this.getHeaders() }).pipe(
       tap(profile => {
-        // Photo path backend sesuai
+        // Photo path backend অনুযায়ী adjust করা
         if (profile.photo) {
           profile.photo = `http://localhost:8080/images/users/${profile.photo}`;
-
         } else {
           profile.photo = 'assets/default-avatar.png';
         }
 
         this.profileSubject.next(profile);
+
+        // Optional: cache in localStorage
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('admi', JSON.stringify(profile));
+        }
       })
     );
   }
 
+  // ===============================
+  // Get cached profile from localStorage
+  // ===============================
   getCachedProfile(): User | null {
     if (isPlatformBrowser(this.platformId)) {
       const p = localStorage.getItem('admi');

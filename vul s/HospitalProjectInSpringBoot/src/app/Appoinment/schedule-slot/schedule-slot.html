@@ -2,8 +2,38 @@
   <h2 class="mb-3" style="color:#1877f2;">Doctor Schedule Management</h2>
 
 
+ <!-- 🔍 Filter Section (moved OUTSIDE the form) -->
+  <!-- <div style="background:white; padding:15px; border-radius:12px; box-shadow:0 3px 10px rgba(0,0,0,0.1); margin-bottom:25px;">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-5">
+        <label style="font-weight:600;">Filter by Doctor</label>
+        <select [(ngModel)]="selectedDoctorId" class="form-select" name="doctorFilter">
+          <option [ngValue]="null">-- All Doctors --</option>
+          <option *ngFor="let d of doctors" [value]="d.id">{{ d.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label style="font-weight:600;">Filter by Date</label>
+        <input type="date" [(ngModel)]="selectedDate" class="form-control" name="dateFilter" />
+      </div>
+
+      <div class="col-md-3 text-end">
+        <button (click)="filterSlots()" style="background:#007bff; color:white; padding:6px 16px; border:none; border-radius:6px;">
+          <i class="bi bi-funnel"></i> Filter
+        </button>
+        <button (click)="loadSlots()" style="background:#6c757d; color:white; padding:6px 16px; border:none; border-radius:6px; margin-left:5px;">
+          <i class="bi bi-arrow-clockwise"></i> Reset
+        </button>
+      </div>
+    </div>
+  </div> -->
+
+
   <form [formGroup]="slotForm" (ngSubmit)="onSubmit()" style="background:white; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); margin-bottom:30px;">
     <div class="row g-3">
+
+       
 
       <div class="col-md-4">
         <label style="font-weight:600;">Doctor</label>

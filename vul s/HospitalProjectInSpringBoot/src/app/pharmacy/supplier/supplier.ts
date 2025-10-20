@@ -35,9 +35,19 @@ export class Supplier {
   }
 
   loadSuppliers() {
-    this.service.getSuppliers().subscribe(data => this.suppliers = data);
-          this.cdr.markForCheck();
+    this.service.getSuppliers().subscribe({
+     next: (data) => {
 
+
+        this.suppliers = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+
+        console.log(err)
+      }
+ });
+      
   }
 
   saveSupplier() {

@@ -52,6 +52,12 @@ import { DotorOfficeStaffGuard } from './guards/dotor-office-staff-guard';
 import { AdmiProfile } from './profile/admi-profile/admi-profile';
 import { Navbar } from './templet/navbar/navbar';
 import { Logout } from './auth/logout/logout';
+import { AdminOfficeStaffGuard } from './guards/admin-office-staff-guards-guard';
+import { DoctorGuard } from './guards/doctor-guard';
+import { AdminGuard } from './guards/admin-guards-guard';
+import { AdminReceptionistGuard } from './guards/admin-receptionist-guards-guard';
+import { NurseGuard } from './guards/nurse-guard';
+import { ReceptionistsGuard } from './guards/receptionists-guard';
 
 const routes: Routes = [
 
@@ -61,7 +67,7 @@ const routes: Routes = [
   { path: '', component: PublicNav },
 
   // Registration Part
-  { path: 'doc', component: AddDoctor },
+  { path: 'doc', component: AddDoctor  },
   { path: 'nr', component: NurseRegistration },
   { path: 'or', component: OfficeStaffRegistration },
   { path: 'rr', component: ReceptionistRegistration },
@@ -74,75 +80,75 @@ const routes: Routes = [
   // prescription part
   { path: 'test', component: AddTest },
   { path: 'medicine', component: Medicine },
-  { path: 'pres', component: AddPrescription },
-  { path: 'vpres', component: ViewPrescription },
+  { path: 'pres', component: AddPrescription, canActivate: [DoctorGuard] },
+  { path: 'vpres', component: ViewPrescription , canActivate: [AdminGuard] },//admin sub admin registration 
 
 
 
   //Appointment Part
-  { path: 'slot', component: ScheduleSlot },
-  { path: 'department', component: Department },
-  { path: 'viewdep', component: ViewDepartment },
+  { path: 'slot', component: ScheduleSlot, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'department', component: Department, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'viewdep', component: ViewDepartment, canActivate: [AdminOfficeStaffGuard] },
   { path: 'appoinment', component: AddApooinment },
-  { path: 'viewAppoinment', component: ViewAllAppointment },
-  { path: 'doctorpdf', component: IndivisualDoctorAppointment },
-  { path: 'admi', component: AdmiProfile },
+  { path: 'viewAppoinment', component: ViewAllAppointment , canActivate: [AdminReceptionistGuard]},
+  { path: 'doctorpdf', component: IndivisualDoctorAppointment , canActivate: [AdminReceptionistGuard]},
+  { path: 'admi', component: AdmiProfile , canActivate: [AdminGuard]},
 
 
 
   //Emergency part
-  { path: 'emergency', component: AddEmergencyPatient },
-  { path: 'addpatient', component: AddPatient },
+  { path: 'emergency', component: AddEmergencyPatient, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'addpatient', component: AddPatient , canActivate: [AdminReceptionistGuard]},
 
 
 
   //Invoice-Report part
-  { path: 'invoice', component: AddInvoice },
-  { path: 'report', component: AddReport },
+  { path: 'invoice', component: AddInvoice , canActivate: [DotorOfficeStaffGuard] },
+  { path: 'report', component: AddReport , canActivate: [DotorOfficeStaffGuard] },
 
 
   //profile part
-  { path: 'Np', component: NurseIndivisualProfile },
-  { path: 'rp', component: ReceptionistIndivisualProfile },
-  { path: 'op', component: OfficeStaffIndivisualProfile },
-  { path: 'allprofile', component: AllUserProfile },
-  { path: 'doctorprofile', component: DoctorIndivisualProfile },
-  { path: 'viewdoctor', component: ViewDoctor },
+  { path: 'Np', component: NurseIndivisualProfile , canActivate: [NurseGuard]},
+  { path: 'rp', component: ReceptionistIndivisualProfile, canActivate: [ReceptionistsGuard] },
+  { path: 'op', component: OfficeStaffIndivisualProfile , canActivate: [OfficeStaffGuard]},
+  { path: 'allprofile', component: AllUserProfile , canActivate: [AdminGuard]},
+  { path: 'doctorprofile', component: DoctorIndivisualProfile , canActivate: [AdminGuard]},
+  { path: 'viewdoctor', component: ViewDoctor , canActivate: [AdminGuard]},
   
-  { path: 'viewnurse', component: ViewNurse },
-  { path: 'viewofficestaff', component: ViewOfficeStaff },
-  { path: 'viewreceptionists', component: ViewReceptionists },
+  { path: 'viewnurse', component: ViewNurse , canActivate: [AdminGuard]},
+  { path: 'viewofficestaff', component: ViewOfficeStaff , canActivate: [AdminGuard]},
+  { path: 'viewreceptionists', component: ViewReceptionists , canActivate: [AdminGuard]},
 
 
 
 
   //ward-bedbooking part
-  { path: 'ward', component: AddWard},
-  { path: 'bb', component: BedBookingModalComponent },
-  { path: 'facility', component: Word },
-  { path: 'bedbooked', component: BedBooking },
-  { path: 'aav', component: AllAdmittionView },
+  { path: 'ward', component: AddWard, canActivate: [AdminOfficeStaffGuard]},
+  { path: 'bb', component: BedBookingModalComponent, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'facility', component: Word , canActivate: [AdminOfficeStaffGuard]},
+  { path: 'bedbooked', component: BedBooking, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'aav', component: AllAdmittionView , canActivate: [AdminOfficeStaffGuard]},
 
 
 
 
   //Pharmacy part
-  { path: 'pm', component: PharmacyMedicine },
-  { path: 'sp', component: Supplier },
-  { path: 'p', component: Purchase },
-  { path: 's', component: Sale },
-  { path: 'ms', component: MedicineStock },
+  { path: 'pm', component: PharmacyMedicine, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'sp', component: Supplier, canActivate: [AdminOfficeStaffGuard] },
+  { path: 'p', component: Purchase , canActivate: [AdminOfficeStaffGuard] },
+  { path: 's', component: Sale , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'ms', component: MedicineStock, canActivate: [AdminOfficeStaffGuard]  },
 
 
   //Admitted-Patient Part
-  { path: 'at', component: AddTestsAdmittedPatient },
-  { path: 'atm', component: AddTestMaster },
-  { path: 'mm', component: AddMealMaster },
-  { path: 'mmm', component: AddMeal },
-  { path: 'adc', component: AddDoctorCharge },
-  { path: 'aoc', component: AddOthersCharge },
-  { path: 'amap', component: AddMedicineAdmitedPatient },
-  { path: 'adcb', component: AddDischargeBill },
+  { path: 'at', component: AddTestsAdmittedPatient, canActivate: [AdminOfficeStaffGuard]  },
+  { path: 'atm', component: AddTestMaster , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'mm', component: AddMealMaster , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'mmm', component: AddMeal , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'adc', component: AddDoctorCharge , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'aoc', component: AddOthersCharge , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'amap', component: AddMedicineAdmitedPatient , canActivate: [AdminOfficeStaffGuard] },
+  { path: 'adcb', component: AddDischargeBill , canActivate: [AdminOfficeStaffGuard] },
 
 
 

@@ -22,6 +22,10 @@ export class ScheduleSlot {
   doctors: Doctor[] = [];
   slots: any[] = [];
 
+   selectedDoctorId: number | null = null;
+  selectedDate: string | null = null; 
+
+
   constructor(
     private fb: FormBuilder,
     private slotService: ScheduleSlotService,
@@ -73,7 +77,25 @@ loadSlots(): void {
 }
 
 
+filterSlots(): void {
+    this.slotService.getAllSlots().subscribe({
+      next: (data) => {
+        this.slots = data.filter(slot => {
+          const matchesDoctor = this.selectedDoctorId
+            ? slot.doctor?.id === this.selectedDoctorId
+            : true;
 
+          const matchesDate = this.selectedDate
+            ? new Date(slot.date).toISOString().slice(0, 10) === this.selectedDate
+            : true;
+
+          return matchesDoctor && matchesDate;
+        });
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Error filtering slots', err)
+    });
+  }
 
 
 onSubmit(): void {

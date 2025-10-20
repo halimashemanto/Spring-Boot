@@ -55,7 +55,8 @@ loadProfile(): Observable<NurseDTO> {
     tap(profile => {
      
       if (profile.photo) {
-        profile.photo = `http://localhost:8080/imagesnurse/${profile.photo}`;
+        console.log(profile.photo);
+       
       } else {
         profile.photo = 'assets/default-avatar.png';
       }
